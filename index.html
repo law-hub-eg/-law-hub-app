@@ -56,7 +56,7 @@
             <li><a href="#">الرئيسية</a></li>
             <li><a href="#lawyers">دليل المحامين</a></li>
             <li><a href="#training">فرص التدريب</a></li>
-            <li><a href="#register">تسجيل مكتب</a></li>
+            <li><a href="register.html">تسجيل مكتب</a></li>
             <li><a href="#about">عن المنصة</a></li>
         </ul>
     </nav>
@@ -65,80 +65,46 @@
     <header>
         <h1>منصة المحاماة والتدريب القانوني</h1>
         <p>دليلك الذكي للوصول إلى أفضل المحامين وتوفير فرص التدريب والعمل لشباب المحامين</p>
-        <a href="#register" class="btn">انضم كـ محامي / مكتب</a>
+        <a href="register.html" class="btn">انضم كـ محامي / مكتب</a>
     </header>
 
     <div class="container">
 
-        <!-- 3. قسم دليل المحامين -->
+        <!-- 3. قسم دليل المحامين (يسحب البيانات تلقائياً من جوجل شيت) -->
         <h2 class="section-title" id="lawyers">دليل المحامين المعتمدين</h2>
-        <div class="grid">
-            
-            <!-- نموذج كارت محامي 1 -->
-            <div class="card">
-                <div>
-                    <span class="tag">استئناف عالي ومجلس دولة</span>
-                    <h3>أ. أحمد محمود علي</h3>
-                    <p><strong>التخصص:</strong> قضايا مدنية وعقود شركات</p>
-                    <p><strong>المحافظة:</strong> الجيزة - الدقي</p>
-                    <p><strong>خبرة:</strong> 12 سنة في تأسيس الشركات والاستشارات القانونية.</p>
-                </div>
-                <a href="https://wa.me/201000000000" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
-            </div>
-
-            <!-- نموذج كارت محامي 2 -->
-            <div class="card">
-                <div>
-                    <span class="tag">نقض</span>
-                    <h3>أ. محمد عبد الرحمن</h3>
-                    <p><strong>التخصص:</strong> قضايا جنائية ومحاكم الجنايات</p>
-                    <p><strong>المحافظة:</strong> القاهرة - شترا</p>
-                    <p><strong>خبرة:</strong> 18 سنة في القضايا الجنائية والترافع.</p>
-                </div>
-                <a href="https://wa.me/201000000000" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
-            </div>
-
+        <div class="grid" id="lawyers-container">
+            <p style="text-align:center; color: #666; width: 100%;">جاري تحميل قائمة المحامين...</p>
         </div>
 
         <!-- 4. قسم فرص التدريب -->
         <h2 class="section-title" id="training">فرص التدريب والعمل المتاحة</h2>
         <div class="grid">
             
-            <!-- فرصة تدريب 1 -->
             <div class="card">
                 <div>
                     <span class="tag" style="background-color: #eaf2f8; color: #2980b9;">فرصة تدريب جديدة</span>
                     <h3>مكتب العدل للاستشارات القانونية</h3>
                     <p><strong>المنطقة:</strong> الجيزة - المهندسين</p>
-                    <p><strong>الشروط:</strong> حديث تخرج (دفعة 2024-2025) - قيد جدول عام - الالتزام بالمواعيد.</p>
+                    <p><strong>الشروط:</strong> حديث تخرج - قيد جدول عام - الالتزام بالمواعيد.</p>
                     <p><strong>المزايا:</strong> تدريب ميداني على صياغة الدعاوى والمحاكم + مكافأة شهرية.</p>
                 </div>
                 <a href="https://wa.me/201000000000" target="_blank" class="btn">التقديم على الفرصة</a>
             </div>
 
-            <!-- فرصة تدريب 2 -->
             <div class="card">
                 <div>
                     <span class="tag" style="background-color: #eaf2f8; color: #2980b9;">مطلوب محامي مبتدئ</span>
                     <h3>مكتب الأستاذة نهى وشركاؤها</h3>
-                    <p><strong>المنطقة:</strong> القاهرة - نصر سيتي</p>
+                    <p><strong>المنطقة:</strong> القاهرة - مدينة نصر</p>
                     <p><strong>الشروط:</strong> قيد ابتدائي - اجادة البحث القانوني وورد وأوفيس.</p>
-                    <p><strong>المزايا:</strong> بيئة عمل احترافية وتدريب على قضايا الأسرة والمدني.</p>
+                    <p><strong>المزايا:</strong> بيئة عمل احترافية وتدريب على القضايا المختلفة.</p>
                 </div>
                 <a href="https://wa.me/201000000000" target="_blank" class="btn">التقديم على الفرصة</a>
             </div>
 
         </div>
 
-        <!-- 5. قسم انضمام المحامين (ربط الاستبيان) -->
-        <h2 class="section-title" id="register">تسجيل المحامين والمكاتب</h2>
-        <div class="about-section" style="border-top: 4px solid #18bc9c;">
-            <h3>هل أنت محامٍ أو صاحب مكتب؟</h3>
-            <p>انضم إلى دليل المنصة ليتمكن العملاء من الوصول إليك، أو أعلن عن فرص تدريب لشباب المحامين بمكتبك مجاناً.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=sf_link" target="_blank" class="btn" style="font-size: 16px; padding: 12px 25px;">عَبئ نموذج التسجيل الآن</a>
-        </div>
-
-        <!-- 6. قسم عن المنصة -->
+        <!-- 5. قسم عن المنصة -->
         <h2 class="section-title" id="about">عن المنصة</h2>
         <div class="about-section">
             <p>
@@ -148,19 +114,12 @@
 
     </div>
 
-    <!-- 7. الفوتر -->
+    <!-- 6. التذييل -->
     <footer>
         <p>جميع الحقوق محفوظة © 2026 - منصة المحاماة والتدريب القانوني</p>
     </footer>
 
-</body>
-</html>
-<!-- قسم دليل المحامين (يعمل تلقائياً من جوجل شيت) -->
-    <h2 class="section-title" id="lawyers">دليل المحامين المعتمدين</h2>
-    <div class="grid" id="lawyers-container">
-        <p style="text-align:center; color: #666; width: 100%;">جاري تحميل قائمة المحامين...</p>
-    </div>
-
+    <!-- سكريبت جلب بيانات المحامين من جدول البيانات تلقائياً -->
     <script>
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
 
@@ -176,10 +135,9 @@
                 let foundData = false;
 
                 rows.forEach(row => {
-                    const columns = row.split('\t'); // التقسيم حسب جدول البيانات
+                    const columns = row.split('\t'); 
                     
                     if (columns.length > 5) {
-                        const timestamp = columns[0] || '';
                         const name = columns[1] || 'محامي مسجل';
                         const degree = columns[2] || 'جدول عام';
                         const city = columns[3] || 'غير محدد';
@@ -218,3 +176,5 @@
 
         loadLawyersFromSheet();
     </script>
+</body>
+</html>
