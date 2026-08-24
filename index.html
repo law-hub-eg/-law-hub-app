@@ -39,7 +39,7 @@
         .btn-whatsapp { background-color: #25d366; }
         .btn-whatsapp:hover { background-color: #1eb954; }
 
-        /* قسم عن المنصة */
+        /* قسم عن المنصة والتسجيل */
         .about-section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; margin-top: 30px; }
         .about-section p { font-size: 16px; line-height: 1.8; color: #555; max-width: 800px; margin: 0 auto; }
 
@@ -49,28 +49,28 @@
 </head>
 <body>
 
-    <!-- 1. شريط التنقل (Header / Navbar) -->
+    <!-- 1. شريط التنقل العلوي -->
     <nav>
         <a href="#" class="logo">⚖️ منصة المحاماة</a>
         <ul>
             <li><a href="#">الرئيسية</a></li>
             <li><a href="#lawyers">دليل المحامين</a></li>
             <li><a href="#training">فرص التدريب</a></li>
-            <li><a href="register.html">تسجيل مكتب</a></li>
+            <li><a href="#register">تسجيل مكتب</a></li>
             <li><a href="#about">عن المنصة</a></li>
         </ul>
     </nav>
 
-    <!-- 2. الهيدر الترحيبي -->
+    <!-- 2. الهيدر الرئيسي -->
     <header>
         <h1>منصة المحاماة والتدريب القانوني</h1>
         <p>دليلك الذكي للوصول إلى أفضل المحامين وتوفير فرص التدريب والعمل لشباب المحامين</p>
-        <a href="register.html" class="btn">انضم كـ محامي / مكتب</a>
+        <a href="#register" class="btn">انضم كـ محامي / مكتب</a>
     </header>
 
     <div class="container">
 
-        <!-- 3. قسم دليل المحامين (يسحب البيانات تلقائياً من جوجل شيت) -->
+        <!-- 3. قسم دليل المحامين (يسحب البيانات تلقائياً من الإكسيل) -->
         <h2 class="section-title" id="lawyers">دليل المحامين المعتمدين</h2>
         <div class="grid" id="lawyers-container">
             <p style="text-align:center; color: #666; width: 100%;">جاري تحميل قائمة المحامين...</p>
@@ -96,7 +96,7 @@
                     <span class="tag" style="background-color: #eaf2f8; color: #2980b9;">مطلوب محامي مبتدئ</span>
                     <h3>مكتب الأستاذة نهى وشركاؤها</h3>
                     <p><strong>المنطقة:</strong> القاهرة - مدينة نصر</p>
-                    <p><strong>الشروط:</strong> قيد ابتدائي - اجادة البحث القانوني وورد وأوفيس.</p>
+                    <p><strong>الشروط:</strong> قيد ابتدائي - إجادة البحث القانوني والأوفيس.</p>
                     <p><strong>المزايا:</strong> بيئة عمل احترافية وتدريب على القضايا المختلفة.</p>
                 </div>
                 <a href="https://wa.me/201000000000" target="_blank" class="btn">التقديم على الفرصة</a>
@@ -104,22 +104,30 @@
 
         </div>
 
-        <!-- 5. قسم عن المنصة -->
+        <!-- 5. قسم انضمام المحامين والتسجيل بالفورم -->
+        <h2 class="section-title" id="register">تسجيل المحامين والمكاتب</h2>
+        <div class="about-section" style="border-top: 4px solid #18bc9c;">
+            <h3>هل أنت محامٍ أو صاحب مكتب؟</h3>
+            <p>انضم إلى دليل المنصة ليتمكن العملاء من الوصول إليك، أو أعلن عن فرص تدريب لشباب المحامين بمكتبك مجاناً.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=sf_link" target="_blank" class="btn" style="font-size: 16px; padding: 12px 25px;">عَبئ نموذج التسجيل الآن</a>
+        </div>
+
+        <!-- 6. قسم عن المنصة -->
         <h2 class="section-title" id="about">عن المنصة</h2>
         <div class="about-section">
             <p>
-                تسهل المنصة الربط بين المواطنين وباحثي الاستشارات القانونية وبين المكاتب المعتمدة، إلى جانب دعم الكواد القانونية الشابة عبر توفير بيئة تجمع بين المكاتب الراغبة في تدريب محامين جدد والباحثين عن فرصة اكتساب خبرة عملية.
+                تسهل المنصة الربط بين المواطنين وباحثي الاستشارات القانونية وبين المكاتب المعتمدة، إلى جانب دعم الكوادر القانونية الشابة عبر توفير بيئة تجمع بين المكاتب الراغبة في تدريب محامين جدد والباحثين عن فرصة اكتساب خبرة عملية.
             </p>
         </div>
 
     </div>
 
-    <!-- 6. التذييل -->
+    <!-- 7. التذييل (Footer) -->
     <footer>
         <p>جميع الحقوق محفوظة © 2026 - منصة المحاماة والتدريب القانوني</p>
     </footer>
 
-    <!-- سكريبت جلب بيانات المحامين من جدول البيانات تلقائياً -->
+    <!-- السكريبت البرمجي للربط مع شيت الإكسيل مباشرة -->
     <script>
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
 
@@ -128,7 +136,7 @@
                 const response = await fetch(sheetUrl);
                 const data = await response.text();
                 
-                const rows = data.split('\n').slice(1); // تخطي صف العناوين الأول
+                const rows = data.split('\n').slice(1); // تخطي سطر العناوين
                 const container = document.getElementById('lawyers-container');
                 container.innerHTML = ''; 
 
@@ -137,14 +145,14 @@
                 rows.forEach(row => {
                     const columns = row.split('\t'); 
                     
-                    if (columns.length > 5) {
-                        const name = columns[1] || 'محامي مسجل';
-                        const degree = columns[2] || 'جدول عام';
-                        const city = columns[3] || 'غير محدد';
-                        const address = columns[4] || '';
-                        const phone = columns[5] || '';
+                    if (columns.length >= 5) {
+                        const name = columns[1] ? columns[1].trim() : '';
+                        const degree = columns[2] ? columns[2].trim() : 'جدول عام';
+                        const city = columns[3] ? columns[3].trim() : 'غير محدد';
+                        const address = columns[4] ? columns[4].trim() : '';
+                        const phone = columns[5] ? columns[5].trim() : '';
 
-                        if (name.trim() !== "") {
+                        if (name !== "") {
                             foundData = true;
                             const cleanPhone = phone.replace(/[^0-9]/g, '');
 
@@ -174,6 +182,7 @@
             }
         }
 
+        // تشغيل الدالة تلقائياً عند تحميل الصفحة
         loadLawyersFromSheet();
     </script>
 </body>
