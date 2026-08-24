@@ -155,3 +155,66 @@
 
 </body>
 </html>
+<!-- قسم دليل المحامين (يعمل تلقائياً من جوجل شيت) -->
+    <h2 class="section-title" id="lawyers">دليل المحامين المعتمدين</h2>
+    <div class="grid" id="lawyers-container">
+        <p style="text-align:center; color: #666; width: 100%;">جاري تحميل قائمة المحامين...</p>
+    </div>
+
+    <script>
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
+
+        async function loadLawyersFromSheet() {
+            try {
+                const response = await fetch(sheetUrl);
+                const data = await response.text();
+                
+                const rows = data.split('\n').slice(1); // تخطي صف العناوين الأول
+                const container = document.getElementById('lawyers-container');
+                container.innerHTML = ''; 
+
+                let foundData = false;
+
+                rows.forEach(row => {
+                    const columns = row.split('\t'); // التقسيم حسب جدول البيانات
+                    
+                    if (columns.length > 5) {
+                        const timestamp = columns[0] || '';
+                        const name = columns[1] || 'محامي مسجل';
+                        const degree = columns[2] || 'جدول عام';
+                        const city = columns[3] || 'غير محدد';
+                        const address = columns[4] || '';
+                        const phone = columns[5] || '';
+
+                        if (name.trim() !== "") {
+                            foundData = true;
+                            const cleanPhone = phone.replace(/[^0-9]/g, '');
+
+                            const cardHTML = `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">${degree}</span>
+                                        <h3>أ. ${name}</h3>
+                                        <p><strong>المحافظة / المركز:</strong> ${city}</p>
+                                        <p><strong>العنوان:</strong> ${address}</p>
+                                    </div>
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
+                                </div>
+                            `;
+                            container.innerHTML += cardHTML;
+                        }
+                    }
+                });
+
+                if (!foundData) {
+                    container.innerHTML = '<p style="text-align:center; color: #666; width: 100%;">لا توجد بيانات مسجلة حتى الآن.</p>';
+                }
+
+            } catch (error) {
+                console.error('خطأ في تحميل البيانات:', error);
+                document.getElementById('lawyers-container').innerHTML = '<p style="text-align:center; color: red; width: 100%;">تعذر تحميل البيانات حالياً.</p>';
+            }
+        }
+
+        loadLawyersFromSheet();
+    </script>
