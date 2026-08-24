@@ -8,14 +8,14 @@
         * { box-sizing: border-box; scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 0; color: #333; }
         
-        /* شريط التنقل العلوي (Header / Navbar) */
+        /* شريط التنقل العلوي */
         nav { background-color: #1a252f; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         nav .logo { color: white; font-size: 20px; font-weight: bold; text-decoration: none; }
         nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
         nav ul li a { color: #ecf0f1; text-decoration: none; font-size: 15px; font-weight: bold; transition: 0.3s; }
         nav ul li a:hover { color: #18bc9c; }
 
-        /* الهيدر الرئيسي الترحيبي */
+        /* الهيدر الرئيسي */
         header { background-color: #2c3e50; color: white; padding: 50px 20px; text-align: center; }
         header h1 { margin: 0 0 10px 0; font-size: 32px; }
         header p { font-size: 18px; color: #bdc3c7; max-width: 600px; margin: 0 auto 20px; }
@@ -43,7 +43,7 @@
         .about-section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; margin-top: 30px; }
         .about-section p { font-size: 16px; line-height: 1.8; color: #555; max-width: 800px; margin: 0 auto; }
 
-        /* التذييل (Footer) */
+        /* التذييل */
         footer { background-color: #1a252f; color: #7f8c8d; text-align: center; padding: 20px; margin-top: 60px; font-size: 14px; }
     </style>
 </head>
@@ -65,7 +65,7 @@
     <header>
         <h1>منصة المحاماة والتدريب القانوني</h1>
         <p>دليلك الذكي للوصول إلى أفضل المحامين وتوفير فرص التدريب والعمل لشباب المحامين</p>
-        <a href="#register" class="btn">انضم كـ محامي / مكتب</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=header" target="_blank" class="btn">انضم كـ محامي / مكتب</a>
     </header>
 
     <div class="container">
@@ -104,12 +104,12 @@
 
         </div>
 
-        <!-- 5. قسم انضمام المحامين والتسجيل بالفورم -->
+        <!-- 5. قسم تسجيل المحامين والمكاتب -->
         <h2 class="section-title" id="register">تسجيل المحامين والمكاتب</h2>
         <div class="about-section" style="border-top: 4px solid #18bc9c;">
             <h3>هل أنت محامٍ أو صاحب مكتب؟</h3>
             <p>انضم إلى دليل المنصة ليتمكن العملاء من الوصول إليك، أو أعلن عن فرص تدريب لشباب المحامين بمكتبك مجاناً.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=sf_link" target="_blank" class="btn" style="font-size: 16px; padding: 12px 25px;">عَبئ نموذج التسجيل الآن</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=header" target="_blank" class="btn" style="font-size: 16px; padding: 12px 25px;">عَبئ نموذج التسجيل الآن</a>
         </div>
 
         <!-- 6. قسم عن المنصة -->
@@ -122,12 +122,12 @@
 
     </div>
 
-    <!-- 7. التذييل (Footer) -->
+    <!-- 7. التذييل -->
     <footer>
         <p>جميع الحقوق محفوظة © 2026 - منصة المحاماة والتدريب القانوني</p>
     </footer>
 
-    <!-- السكريبت البرمجي للربط مع شيت الإكسيل مباشرة -->
+    <!-- سكريبت جلب البيانات من شيت الإكسيل -->
     <script>
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
 
@@ -136,7 +136,7 @@
                 const response = await fetch(sheetUrl);
                 const data = await response.text();
                 
-                const rows = data.split('\n').slice(1); // تخطي سطر العناوين
+                const rows = data.split('\n').slice(1);
                 const container = document.getElementById('lawyers-container');
                 container.innerHTML = ''; 
 
@@ -182,7 +182,6 @@
             }
         }
 
-        // تشغيل الدالة تلقائياً عند تحميل الصفحة
         loadLawyersFromSheet();
     </script>
 </body>
