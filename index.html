@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة العدالة للمحاماة والخدمات القانونية ⚖️</title>
     
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -104,8 +107,9 @@
         .btn:hover { background-color: var(--gold-hover); }
         .btn-whatsapp { background-color: #25d366; color: white; }
         .btn-whatsapp:hover { background-color: #1eb954; }
+        .btn-delete { background-color: #ef4444; color: white; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; margin-top: 10px; }
 
-        .consultation-form, .post-form { background: var(--bg-card); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 700px; margin: 0 auto; }
+        .consultation-form, .post-form, .admin-box { background: var(--bg-card); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 700px; margin: 0 auto 30px; }
         .form-group { margin-bottom: 20px; text-align: right; }
         .form-group label { display: block; margin-bottom: 8px; color: var(--gold-light); font-weight: bold; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; }
@@ -293,10 +297,47 @@
             </div>
         </div>
 
+        <!-- ================= 4. لوحة التحكم الخاصة بكِ أنتِ فقط (Secret Admin) ================= -->
+        <div id="portal-admin" class="portal-section">
+            <h2 class="section-title">🔒 لوحة التحكم الإدارية الخاصة بكِ</h2>
+            
+            <div class="admin-box">
+                <h3 style="color: var(--gold-light);">إضافة محامي / فرصة تدريب مباشرة</h3>
+                <div class="form-group">
+                    <label>الاسم الكامل / اسم المكتب:</label>
+                    <input type="text" id="admin-lawyer-name" placeholder="مثال: أ. أحمد علي">
+                </div>
+                <div class="form-group">
+                    <label>النوع:</label>
+                    <select id="admin-lawyer-type">
+                        <option value="lawyer">محامي في الدليل</option>
+                        <option value="training">فرصة تدريب</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>التخصص / درجة القيد:</label>
+                    <input type="text" id="admin-lawyer-degree" placeholder="مثال: محامي بالاستئناف">
+                </div>
+                <div class="form-group">
+                    <label>المدينة / المحافظة:</label>
+                    <input type="text" id="admin-lawyer-city" placeholder="مثال: القاهرة">
+                </div>
+                <div class="form-group">
+                    <label>العنوان:</label>
+                    <input type="text" id="admin-lawyer-address" placeholder="العنوان بالتفصيل">
+                </div>
+                <div class="form-group">
+                    <label>رقم الواتساب / الهاتف:</label>
+                    <input type="text" id="admin-lawyer-phone" placeholder="مثال: 010xxxxxxxx">
+                </div>
+                <button onclick="adminAddLawyer()" class="btn">إضافة فورية لقاعدة البيانات 💾</button>
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والتدريب القانوني ⚖️</p>
+        <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والتدريب القانوني ⚖️ | <span style="cursor: pointer; opacity: 0.6;" onclick="openSecretAdmin()">المكتب الرقمي</span></p>
     </footer>
 
     <!-- شات المساعد القانوني -->
@@ -317,6 +358,13 @@
     </div>
 
     <script>
+        // إعداد Supabase المباشر للوحة الإدارة
+        const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
+        const SUPABASE_KEY = "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let isAdminLoggedIn = false;
+
         // تبديل الواجهات
         function switchPortal(type) {
             document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
@@ -324,17 +372,58 @@
 
             if (type === 'client') {
                 document.getElementById('portal-client').classList.add('active');
-                document.getElementById('btn-client').classList.add('active');
+                if(document.getElementById('btn-client')) document.getElementById('btn-client').classList.add('active');
             } else if (type === 'lawyer') {
                 document.getElementById('portal-lawyer').classList.add('active');
-                document.getElementById('btn-lawyer').classList.add('active');
+                if(document.getElementById('btn-lawyer')) document.getElementById('btn-lawyer').classList.add('active');
             } else if (type === 'resources') {
                 document.getElementById('portal-resources').classList.add('active');
-                document.getElementById('btn-resources').classList.add('active');
+                if(document.getElementById('btn-resources')) document.getElementById('btn-resources').classList.add('active');
+            } else if (type === 'admin') {
+                document.getElementById('portal-admin').classList.add('active');
             }
         }
 
-        // جلب البيانات من شيت جوجل
+        // فتح لوحة التحكم السرية
+        function openSecretAdmin() {
+            const pass = prompt("أدخلي كلمة مرور لوحة التحكم الخاصة بكِ:");
+            if (pass === "231123") {
+                isAdminLoggedIn = true;
+                alert("أهلاً بكِ في لوحة التحكم!");
+                switchPortal('admin');
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+
+        // اختصار لوحة التحكم من الكيبورد: Ctrl + Shift + A
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                openSecretAdmin();
+            }
+        });
+
+        // إضافة محامي جديد من لوحة تحكم الأدمن الخاصة بكِ
+        async function adminAddLawyer() {
+            const name = document.getElementById('admin-lawyer-name').value;
+            const type = document.getElementById('admin-lawyer-type').value;
+            const degree = document.getElementById('admin-lawyer-degree').value;
+            const city = document.getElementById('admin-lawyer-city').value;
+            const address = document.getElementById('admin-lawyer-address').value;
+            const phone = document.getElementById('admin-lawyer-phone').value;
+
+            if(!name) return alert("يرجى كتابة الاسم!");
+
+            const { error } = await supabaseClient.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
+            if(error) {
+                alert("حدث خطأ أثناء الحفظ في قاعدة البيانات");
+            } else {
+                alert("تمت الإضافة بنجاح!");
+                loadSheetData();
+            }
+        }
+
+        // جلب البيانات من شيت جوجل + Supabase
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
 
         async function loadSheetData() {
@@ -352,6 +441,7 @@
                 let hasLawyers = false;
                 let hasTraining = false;
 
+                // 1. تحميل بيانات شيت جوجل
                 rows.forEach(row => {
                     const columns = row.split('\t'); 
                     if (columns.length >= 5) {
@@ -396,11 +486,55 @@
                     }
                 });
 
+                // 2. تحميل البيانات المضافة منكِ عبر Supabase
+                const { data: dbLawyers } = await supabaseClient.from('lawyers').select('*');
+                if(dbLawyers) {
+                    dbLawyers.forEach(item => {
+                        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+                        if(item.type === 'training') {
+                            hasTraining = true;
+                            trainingContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">فرصة تدريب متاحة</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المكان:</strong> ${item.city || '-'} - ${item.address || '-'}</p>
+                                        <p><strong>درجة القيد:</strong> ${item.degree || '-'}</p>
+                                    </div>
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
+                                    ${isAdminLoggedIn ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">حذف</button>` : ''}
+                                </div>
+                            `;
+                        } else {
+                            hasLawyers = true;
+                            lawyersContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">${item.degree || 'ممارس'}</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المحافظة:</strong> ${item.city || '-'}</p>
+                                        <p><strong>العنوان:</strong> ${item.address || '-'}</p>
+                                    </div>
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
+                                    ${isAdminLoggedIn ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">حذف</button>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
                 if (!hasLawyers) lawyersContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد بيانات محامين مسجلة حالياً.</p>';
                 if (!hasTraining) trainingContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد فرص تدريب معلنة حالياً.</p>';
 
             } catch (error) {
                 console.error('خطأ في تحميل البيانات:', error);
+            }
+        }
+
+        async function deleteLawyer(id) {
+            if(confirm("تأكيد حذف العنصر؟")) {
+                await supabaseClient.from('lawyers').delete().eq('id', id);
+                loadSheetData();
             }
         }
 
