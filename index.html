@@ -3,74 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة العدالة للخدمات القانونية</title>
-    <!-- Supabase JS Library -->
+    <title>منصة الخدمات القانونية</title>
+    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --primary: #1e293b;
-            --accent: #d97706;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f8fafc;
+            --bg-color: #0b132b;
+            --card-bg: #1c2541;
+            --accent-color: #c5a880;
+            --text-color: #ffffff;
+            --text-secondary: #485460;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
+            direction: rtl;
         }
 
+        /* الهيدر وشريط التصفح الأصلي */
         header {
-            background-color: var(--primary);
+            background-color: #070d1f;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border-bottom: 2px solid var(--accent-color);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            color: var(--accent);
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         nav button {
             background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--text);
-            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 0.6rem 1.2rem;
             margin-right: 0.5rem;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
 
         nav button:hover, nav button.active {
-            background: var(--accent);
-            color: white;
+            background: var(--accent-color);
+            color: #000;
+            font-weight: bold;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
         }
 
-        .portal {
-            display: none;
-        }
+        .portal { display: none; }
+        .portal.active { display: block; }
 
-        .portal.active {
-            display: block;
-        }
-
+        /* البطاقات وتنسيق المحامين */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -78,109 +82,122 @@
         .card {
             background: var(--card-bg);
             padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid #334155;
+            border-radius: 12px;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .card h3 { color: var(--accent); margin-top: 0; }
+        .card h3 { color: var(--accent-color); margin-top: 0; }
 
         .btn-whatsapp {
             display: inline-block;
             background-color: #25d366;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.8rem;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 8px;
             margin-top: 1rem;
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
         }
 
-        .admin-form {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--accent);
+        /* لوحة التحكم الخاصة بكِ فقط */
+        #portal-admin {
+            background: #131c35;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
         }
 
         .admin-form input, .admin-form select, .admin-form textarea {
             width: 100%;
-            padding: 0.5rem;
-            margin: 0.5rem 0 1rem;
-            background: #334155;
-            border: 1px solid #475569;
+            padding: 0.75rem;
+            margin: 0.5rem 0 1.2rem;
+            background: #0b132b;
+            border: 1px solid var(--accent-color);
             color: white;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
         }
 
         .btn-submit {
-            background: var(--accent);
-            color: white;
+            background: var(--accent-color);
+            color: #000;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 2rem;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
         }
 
         .btn-delete {
-            background: #ef4444;
+            background: #e74c3c;
             color: white;
             border: none;
             padding: 0.4rem 0.8rem;
             cursor: pointer;
             border-radius: 4px;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* الزر الخفي المخصص لكِ فقط في أسفل الصفحة */
+        .secret-admin-trigger {
+            color: inherit;
+            text-decoration: none;
+            cursor: default;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">⚖️ منصة العدالة</div>
+        <div class="logo">⚖️ المنصة القانونية</div>
+        <!-- تم حذف زر لوحة التحكم نهائياً من القائمة ليراها المستخدم كمنصة عادية -->
         <nav>
-            <button onclick="switchPortal('client')" class="active">بوابة العملاء</button>
+            <button onclick="switchPortal('client')" class="active">الاستشارات</button>
             <button onclick="switchPortal('lawyer')">دليل المحامين والتدريب</button>
-            <button onclick="switchPortal('posts')">منشورات قانونية</button>
-            <button onclick="promptAdmin()">لوحة التحكم (Admin)</button>
+            <button onclick="switchPortal('posts')">المقالات القانونية</button>
         </nav>
     </header>
 
     <div class="container">
 
-        <!-- 1. بوابة العملاء -->
+        <!-- 1. الاستشارات -->
         <section id="portal-client" class="portal active">
             <h2>طلب استشارة قانونية</h2>
-            <p>تواصل مع المستشار القانوني مباشرة عبر واتساب لتقييم قضيتك.</p>
+            <p>يمكنك التواصل فوراً مع المستشار القانوني لتقييم القضية وتحديد الموعد.</p>
             <a href="https://wa.me/201026256284?text=السلام%20عليكم،%20أرغب%20في%20طلب%20استشارة%20قانونية" target="_blank" class="btn-whatsapp">
                 📱 تواصل عبر واتساب (01026256284)
             </a>
         </section>
 
-        <!-- 2. بوابة المحامين والتدريب -->
+        <!-- 2. دليل المحامين والتدريب -->
         <section id="portal-lawyer" class="portal">
-            <h2>دليل المحامين وفرص التدريب</h2>
-            <div id="lawyers-list" class="card-grid">
-                <!-- يتم التحميل ديناميكياً من Supabase -->
-            </div>
+            <h2>دليل المحامين وفرص التدريب المتاحة</h2>
+            <div id="lawyers-list" class="card-grid"></div>
         </section>
 
-        <!-- 3. المنشورات القانونية -->
+        <!-- 3. المقالات القانونية -->
         <section id="portal-posts" class="portal">
-            <h2>المنشورات والمقالات القانونية</h2>
-            <div id="posts-list" class="card-grid">
-                <!-- يتم التحميل ديناميكياً من Supabase -->
-            </div>
+            <h2>المشاركات والمقالات القانونية</h2>
+            <div id="posts-list" class="card-grid"></div>
         </section>
 
-        <!-- 4. لوحة التحكم (Admin) -->
+        <!-- 4. لوحة التحكم السريّة (لكِ أنتِ فقط) -->
         <section id="portal-admin" class="portal">
-            <h2>لوحة إدارة المنصة 🛠️</h2>
+            <h2>لوحة إدارة المنصة (خاصة بالمشرف) 🔒</h2>
 
             <div class="admin-form">
-                <h3>إضافة محامي / فرصة تدريب جديدة</h3>
-                <input type="text" id="lawyer-name" placeholder="الاسم الكامل">
+                <h3>إضافة محامي / فرصة تدريب</h3>
+                <input type="text" id="lawyer-name" placeholder="اسم المحامي / المكتب">
                 <select id="lawyer-type">
                     <option value="lawyer">محامي ممارس</option>
                     <option value="training">فرصة تدريب قانوني</option>
@@ -193,57 +210,68 @@
             </div>
 
             <div class="admin-form">
-                <h3>إضافة منشور قانوني جديد</h3>
-                <input type="text" id="post-author" placeholder="اسم الكاتب / المستشار">
-                <textarea id="post-content" rows="4" placeholder="محتوى المنشور القانوني..."></textarea>
-                <button onclick="addPost()" class="btn-submit">نشر</button>
+                <h3>إضافة مقال أو خبر قانوني</h3>
+                <input type="text" id="post-author" placeholder="اسم الناشر / المستشار">
+                <textarea id="post-content" rows="4" placeholder="نص المقال..."></textarea>
+                <button onclick="addPost()" class="btn-submit">نشر المقال</button>
             </div>
         </section>
 
     </div>
 
+    <footer>
+        <p>© 2026 جميع الحقوق محفوظة للمنصة القانونية - <span class="secret-admin-trigger" onclick="openSecretAdmin()">المكتب الرقمي</span></p>
+    </footer>
+
     <script>
-        // إعداد الاتصال بـ Supabase
+        // إعداد Supabase مع مفتاحك المباشر
         const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
+        const SUPABASE_KEY = "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let isAdmin = false;
 
-        // التنقل بين البوابات
+        // التنقل العادي للزوار
         function switchPortal(portalName) {
             document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             
-            document.getElementById(`portal-${portalName}`).classList.add('active');
+            const target = document.getElementById(`portal-${portalName}`);
+            if(target) target.classList.add('active');
             
             if(portalName === 'lawyer') loadLawyers();
             if(portalName === 'posts') loadPosts();
         }
 
-        // التحقق من كلمة مرور الأدمن
-        function promptAdmin() {
-            if(isAdmin) {
-                switchPortal('admin');
-                return;
-            }
-            const pass = prompt("أدخل كلمة مرور الإدارة:");
+        // 🔒 الدخول السري لوحة التحكم: اضغطي على كلمة "المكتب الرقمي" بالأسفل أو من الكيبورد
+        function openSecretAdmin() {
+            const pass = prompt("أدخلي كلمة مرور الأدمن الخاصة بكِ:");
             if(pass === "231123") {
                 isAdmin = true;
-                alert("تم تسجيل الدخول كمسؤول بنجاح!");
-                switchPortal('admin');
+                alert("أهلاً بكِ! تم التفتح للوحة التحكم السريّة.");
+                document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
+                document.getElementById('portal-admin').classList.add('active');
+                loadLawyers();
+                loadPosts();
             } else if(pass !== null) {
                 alert("كلمة المرور غير صحيحة!");
             }
         }
 
-        // جلب المحامين من قاعدة البيانات
+        // اختصار سري من الكيبورد أيضاً لكِ: Ctrl + Shift + A
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                openSecretAdmin();
+            }
+        });
+
+        // جلب المحامين
         async function loadLawyers() {
             const { data, error } = await supabase.from('lawyers').select('*');
             const container = document.getElementById('lawyers-list');
             container.innerHTML = '';
 
-            if (error) return console.error(error);
+            if (error) return;
 
             data.forEach(item => {
                 container.innerHTML += `
@@ -253,13 +281,13 @@
                         <p><strong>المدينة:</strong> ${item.city || '-'}</p>
                         <p><strong>العنوان:</strong> ${item.address || '-'}</p>
                         <p><strong>الهاتف:</strong> ${item.phone || '-'}</p>
-                        ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">حذف</button>` : ''}
+                        ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف</button>` : ''}
                     </div>
                 `;
             });
         }
 
-        // إضافة محامي جديد
+        // إضافة محامي
         async function addLawyer() {
             const name = document.getElementById('lawyer-name').value;
             const type = document.getElementById('lawyer-type').value;
@@ -271,16 +299,15 @@
             if(!name) return alert("يرجى إدخال الاسم!");
 
             const { error } = await supabase.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
-            if(error) alert("حدث خطأ أثناء الإضافة");
+            if(error) alert("حدث خطأ");
             else {
                 alert("تمت الإضافة بنجاح!");
                 loadLawyers();
             }
         }
 
-        // حذف محامي
         async function deleteLawyer(id) {
-            if(confirm("هل أنت متأكد من الحذف؟")) {
+            if(confirm("تأكيد الحذف؟")) {
                 await supabase.from('lawyers').delete().eq('id', id);
                 loadLawyers();
             }
@@ -292,43 +319,40 @@
             const container = document.getElementById('posts-list');
             container.innerHTML = '';
 
-            if (error) return console.error(error);
+            if (error) return;
 
             data.forEach(item => {
                 container.innerHTML += `
                     <div class="card">
                         <h3>${item.author}</h3>
                         <p>${item.content}</p>
-                        ${isAdmin ? `<button onclick="deletePost(${item.id})" class="btn-delete">حذف</button>` : ''}
+                        ${isAdmin ? `<button onclick="deletePost(${item.id})" class="btn-delete">🗑️ حذف</button>` : ''}
                     </div>
                 `;
             });
         }
 
-        // إضافة منشور جديد
         async function addPost() {
             const author = document.getElementById('post-author').value;
             const content = document.getElementById('post-content').value;
 
-            if(!author || !content) return alert("يرجى ملء جميع الحقول!");
+            if(!author || !content) return alert("يرجى إدخال البيانات!");
 
             const { error } = await supabase.from('posts').insert([{ author, content }]);
-            if(error) alert("حدث خطأ أثناء النشر");
+            if(error) alert("حدث خطأ");
             else {
                 alert("تم النشر بنجاح!");
                 loadPosts();
             }
         }
 
-        // حذف منشور
         async function deletePost(id) {
-            if(confirm("هل أنت متأكد من الحذف؟")) {
+            if(confirm("تأكيد الحذف؟")) {
                 await supabase.from('posts').delete().eq('id', id);
                 loadPosts();
             }
         }
 
-        // تحميل البيانات عند البداية
         loadLawyers();
     </script>
 </body>
