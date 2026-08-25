@@ -3,493 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة العدالة للمحاماة والخدمات القانونية ⚖️</title>
-    
+    <title>منصة العدالة للخدمات القانونية</title>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --gold-primary: #d97706;
-            --gold-hover: #b45309;
-            --gold-light: #fbbf24;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(217, 119, 6, 0.3);
+            --primary: #1e293b;
+            --accent: #d97706;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
         }
 
-        * { box-sizing: border-box; scroll-behavior: smooth; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b0f19; margin: 0; padding: 0; color: var(--text-light); line-height: 1.6; }
-        
-        /* Navbar */
-        nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        nav .logo { color: var(--gold-light); font-size: 22px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
-        nav ul li a { color: var(--text-light); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; padding: 6px 12px; border-radius: 6px; }
-        nav ul li a:hover, nav ul li a.active { color: var(--gold-light); background: rgba(217, 119, 6, 0.15); }
-
-        /* Header / Banner مع خلفية الميزان المتحرك */
-        header { 
-            position: relative;
-            padding: 70px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: radial-gradient(circle at center, #1e293b 0%, #0b0f19 100%);
-            overflow: hidden;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
         }
 
-        /* أنيميشن الميزان المتحرك 3D */
-        .animated-scale-wrapper {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            position: relative;
-            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
+        header {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
         }
 
-        .animated-scale {
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        nav button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, nav button.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .portal {
+            display: none;
+        }
+
+        .portal.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        .card h3 { color: var(--accent); margin-top: 0; }
+
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .admin-form {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent);
+        }
+
+        .admin-form input, .admin-form select, .admin-form textarea {
             width: 100%;
-            height: 100%;
-            animation: floatScale 4s ease-in-out infinite alternate;
+            padding: 0.5rem;
+            margin: 0.5rem 0 1rem;
+            background: #334155;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
-        .scale-plate-left {
-            transform-origin: 20% 30%;
-            animation: swingLeft 3s ease-in-out infinite alternate;
-        }
-        .scale-plate-right {
-            transform-origin: 80% 30%;
-            animation: swingRight 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatScale {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(1deg); }
-            100% { transform: translateY(0px) rotate(-1deg); }
+        .btn-submit {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
         }
 
-        @keyframes swingLeft {
-            0% { transform: rotate(0deg) translateY(0); }
-            100% { transform: rotate(-4deg) translateY(3px); }
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 0.5rem;
         }
-
-        @keyframes swingRight {
-            0% { transform: rotate(0deg) translateY(0); }
-            100% { transform: rotate(4deg) translateY(-3px); }
-        }
-
-        header h1 { margin: 0 0 15px 0; font-size: 34px; color: var(--gold-light); position: relative; z-index: 2; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
-        header p { font-size: 17px; color: var(--text-muted); max-width: 750px; margin: 0 auto 25px; position: relative; z-index: 2; }
-
-        /* User Switcher Tab Buttons */
-        .user-type-selector { display: flex; justify-content: center; gap: 15px; margin-top: 20px; position: relative; z-index: 2; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 28px; font-size: 16px; font-weight: bold; border-radius: 30px; border: 1px solid var(--gold-primary); cursor: pointer; transition: 0.3s; background: rgba(15, 23, 42, 0.8); color: var(--text-light); backdrop-filter: blur(5px); }
-        .tab-btn.active { background: var(--gold-primary); color: white; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4); }
-
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .portal-section { display: none; }
-        .portal-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .section-title { text-align: center; margin: 40px 0 30px; color: var(--gold-light); font-size: 26px; }
-        
-        .grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .card { background: var(--bg-card); padding: 25px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: 330px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--gold-light); }
-        .card h3 { color: var(--gold-light); margin-top: 0; font-size: 19px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 8px 0; }
-        .tag { display: inline-block; background-color: rgba(217, 119, 6, 0.15); color: var(--gold-light); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; border: 1px solid var(--border-color); }
-
-        .btn { display: inline-block; text-align: center; padding: 12px 20px; background-color: var(--gold-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 15px; border: none; cursor: pointer; width: 100%; }
-        .btn:hover { background-color: var(--gold-hover); }
-        .btn-whatsapp { background-color: #25d366; color: white; }
-        .btn-whatsapp:hover { background-color: #1eb954; }
-
-        .consultation-form, .post-form { background: var(--bg-card); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 700px; margin: 0 auto; }
-        .form-group { margin-bottom: 20px; text-align: right; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--gold-light); font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; }
-
-        /* قسم المنشورات والمقالات */
-        .posts-container { display: flex; flex-direction: column; gap: 20px; max-width: 800px; margin: 30px auto 0; }
-        .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: right; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 12px; }
-        .post-author { color: var(--gold-light); font-weight: bold; font-size: 16px; }
-        .post-date { color: var(--text-muted); font-size: 12px; }
-        .post-content { color: var(--text-light); font-size: 15px; line-height: 1.7; white-space: pre-line; }
-
-        footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 25px; margin-top: 60px; font-size: 14px; border-top: 1px solid var(--border-color); }
-
-        /* --- واجهة الشات --- */
-        #chat-toggle-btn { position: fixed; bottom: 25px; left: 25px; background: linear-gradient(135deg, var(--gold-primary), var(--gold-hover)); color: white; border: none; border-radius: 50px; padding: 14px 24px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.4); z-index: 10000; display: flex; align-items: center; gap: 10px; border: 1px solid var(--gold-light); }
-        #chat-window { position: fixed; bottom: 90px; left: 25px; width: 350px; height: 480px; background: var(--bg-card); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; flex-direction: column; z-index: 10000; overflow: hidden; border: 1px solid var(--gold-primary); }
-        .chat-header { background-color: var(--bg-dark); color: var(--gold-light); padding: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: bold; border-bottom: 1px solid var(--border-color); }
-        .chat-header button { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #0b0f19; font-size: 14px; }
-        .message { max-width: 85%; padding: 12px 15px; border-radius: 10px; line-height: 1.5; }
-        .message.user { background-color: var(--gold-primary); color: white; align-self: flex-start; border-bottom-right-radius: 0; }
-        .message.bot { background-color: #1e293b; color: #e2e8f0; align-self: flex-end; border-bottom-left-radius: 0; border: 1px solid var(--border-color); }
-        .chat-input-area { display: flex; padding: 12px; border-top: 1px solid var(--border-color); background: var(--bg-dark); }
-        .chat-input-area input { flex: 1; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; background: #0f172a; color: white; font-size: 14px; }
-        .chat-input-area button { background-color: var(--gold-primary); color: white; border: none; padding: 10px 18px; margin-right: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="logo">⚖️ منصة العدالة القانونية</a>
-        <ul>
-            <li><a href="#" onclick="switchPortal('client')">بوابة العملاء</a></li>
-            <li><a href="#" onclick="switchPortal('lawyer')">بوابة المحامين والمكاتب</a></li>
-            <li><a href="#" onclick="switchPortal('resources')">📚 المكتبة والمراجع القانونية</a></li>
-        </ul>
-    </nav>
-
     <header>
-        <!-- الميزان الذهبي المتحرك والتفاعلي -->
-        <div class="animated-scale-wrapper">
-            <svg class="animated-scale" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 15V85M35 85H65M45 15H55" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="50" cy="15" r="4" fill="#d97706" stroke="#fbbf24" stroke-width="2"/>
-                <path d="M15 28L50 20L85 28" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-                
-                <g class="scale-plate-left">
-                    <path d="M15 28L5 55M15 28L25 55" stroke="#d97706" stroke-width="1.5"/>
-                    <path d="M2 55C2 62 28 62 28 55Z" fill="#fbbf24" opacity="0.85"/>
-                </g>
-
-                <g class="scale-plate-right">
-                    <path d="M85 28L75 55M85 28L95 55" stroke="#d97706" stroke-width="1.5"/>
-                    <path d="M72 55C72 62 98 62 98 55Z" fill="#fbbf24" opacity="0.85"/>
-                </g>
-            </svg>
-        </div>
-
-        <h1>منصة العدالة للمحاماة والاستشارات</h1>
-        <p>الملتقى القانوني الشامل للعملاء والمحامين والباحثين القانونيين</p>
-
-        <!-- زر الانتقال التفاعلي -->
-        <div class="user-type-selector">
-            <button class="tab-btn active" id="btn-client" onclick="switchPortal('client')">👤 بوابة العملاء (استشارة / محامي)</button>
-            <button class="tab-btn" id="btn-lawyer" onclick="switchPortal('lawyer')">⚖️ بوابة المحامين والمكاتب</button>
-            <button class="tab-btn" id="btn-resources" onclick="switchPortal('resources')">📚 المكتبة والمراجع القانونية</button>
-        </div>
+        <div class="logo">⚖️ منصة العدالة</div>
+        <nav>
+            <button onclick="switchPortal('client')" class="active">بوابة العملاء</button>
+            <button onclick="switchPortal('lawyer')">دليل المحامين والتدريب</button>
+            <button onclick="switchPortal('posts')">منشورات قانونية</button>
+            <button onclick="promptAdmin()">لوحة التحكم (Admin)</button>
+        </nav>
     </header>
 
     <div class="container">
-        
-        <!-- ================= 1. بوابة العميل (Client Portal) ================= -->
-        <div id="portal-client" class="portal-section active">
-            
-            <h2 class="section-title">طلب استشارة قانونية فورية</h2>
-            <div class="consultation-form">
-                <form id="consultationForm" onsubmit="handleConsultationSubmit(event)">
-                    <div class="form-group">
-                        <label>الاسم بالكامل:</label>
-                        <input type="text" placeholder="أدخل اسمك الكريم" required>
-                    </div>
-                    <div class="form-group">
-                        <label>نوع الاستشارة القانونية:</label>
-                        <select required>
-                            <option value="">اختر التخصص المطلوب...</option>
-                            <option value="civil">قضايا مدنية وتعاقدات</option>
-                            <option value="family">أحوال شخصية وركود أسري</option>
-                            <option value="criminal">قضايا جنائية ومحاكمات</option>
-                            <option value="commercial">قضايا تجارية وتأسيس شركات</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>تفاصيل الاستشارة:</label>
-                        <textarea rows="4" placeholder="اشرح تفاصيل استشارتك باختصار..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-whatsapp" style="font-size: 16px;">إرسال الاستشارة مباشر عبر الواتساب 💬</button>
-                </form>
+
+        <!-- 1. بوابة العملاء -->
+        <section id="portal-client" class="portal active">
+            <h2>طلب استشارة قانونية</h2>
+            <p>تواصل مع المستشار القانوني مباشرة عبر واتساب لتقييم قضيتك.</p>
+            <a href="https://wa.me/201026256284?text=السلام%20عليكم،%20أرغب%20في%20طلب%20استشارة%20قانونية" target="_blank" class="btn-whatsapp">
+                📱 تواصل عبر واتساب (01026256284)
+            </a>
+        </section>
+
+        <!-- 2. بوابة المحامين والتدريب -->
+        <section id="portal-lawyer" class="portal">
+            <h2>دليل المحامين وفرص التدريب</h2>
+            <div id="lawyers-list" class="card-grid">
+                <!-- يتم التحميل ديناميكياً من Supabase -->
+            </div>
+        </section>
+
+        <!-- 3. المنشورات القانونية -->
+        <section id="portal-posts" class="portal">
+            <h2>المنشورات والمقالات القانونية</h2>
+            <div id="posts-list" class="card-grid">
+                <!-- يتم التحميل ديناميكياً من Supabase -->
+            </div>
+        </section>
+
+        <!-- 4. لوحة التحكم (Admin) -->
+        <section id="portal-admin" class="portal">
+            <h2>لوحة إدارة المنصة 🛠️</h2>
+
+            <div class="admin-form">
+                <h3>إضافة محامي / فرصة تدريب جديدة</h3>
+                <input type="text" id="lawyer-name" placeholder="الاسم الكامل">
+                <select id="lawyer-type">
+                    <option value="lawyer">محامي ممارس</option>
+                    <option value="training">فرصة تدريب قانوني</option>
+                </select>
+                <input type="text" id="lawyer-degree" placeholder="الدرجة العلمية / التخصص">
+                <input type="text" id="lawyer-city" placeholder="المدينة">
+                <input type="text" id="lawyer-address" placeholder="العنوان التفصيلي">
+                <input type="text" id="lawyer-phone" placeholder="رقم الهاتف">
+                <button onclick="addLawyer()" class="btn-submit">حفظ وإضافة</button>
             </div>
 
-            <h2 class="section-title">دليل المحامين المعتمدين</h2>
-            <div class="grid" id="lawyers-container">
-                <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل قائمة المحامين...</p>
+            <div class="admin-form">
+                <h3>إضافة منشور قانوني جديد</h3>
+                <input type="text" id="post-author" placeholder="اسم الكاتب / المستشار">
+                <textarea id="post-content" rows="4" placeholder="محتوى المنشور القانوني..."></textarea>
+                <button onclick="addPost()" class="btn-submit">نشر</button>
             </div>
-        </div>
+        </section>
 
-        <!-- ================= 2. بوابة المحامي والمكاتب (Lawyer Portal) ================= -->
-        <div id="portal-lawyer" class="portal-section">
-            
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h2 style="color: var(--gold-light);">خدمات المحامين والمكاتب القانونية</h2>
-                <p style="color: var(--text-muted);">انضم لدليل المحامين، أعلن عن طلب متدربين، أو انشر مقالاتك القانونية</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=header" target="_blank" class="btn" style="max-width: 400px; display: inline-block;">تسجيل / إضافة مكتب محاماة جديد 📝</a>
-            </div>
-
-            <!-- إضافة منشور جديد -->
-            <h2 class="section-title">✍️ نشر مقال / نصيحة قانونية جديدة</h2>
-            <div class="post-form">
-                <form id="newPostForm" onsubmit="handleAddPost(event)">
-                    <div class="form-group">
-                        <label>اسم المحامي / المكتب:</label>
-                        <input type="text" id="postAuthor" placeholder="مثال: أ. أحمد محمود - محامي بالنقض" required>
-                    </div>
-                    <div class="form-group">
-                        <label>محتوى المنشور / المقال القانوني:</label>
-                        <textarea id="postContent" rows="4" placeholder="اكتب النصيحة أو الشرح القانوني هنا..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn">نشر على المنصة 🚀</button>
-                </form>
-            </div>
-
-            <!-- قائمة المنشورات -->
-            <h2 class="section-title">📰 مجتمع العدالة - منشورات وآراء قانونية</h2>
-            <div class="posts-container" id="posts-container">
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-author">⚖️ إدارة منصة العدالة</span>
-                        <span class="post-date">اليوم</span>
-                    </div>
-                    <div class="post-content">مرحباً بكل السادة المحامين والمستشارين! يمكنكم الآن نشر الآراء والتحليلات القانونية وإرشادات التوعية هنا لخدمة المتابعين والزملاء.</div>
-                </div>
-            </div>
-
-            <h2 class="section-title" style="margin-top: 50px;">فرص التدريب والعمل القانوني المتاحة</h2>
-            <div class="grid" id="training-container">
-                <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل فرص التدريب...</p>
-            </div>
-        </div>
-
-        <!-- ================= 3. قسم المكتبة والمراجع القانونية (Resources Portal) ================= -->
-        <div id="portal-resources" class="portal-section">
-            <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">دليل الباحثين والمحامين للحصول على الصيغ والمراجع والقوانين</p>
-            
-            <div class="grid">
-                <!-- كارت 1 -->
-                <div class="card">
-                    <div>
-                        <span class="tag">صيغ ونماذج</span>
-                        <h3>صيغ الدعاوى والعقود</h3>
-                        <p>مجموعة شاملة من أهم صيغ الدعاوى المدنية والجنائية والأحوال الشخصية والعقود التجارية الجاهزة للاستخدام.</p>
-                    </div>
-                    <a href="https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%A9" target="_blank" class="btn">تصفح الصيغ القانونية 📄</a>
-                </div>
-
-                <!-- كارت 2 -->
-                <div class="card">
-                    <div>
-                        <span class="tag">تشريعات وقوانين</span>
-                        <h3>بوابة التشريعات المصرية والعربية</h3>
-                        <p>الاطلاع على أحدث القوانين واللوائح والتعديلات التشريعية الصادرة في الجريدة الرسمية.</p>
-                    </div>
-                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">المحكمة الدستورية العليا ⚖️</a>
-                </div>
-
-                <!-- كارت 3 -->
-                <div class="card">
-                    <div>
-                        <span class="tag">أحكام قضائية</span>
-                        <h3>أحكام ومبادئ محكمة النقض</h3>
-                        <p>البحث في أحكام ومبادئ محكمة النقض ومجلس الدولة للاستشهاد بها في المذكرات القانونية.</p>
-                    </div>
-                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">مكتبة أحكام النقض 🏛️</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والتدريب القانوني ⚖️</p>
-    </footer>
-
-    <!-- شات المساعد القانوني -->
-    <button id="chat-toggle-btn" onclick="toggleChat()">🤖 المستشار القانوني</button>
-
-    <div id="chat-window">
-        <div class="chat-header">
-            <span>⚖️ المستشار الذكي المباشر</span>
-            <button onclick="toggleChat()">✕</button>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="message bot">مرحباً بك في منصة العدالة! كيف يمكنني مساعدتك اليوم؟</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="اكتب سؤالك أو استشارتك هنا..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">إرسال</button>
-        </div>
     </div>
 
     <script>
-        // تبديل الواجهات
-        function switchPortal(type) {
-            document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        // إعداد الاتصال بـ Supabase
+        const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            if (type === 'client') {
-                document.getElementById('portal-client').classList.add('active');
-                document.getElementById('btn-client').classList.add('active');
-            } else if (type === 'lawyer') {
-                document.getElementById('portal-lawyer').classList.add('active');
-                document.getElementById('btn-lawyer').classList.add('active');
-            } else if (type === 'resources') {
-                document.getElementById('portal-resources').classList.add('active');
-                document.getElementById('btn-resources').classList.add('active');
+        let isAdmin = false;
+
+        // التنقل بين البوابات
+        function switchPortal(portalName) {
+            document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`portal-${portalName}`).classList.add('active');
+            
+            if(portalName === 'lawyer') loadLawyers();
+            if(portalName === 'posts') loadPosts();
+        }
+
+        // التحقق من كلمة مرور الأدمن
+        function promptAdmin() {
+            if(isAdmin) {
+                switchPortal('admin');
+                return;
+            }
+            const pass = prompt("أدخل كلمة مرور الإدارة:");
+            if(pass === "231123") {
+                isAdmin = true;
+                alert("تم تسجيل الدخول كمسؤول بنجاح!");
+                switchPortal('admin');
+            } else if(pass !== null) {
+                alert("كلمة المرور غير صحيحة!");
             }
         }
 
-        // جلب البيانات من شيت جوجل
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
+        // جلب المحامين من قاعدة البيانات
+        async function loadLawyers() {
+            const { data, error } = await supabase.from('lawyers').select('*');
+            const container = document.getElementById('lawyers-list');
+            container.innerHTML = '';
 
-        async function loadSheetData() {
-            try {
-                const response = await fetch(sheetUrl);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
+            if (error) return console.error(error);
 
-                const lawyersContainer = document.getElementById('lawyers-container');
-                const trainingContainer = document.getElementById('training-container');
-                
-                lawyersContainer.innerHTML = ''; 
-                trainingContainer.innerHTML = ''; 
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="card">
+                        <h3>${item.name} (${item.type === 'training' ? 'فرصة تدريب' : 'محامي'})</h3>
+                        <p><strong>التخصص:</strong> ${item.degree || 'غير محدد'}</p>
+                        <p><strong>المدينة:</strong> ${item.city || '-'}</p>
+                        <p><strong>العنوان:</strong> ${item.address || '-'}</p>
+                        <p><strong>الهاتف:</strong> ${item.phone || '-'}</p>
+                        ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">حذف</button>` : ''}
+                    </div>
+                `;
+            });
+        }
 
-                let hasLawyers = false;
-                let hasTraining = false;
+        // إضافة محامي جديد
+        async function addLawyer() {
+            const name = document.getElementById('lawyer-name').value;
+            const type = document.getElementById('lawyer-type').value;
+            const degree = document.getElementById('lawyer-degree').value;
+            const city = document.getElementById('lawyer-city').value;
+            const address = document.getElementById('lawyer-address').value;
+            const phone = document.getElementById('lawyer-phone').value;
 
-                rows.forEach(row => {
-                    const columns = row.split('\t'); 
-                    if (columns.length >= 5) {
-                        const name = columns[1] ? columns[1].trim() : '';
-                        const degree = columns[2] ? columns[2].trim() : 'جدول عام';
-                        const city = columns[3] ? columns[3].trim() : 'غير محدد';
-                        const address = columns[4] ? columns[4].trim() : '';
-                        const phone = columns[5] ? columns[5].trim() : '';
-                        const type = columns[6] ? columns[6].trim() : 'مكتب';
+            if(!name) return alert("يرجى إدخال الاسم!");
 
-                        if (name !== "") {
-                            const cleanPhone = phone.replace(/[^0-9]/g, '');
-
-                            if (type.includes("تدريب") || type.includes("فرصة")) {
-                                hasTraining = true;
-                                trainingContainer.innerHTML += `
-                                    <div class="card">
-                                        <div>
-                                            <span class="tag">فرصة تدريب متاحة</span>
-                                            <h3>أ. ${name}</h3>
-                                            <p><strong>المكان:</strong> ${city} - ${address}</p>
-                                            <p><strong>درجة القيد:</strong> ${degree}</p>
-                                        </div>
-                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
-                                    </div>
-                                `;
-                            } else {
-                                hasLawyers = true;
-                                lawyersContainer.innerHTML += `
-                                    <div class="card">
-                                        <div>
-                                            <span class="tag">${degree}</span>
-                                            <h3>أ. ${name}</h3>
-                                            <p><strong>المحافظة:</strong> ${city}</p>
-                                            <p><strong>العنوان:</strong> ${address}</p>
-                                        </div>
-                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
-                                    </div>
-                                `;
-                            }
-                        }
-                    }
-                });
-
-                if (!hasLawyers) lawyersContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد بيانات محامين مسجلة حالياً.</p>';
-                if (!hasTraining) trainingContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد فرص تدريب معلنة حالياً.</p>';
-
-            } catch (error) {
-                console.error('خطأ في تحميل البيانات:', error);
+            const { error } = await supabase.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
+            if(error) alert("حدث خطأ أثناء الإضافة");
+            else {
+                alert("تمت الإضافة بنجاح!");
+                loadLawyers();
             }
         }
 
-        loadSheetData();
+        // حذف محامي
+        async function deleteLawyer(id) {
+            if(confirm("هل أنت متأكد من الحذف؟")) {
+                await supabase.from('lawyers').delete().eq('id', id);
+                loadLawyers();
+            }
+        }
 
-        // رقم الواتساب المعتمد الخاص بكِ
-        const myPhoneNumber = "201026256284"; 
+        // جلب المنشورات
+        async function loadPosts() {
+            const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+            const container = document.getElementById('posts-list');
+            container.innerHTML = '';
 
-        function handleConsultationSubmit(e) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const name = form.querySelector('input[type="text"]').value;
-            const typeSelect = form.querySelector('select');
-            const type = typeSelect.options[typeSelect.selectedIndex].text;
-            const details = form.querySelector('textarea').value;
-            
-            const message = `السلام عليكم، طلب استشارة جديدة من منصة العدالة:%0A%0A👤 *الاسم:* ${name}%0A⚖️ *نوع الاستشارة:* ${type}%0A📝 *التفاصيل:* ${details}`;
-            
-            window.open(`https://wa.me/${myPhoneNumber}?text=${message}`, '_blank');
-            form.reset();
+            if (error) return console.error(error);
+
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="card">
+                        <h3>${item.author}</h3>
+                        <p>${item.content}</p>
+                        ${isAdmin ? `<button onclick="deletePost(${item.id})" class="btn-delete">حذف</button>` : ''}
+                    </div>
+                `;
+            });
         }
 
         // إضافة منشور جديد
-        function handleAddPost(e) {
-            e.preventDefault();
-            const author = document.getElementById('postAuthor').value;
-            const content = document.getElementById('postContent').value;
-            
-            const postsContainer = document.getElementById('posts-container');
-            const newPostHtml = `
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-author">⚖️ ${author}</span>
-                        <span class="post-date">الآن</span>
-                    </div>
-                    <div class="post-content">${content}</div>
-                </div>
-            `;
-            
-            postsContainer.insertAdjacentHTML('afterbegin', newPostHtml);
-            document.getElementById('newPostForm').reset();
-            alert("تم نشر مشاركتك بنجاح على المنصة!");
+        async function addPost() {
+            const author = document.getElementById('post-author').value;
+            const content = document.getElementById('post-content').value;
+
+            if(!author || !content) return alert("يرجى ملء جميع الحقول!");
+
+            const { error } = await supabase.from('posts').insert([{ author, content }]);
+            if(error) alert("حدث خطأ أثناء النشر");
+            else {
+                alert("تم النشر بنجاح!");
+                loadPosts();
+            }
         }
 
-        // --- محرك الشات السريع والذكي ---
-        function toggleChat() {
-            const chatWin = document.getElementById('chat-window');
-            chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
+        // حذف منشور
+        async function deletePost(id) {
+            if(confirm("هل أنت متأكد من الحذف؟")) {
+                await supabase.from('posts').delete().eq('id', id);
+                loadPosts();
+            }
         }
 
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
-
-        function sendMessage() {
-            const inputField = document.getElementById('chat-input');
-            const userMsg = inputField.value.trim();
-            if (!userMsg) return;
-
-            appendMessage(userMsg, 'user');
-            inputField.value = '';
-
-            setTimeout(() => {
-                let botReply = "أهلاً بك! للحصول على تحليل تفصيلي لاستشارتك، يمكنك ملء 'نموذج طلب الاستشارة' في بوابة العملاء، أو التواصل مباشرة مع المحامين المعتمدين في الدليل.";
-                
-                const msg = userMsg.toLowerCase();
-                if (msg.includes("تدريب") || msg.includes("فرصة") || msg.includes("عمل") || msg.includes("تدرج")) {
-                    botReply = "أهلاً بك يا أستاذ! يمكنك الانتقال إلى 'بوابة المحامين والمكاتب' لرؤية كافة فرص التدريب المتاحة والمنشورات القانونية.";
-                } else if (msg.includes("مصدر") || msg.includes("مرجع") || msg.includes("مكتبة") || msg.includes("قانون")) {
-                    botReply = "يمكنك زيارة قسم 'المكتبة والمراجع القانونية' لتصفح الصيغ وقواعد أحكام محكمة النقض والتشريعات.";
-                } else if (msg.includes("محامي") || msg.includes("تواصل") || msg.includes("دليل") || msg.includes("رقم")) {
-                    botReply = "يمكنك تصفح قسم 'دليل المحامين المعتمدين' واختيار المحامي المناسب لمحافظتك وتخصصك للتواصل الفوري معه.";
-                } else if (msg.includes("سلام") || msg.includes("مرحبا") || msg.includes("ازيك")) {
-                    botReply = "أهلاً بك في منصة العدالة القانونية! تفضل بطرح سؤالك أو اختر الخدمة التي تبحث عنها.";
-                }
-
-                appendMessage(botReply, 'bot');
-            }, 400);
-        }
-
-        function appendMessage(text, side) {
-            const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', side);
-            msgDiv.innerText = text;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
+        // تحميل البيانات عند البداية
+        loadLawyers();
     </script>
 </body>
 </html>
