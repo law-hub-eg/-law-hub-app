@@ -141,6 +141,7 @@
         <ul>
             <li><a href="#" onclick="switchPortal('client')">بوابة العملاء</a></li>
             <li><a href="#" onclick="switchPortal('lawyer')">بوابة المحامين والمكاتب</a></li>
+            <li><a href="#" onclick="switchPortal('resources')">📚 المكتبة والمراجع القانونية</a></li>
         </ul>
     </nav>
 
@@ -165,12 +166,13 @@
         </div>
 
         <h1>منصة العدالة للمحاماة والاستشارات</h1>
-        <p>الملتقى القانوني الشامل للعملاء والمحامين والمكاتب القانونية</p>
+        <p>الملتقى القانوني الشامل للعملاء والمحامين والباحثين القانونيين</p>
 
         <!-- زر الانتقال التفاعلي -->
         <div class="user-type-selector">
-            <button class="tab-btn active" id="btn-client" onclick="switchPortal('client')">👤 أنا عميل (طلب استشارة / بحث عن محامي)</button>
-            <button class="tab-btn" id="btn-lawyer" onclick="switchPortal('lawyer')">⚖️ بوابة المحامين والمكاتب القانونية</button>
+            <button class="tab-btn active" id="btn-client" onclick="switchPortal('client')">👤 بوابة العملاء (استشارة / محامي)</button>
+            <button class="tab-btn" id="btn-lawyer" onclick="switchPortal('lawyer')">⚖️ بوابة المحامين والمكاتب</button>
+            <button class="tab-btn" id="btn-resources" onclick="switchPortal('resources')">📚 المكتبة والمراجع القانونية</button>
         </div>
     </header>
 
@@ -179,7 +181,7 @@
         <!-- ================= 1. بوابة العميل (Client Portal) ================= -->
         <div id="portal-client" class="portal-section active">
             
-            <h2 class="section-title">طلب استشارة قانونية مجانا</h2>
+            <h2 class="section-title">طلب استشارة قانونية فورية</h2>
             <div class="consultation-form">
                 <form id="consultationForm" onsubmit="handleConsultationSubmit(event)">
                     <div class="form-group">
@@ -238,7 +240,6 @@
             <!-- قائمة المنشورات -->
             <h2 class="section-title">📰 مجتمع العدالة - منشورات وآراء قانونية</h2>
             <div class="posts-container" id="posts-container">
-                <!-- منشور افتراضي تجريبي -->
                 <div class="post-card">
                     <div class="post-header">
                         <span class="post-author">⚖️ إدارة منصة العدالة</span>
@@ -251,6 +252,44 @@
             <h2 class="section-title" style="margin-top: 50px;">فرص التدريب والعمل القانوني المتاحة</h2>
             <div class="grid" id="training-container">
                 <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل فرص التدريب...</p>
+            </div>
+        </div>
+
+        <!-- ================= 3. قسم المكتبة والمراجع القانونية (Resources Portal) ================= -->
+        <div id="portal-resources" class="portal-section">
+            <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">دليل الباحثين والمحامين للحصول على الصيغ والمراجع والقوانين</p>
+            
+            <div class="grid">
+                <!-- كارت 1 -->
+                <div class="card">
+                    <div>
+                        <span class="tag">صيغ ونماذج</span>
+                        <h3>صيغ الدعاوى والعقود</h3>
+                        <p>مجموعة شاملة من أهم صيغ الدعاوى المدنية والجنائية والأحوال الشخصية والعقود التجارية الجاهزة للاستخدام.</p>
+                    </div>
+                    <a href="https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%A9" target="_blank" class="btn">تصفح الصيغ القانونية 📄</a>
+                </div>
+
+                <!-- كارت 2 -->
+                <div class="card">
+                    <div>
+                        <span class="tag">تشريعات وقوانين</span>
+                        <h3>بوابة التشريعات المصرية والعربية</h3>
+                        <p>الاطلاع على أحدث القوانين واللوائح والتعديلات التشريعية الصادرة في الجريدة الرسمية.</p>
+                    </div>
+                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">المحكمة الدستورية العليا ⚖️</a>
+                </div>
+
+                <!-- كارت 3 -->
+                <div class="card">
+                    <div>
+                        <span class="tag">أحكام قضائية</span>
+                        <h3>أحكام ومبادئ محكمة النقض</h3>
+                        <p>البحث في أحكام ومبادئ محكمة النقض ومجلس الدولة للاستشهاد بها في المذكرات القانونية.</p>
+                    </div>
+                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">مكتبة أحكام النقض 🏛️</a>
+                </div>
             </div>
         </div>
 
@@ -286,9 +325,12 @@
             if (type === 'client') {
                 document.getElementById('portal-client').classList.add('active');
                 document.getElementById('btn-client').classList.add('active');
-            } else {
+            } else if (type === 'lawyer') {
                 document.getElementById('portal-lawyer').classList.add('active');
                 document.getElementById('btn-lawyer').classList.add('active');
+            } else if (type === 'resources') {
+                document.getElementById('portal-resources').classList.add('active');
+                document.getElementById('btn-resources').classList.add('active');
             }
         }
 
@@ -364,7 +406,7 @@
 
         loadSheetData();
 
-        // ⚠️ غيّري هذا الرقم برقم الواتساب الخاص بكِ ⚠️
+        // رقم الواتساب المعتمد الخاص بكِ
         const myPhoneNumber = "201026256284"; 
 
         function handleConsultationSubmit(e) {
@@ -401,7 +443,7 @@
             
             postsContainer.insertAdjacentHTML('afterbegin', newPostHtml);
             document.getElementById('newPostForm').reset();
-            alert("تم إشهار منشورك بنجاح على المنصة!");
+            alert("تم نشر مشاركتك بنجاح على المنصة!");
         }
 
         // --- محرك الشات السريع والذكي ---
@@ -428,10 +470,10 @@
                 const msg = userMsg.toLowerCase();
                 if (msg.includes("تدريب") || msg.includes("فرصة") || msg.includes("عمل") || msg.includes("تدرج")) {
                     botReply = "أهلاً بك يا أستاذ! يمكنك الانتقال إلى 'بوابة المحامين والمكاتب' لرؤية كافة فرص التدريب المتاحة والمنشورات القانونية.";
+                } else if (msg.includes("مصدر") || msg.includes("مرجع") || msg.includes("مكتبة") || msg.includes("قانون")) {
+                    botReply = "يمكنك زيارة قسم 'المكتبة والمراجع القانونية' لتصفح الصيغ وقواعد أحكام محكمة النقض والتشريعات.";
                 } else if (msg.includes("محامي") || msg.includes("تواصل") || msg.includes("دليل") || msg.includes("رقم")) {
                     botReply = "يمكنك تصفح قسم 'دليل المحامين المعتمدين' واختيار المحامي المناسب لمحافظتك وتخصصك للتواصل الفوري معه.";
-                } else if (msg.includes("تسجيل") || msg.includes("إضافة") || msg.includes("مكتب")) {
-                    botReply = "يسعدنا انضمامك! يمكنك تسجيل مكتبك من خلال زر 'تسجيل / إضافة مكتب محاماة جديد' في بوابة المحامين والمكاتب.";
                 } else if (msg.includes("سلام") || msg.includes("مرحبا") || msg.includes("ازيك")) {
                     botReply = "أهلاً بك في منصة العدالة القانونية! تفضل بطرح سؤالك أو اختر الخدمة التي تبحث عنها.";
                 }
