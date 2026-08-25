@@ -27,19 +27,63 @@
         nav ul li a { color: var(--text-light); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; padding: 6px 12px; border-radius: 6px; }
         nav ul li a:hover, nav ul li a.active { color: var(--gold-light); background: rgba(217, 119, 6, 0.15); }
 
-        /* Header / Banner */
+        /* Header / Banner مع خلفية الميزان المتحرك */
         header { 
-            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)), 
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%23d97706" stroke-width="0.5"><path d="M12 3v18M3 9l9-6 9 6M3 9l3 6h6L9 9M15 9l3 6h6l-3-6"/></svg>');
-            padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding: 70px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background: radial-gradient(circle at center, #1e293b 0%, #0b0f19 100%);
+            overflow: hidden;
         }
-        header .scale-icon { font-size: 50px; color: var(--gold-light); margin-bottom: 10px; }
-        header h1 { margin: 0 0 15px 0; font-size: 34px; color: var(--gold-light); }
-        header p { font-size: 17px; color: var(--text-muted); max-width: 750px; margin: 0 auto 25px; }
+
+        /* أنيميشن الميزان المتحرك 3D */
+        .animated-scale-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
+        }
+
+        .animated-scale {
+            width: 100%;
+            height: 100%;
+            animation: floatScale 4s ease-in-out infinite alternate;
+        }
+
+        /* تحريك كفتي الميزان */
+        .scale-plate-left {
+            transform-origin: 20% 30%;
+            animation: swingLeft 3s ease-in-out infinite alternate;
+        }
+        .scale-plate-right {
+            transform-origin: 80% 30%;
+            animation: swingRight 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatScale {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(-1deg); }
+        }
+
+        @keyframes swingLeft {
+            0% { transform: rotate(0deg) translateY(0); }
+            100% { transform: rotate(-4deg) translateY(3px); }
+        }
+
+        @keyframes swingRight {
+            0% { transform: rotate(0deg) translateY(0); }
+            100% { transform: rotate(4deg) translateY(-3px); }
+        }
+
+        header h1 { margin: 0 0 15px 0; font-size: 34px; color: var(--gold-light); position: relative; z-index: 2; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+        header p { font-size: 17px; color: var(--text-muted); max-width: 750px; margin: 0 auto 25px; position: relative; z-index: 2; }
 
         /* User Switcher Tab Buttons */
-        .user-type-selector { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
-        .tab-btn { padding: 12px 28px; font-size: 16px; font-weight: bold; border-radius: 30px; border: 1px solid var(--gold-primary); cursor: pointer; transition: 0.3s; background: transparent; color: var(--text-light); }
+        .user-type-selector { display: flex; justify-content: center; gap: 15px; margin-top: 20px; position: relative; z-index: 2; }
+        .tab-btn { padding: 12px 28px; font-size: 16px; font-weight: bold; border-radius: 30px; border: 1px solid var(--gold-primary); cursor: pointer; transition: 0.3s; background: rgba(15, 23, 42, 0.8); color: var(--text-light); backdrop-filter: blur(5px); }
         .tab-btn.active { background: var(--gold-primary); color: white; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4); }
 
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
@@ -94,7 +138,29 @@
     </nav>
 
     <header>
-        <div class="scale-icon">⚖️</div>
+        <!-- الميزان الذهبي المتحرك والتفاعلي -->
+        <div class="animated-scale-wrapper">
+            <svg class="animated-scale" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- العمود والقاعدة -->
+                <path d="M50 15V85M35 85H65M45 15H55" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="50" cy="15" r="4" fill="#d97706" stroke="#fbbf24" stroke-width="2"/>
+                <!-- الذراع الأفقي المتحرك -->
+                <path d="M15 28L50 20L85 28" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                
+                <!-- الكفة اليسرى المتحركة -->
+                <g class="scale-plate-left">
+                    <path d="M15 28L5 55M15 28L25 55" stroke="#d97706" stroke-width="1.5"/>
+                    <path d="M2 55C2 62 28 62 28 55Z" fill="#fbbf24" opacity="0.85"/>
+                </g>
+
+                <!-- الكفة اليمنى المتحركة -->
+                <g class="scale-plate-right">
+                    <path d="M85 28L75 55M85 28L95 55" stroke="#d97706" stroke-width="1.5"/>
+                    <path d="M72 55C72 62 98 62 98 55Z" fill="#fbbf24" opacity="0.85"/>
+                </g>
+            </svg>
+        </div>
+
         <h1>منصة العدالة للمحاماة والاستشارات</h1>
         <p>المنصة الموثوقة للتواصل بين العملاء وأفضل المحامين المعتمدين، ودعم شباب المحامين بفرص التدريب</p>
 
