@@ -24,11 +24,11 @@
         * { box-sizing: border-box; scroll-behavior: smooth; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0f19; margin: 0; padding: 0; color: var(--text-light); line-height: 1.6; }
         
-        /* 1️⃣ شاشة الترحب والتسجيل المبدئية Overlay */
+        /* 1️⃣ شاشة الترحيب والتسجيل المبدئية Overlay */
         #welcome-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1e293b 0%, #0b0f19 100%);
+            background: rgba(11, 15, 25, 0.95);
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -41,8 +41,10 @@
             border: 1px solid var(--gold-primary);
             border-radius: 16px;
             padding: 30px 25px;
-            max-width: 460px;
+            max-width: 480px;
             width: 100%;
+            max-height: 90vh; /* حل مشكلة نزول المنصة لتحت */
+            overflow-y: auto;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
@@ -154,7 +156,7 @@
 </head>
 <body>
 
-    <!-- 1️⃣ شاشة الدخول والتسجيل المبدئية Overlay -->
+    <!-- 1️⃣ شاشة الدخول والتسجيل المبدئية Overlay (تم إخفاء زر الأدمن منها) -->
     <div id="welcome-overlay">
         <div class="welcome-card">
             <h2>مرحباً بك في منصة العدالة ⚖️</h2>
@@ -163,7 +165,6 @@
             <div class="role-selector">
                 <button class="role-btn active" id="btn-role-client" onclick="selectRole('client')">👤 عميل</button>
                 <button class="role-btn" id="btn-role-lawyer" onclick="selectRole('lawyer')">⚖️ محامي</button>
-                <button class="role-btn" id="btn-role-admin" onclick="selectRole('admin')">👑 أدمن</button>
             </div>
 
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
@@ -175,7 +176,7 @@
             <form id="welcomeLoginForm" onsubmit="handleAuthLogin(event)">
                 <div class="form-group">
                     <label>رقم الهاتف أو اسم المستخدم:</label>
-                    <input type="text" id="loginPhone" placeholder="010XXXXXXXX أو admin" required>
+                    <input type="text" id="loginPhone" placeholder="010XXXXXXXX" required>
                 </div>
                 <div class="form-group">
                     <label>كلمة السر:</label>
@@ -226,6 +227,7 @@
             <li><a href="#" onclick="switchPortal('client')" class="active" id="nav-client-link">👤 طلب استشارة (عملاء)</a></li>
             <li><a href="#" onclick="switchPortal('lawyer')" id="nav-lawyer-link">⚖️ بوابة المحامين والأسئلة</a></li>
             <li><a href="#" onclick="switchPortal('resources')">📚 المكتبة والمراجع</a></li>
+            <li id="nav-admin-link" style="display: none;"><a href="#" onclick="switchPortal('admin')" style="color:#fbbf24;">👑 لوحة الأدمن</a></li>
             <li id="user-nav-badge"></li>
         </ul>
     </nav>
@@ -310,6 +312,36 @@
         <!-- بوابة المحامي والمكاتب -->
         <div id="portal-lawyer" class="portal-section">
             
+            <!-- ✨ جديد: نموذج تسجيل المحامين الراغبين بالتسجيل بنزول اسمهم على المنصة -->
+            <div class="post-form" style="margin-bottom: 40px; border-color: var(--gold-light);">
+                <h2 class="section-title" style="margin-top:0;">📝 انضمام والتسجيل في دليل المحامين المعتمدين</h2>
+                <p style="text-align:center; color: var(--text-muted); font-size: 13px;">اكتب بياناتك ليتم إدراج اسمك ومكتبك في دليل المحامين بالصفحة الرئيسية للتواصل معك من العملاء.</p>
+                
+                <form id="lawyerJoinDirectoryForm" onsubmit="handleLawyerJoinDirectory(event)">
+                    <div class="form-group">
+                        <label>اسم المحامي / المكتب الكامل:</label>
+                        <input type="text" id="dirLawyerName" placeholder="مثال: أ. أحمد علي المحامي" required>
+                    </div>
+                    <div class="form-group">
+                        <label>درجة القيد / التخصص:</label>
+                        <input type="text" id="dirLawyerDegree" placeholder="مثال: محامي بالاستئناف العالي ومجلس الدولة" required>
+                    </div>
+                    <div class="form-group">
+                        <label>المحافظة:</label>
+                        <input type="text" id="dirLawyerCity" placeholder="مثال: القاهرة" required>
+                    </div>
+                    <div class="form-group">
+                        <label>العنوان التفصيلي للمكتب:</label>
+                        <input type="text" id="dirLawyerAddress" placeholder="مثال: 12 شارع قصر النيل، مدينة نصر" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الواتساب للتواصل المباشر:</label>
+                        <input type="text" id="dirLawyerPhone" placeholder="010XXXXXXXX" required>
+                    </div>
+                    <button type="submit" class="btn btn-whatsapp">تسجيل ونشر بياناتي في دليل المحامين 🌐</button>
+                </form>
+            </div>
+
             <!-- قسم الاستشارات الواردة للمحامين -->
             <div id="lawyer-consultations-section">
                 <h2 class="section-title">📩 استشارات العملاء الواردة على المنصة</h2>
@@ -318,7 +350,7 @@
                 </div>
             </div>
 
-            <!-- نموذج نشر مقال: يظهر فقط إذا كان المستخدم (محامي) أو (أدمن) -->
+            <!-- نموذج نشر مقال: يظهر فقط للمحامين والأدمن -->
             <div id="lawyer-post-publish-box" style="display: none;">
                 <h2 class="section-title" style="margin-top: 50px;">✍️ نشر مقال / نصيحة قانونية جديدة</h2>
                 <div class="post-form">
@@ -370,7 +402,7 @@
             </div>
         </div>
 
-        <!-- لوحة التحكم الإدارية (الأدمن) -->
+        <!-- لوحة التحكم الإدارية (تظهر لكِ فقط عند التسجيل كـ admin) -->
         <div id="portal-admin" class="portal-section">
             <h2 class="section-title">👑 لوحة التحكم الإدارية بالمنصة</h2>
             <div class="admin-box">
@@ -456,7 +488,6 @@
             selectedRole = role;
             document.getElementById('btn-role-client').classList.toggle('active', role === 'client');
             document.getElementById('btn-role-lawyer').classList.toggle('active', role === 'lawyer');
-            document.getElementById('btn-role-admin').classList.toggle('active', role === 'admin');
             document.getElementById('lawyerInputs').style.display = (role === 'lawyer') ? 'block' : 'none';
         }
 
@@ -496,7 +527,6 @@
             } else {
                 currentUser = data[0];
 
-                // لو المحامي سجل جديد يتم رفعه تلقائياً بدليل المحامين
                 if (selectedRole === 'lawyer') {
                     await supabaseClient.from('lawyers').insert([
                         { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
@@ -515,7 +545,7 @@
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // حساب الأدمن الرئيسي
+            // دخول الأدمن السري الخاص بكِ فقط
             if ((phone === 'admin' || phone === '231123') && (password === 'admin123' || password === '231123')) {
                 currentUser = { name: "المدير العام (Admin)", phone: "01000000000", role: "admin" };
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
@@ -543,6 +573,7 @@
         function applyUserRolePermissions() {
             const userBadge = document.getElementById('user-nav-badge');
             const lawyerPostBox = document.getElementById('lawyer-post-publish-box');
+            const adminNav = document.getElementById('nav-admin-link');
             
             if (!currentUser) return;
 
@@ -555,14 +586,20 @@
                 <a href="#" onclick="handleLogout()" style="color: #ef4444; font-size:12px; margin-right:6px;">(خروج)</a>
             `;
 
-            // العميل ميعرفش ينزل حاجة ف مقالات المحامين
+            if (currentUser.role === 'admin') {
+                adminNav.style.display = 'inline-block';
+            } else {
+                adminNav.style.display = 'none';
+            }
+
+            // إخفاء ومنع العميل من النشر تماماً ف مقالات المحامين
             if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
                 lawyerPostBox.style.display = 'block';
                 if (document.getElementById('postAuthor')) {
                     document.getElementById('postAuthor').value = `أ. ${currentUser.name}`;
                 }
             } else {
-                lawyerPostBox.style.display = 'none'; // إخفاء صندوق النشر تماماً عن العميل
+                lawyerPostBox.style.display = 'none';
             }
 
             if (currentUser.role === 'admin') {
@@ -621,8 +658,6 @@
             } else {
                 const trackingCode = 'LAW-' + Math.floor(1000 + Math.random() * 9000);
                 const fullContent = `📌 **نوع الاستشارة:** ${type}\n\n📝 **التفاصيل:** ${details}`;
-                
-                const userPhone = currentUser ? currentUser.phone : trackingCode;
 
                 const { error } = await supabaseClient.from('posts').insert([
                     { author: name, content: fullContent, type: 'lawyer_only_question', tracking_code: trackingCode }
@@ -638,7 +673,29 @@
             }
         }
 
-        // متابعة رد العميل باستخدامه الكود الخاص به
+        // تسجيل المحامي في الدليل مباشرة
+        async function handleLawyerJoinDirectory(e) {
+            e.preventDefault();
+            const name = document.getElementById('dirLawyerName').value;
+            const degree = document.getElementById('dirLawyerDegree').value;
+            const city = document.getElementById('dirLawyerCity').value;
+            const address = document.getElementById('dirLawyerAddress').value;
+            const phone = document.getElementById('dirLawyerPhone').value;
+
+            const { error } = await supabaseClient.from('lawyers').insert([
+                { name, degree, city, address, phone, type: 'lawyer' }
+            ]);
+
+            if (error) {
+                alert("حدث خطأ أثناء التسجيل: " + error.message);
+            } else {
+                alert("تم تسجيل بياناتك بنجاح وتنزيل اسمك في دليل المحامين المعتمدين بالمنصة 🎉");
+                document.getElementById('lawyerJoinDirectoryForm').reset();
+                loadSheetData();
+                switchPortal('client');
+            }
+        }
+
         async function trackConsultation() {
             const code = document.getElementById('trackCodeInput').value.trim();
             const resultDiv = document.getElementById('trackResult');
@@ -663,7 +720,6 @@
             }
         }
 
-        // إضافة رد من المحامي أو الأدمن
         async function submitReply(postId) {
             if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
                 return alert("الرد متاح فقط للمحامين وإدارة المنصة!");
@@ -682,7 +738,6 @@
             }
         }
 
-        // نشر مقال من المحامي / الأدمن فقط
         async function handleAddPost(e) {
             e.preventDefault();
             if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
@@ -705,7 +760,6 @@
             }
         }
 
-        // جلب استشارات العملاء
         async function loadLawyerQuestions() {
             const container = document.getElementById('lawyer-questions-container');
             if (!container) return;
@@ -746,7 +800,6 @@
             }
         }
 
-        // جلب مقالات المحامين
         async function loadPosts() {
             const postsContainer = document.getElementById('posts-container');
             const { data: posts, error } = await supabaseClient.from('posts')
@@ -790,7 +843,6 @@
             }
         }
 
-        // جلب بيانات شيت الإكسيل والتسجيلات
         async function loadSheetData() {
             try {
                 const response = await fetch(sheetUrl);
@@ -922,7 +974,6 @@
             }
         }
 
-        // شات المستشار الذكي
         function toggleChat() {
             const chatWin = document.getElementById('chat-window');
             chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
