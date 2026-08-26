@@ -88,7 +88,10 @@
         .btn-delete { background-color: #ef4444; color: white; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 12px; font-weight: bold; transition: 0.3s; }
         .btn-delete:hover { background-color: #dc2626; }
 
-        .consultation-form, .post-form, .admin-box { background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 750px; margin: 0 auto 30px; }
+        .btn-reply { background-color: #3b82f6; color: white; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        .btn-reply:hover { background-color: #2563eb; }
+
+        .consultation-form, .post-form, .admin-box, .track-box { background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 750px; margin: 0 auto 30px; }
         .form-group { margin-bottom: 18px; text-align: right; }
         .form-group label { display: block; margin-bottom: 8px; color: var(--gold-light); font-weight: bold; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; }
@@ -104,6 +107,9 @@
         .post-author { color: var(--gold-light); font-weight: bold; font-size: 16px; }
         .post-date { color: var(--text-muted); font-size: 12px; }
         .post-content { color: var(--text-light); font-size: 15px; line-height: 1.7; white-space: pre-line; }
+
+        .reply-box { margin-top: 15px; padding: 12px; background: #0f172a; border-radius: 8px; border-right: 3px solid #3b82f6; }
+        .reply-title { color: #60a5fa; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
 
         footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 25px; margin-top: 60px; font-size: 14px; border-top: 1px solid var(--border-color); }
 
@@ -197,6 +203,17 @@
                 </form>
             </div>
 
+            <!-- البحث عن رد استشارة لرقم المتابعة -->
+            <div class="track-box">
+                <h3 style="color: var(--gold-light); margin-top:0;">🔍 متابعة رد المحامي على استشارتك</h3>
+                <div class="form-group">
+                    <label>أدخل كود المتابعة الخاط بك:</label>
+                    <input type="text" id="trackCodeInput" placeholder="مثال: LAW-1234">
+                </div>
+                <button onclick="trackConsultation()" class="btn">عرض رد المحامي 🔎</button>
+                <div id="trackResult" style="margin-top: 15px;"></div>
+            </div>
+
             <h2 class="section-title">دليل المحامين المعتمدين</h2>
             <div class="grid" id="lawyers-container">
                 <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل قائمة المحامين...</p>
@@ -208,13 +225,20 @@
             <div style="text-align: center; margin-bottom: 30px;">
                 <h2 style="color: var(--gold-light);">خاص بالمحامين والمكاتب القانونية</h2>
                 <p style="color: var(--text-muted);">انضم لدليل المحامين، تابع استشارات العملاء، أو انشر مقالاتك القانونية</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=header" target="_blank" class="btn" style="max-width: 400px; display: inline-block;">تسجيل / إضافة مكتب محاماة جديد 📝</a>
+                
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk5mk03Fs_DrPdWvKXZl2o43YaBc30q2JcR8CRdnSaU0-3Vw/viewform?usp=header" target="_blank" class="btn" style="max-width: 300px;">تسجيل / إضافة مكتب محاماة جديد 📝</a>
+                    <button onclick="toggleLawyerAccess()" class="btn" style="max-width: 300px; background: var(--bg-dark); border: 1px solid var(--gold-light);" id="lawyerLoginBtn">🔓 تفعيل وضع المحامي (لعرض رد الاستشارات)</button>
+                </div>
             </div>
 
-            <h2 class="section-title">📩 استشارات العملاء الواردة على المنصة (للمحامين فقط)</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">هذه الاستشارات لا تظهر للزوار العاديين في بوابة العملاء، بل تظهر هنا فقط للمحامين المعنيين.</p>
-            <div class="posts-container" id="lawyer-questions-container">
-                <p style="text-align:center; color: var(--text-muted);">جاري تحميل استشارات العملاء...</p>
+            <!-- قسم الاستشارات الواردة (مخفي للعملاء ويظهر فقط عند تفعيل وضع المحامي) -->
+            <div id="lawyer-consultations-section" style="display: none;">
+                <h2 class="section-title">📩 استشارات العملاء الواردة على المنصة</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">الاستشارات الموجهة للمحامين المعنيين فقط للرد عليها.</p>
+                <div class="posts-container" id="lawyer-questions-container">
+                    <p style="text-align:center; color: var(--text-muted);">جاري تحميل استشارات العملاء...</p>
+                </div>
             </div>
 
             <h2 class="section-title" style="margin-top: 50px;">✍️ نشر مقال / نصيحة قانونية جديدة</h2>
@@ -327,12 +351,46 @@
 
     <script>
         const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
-        // المفتاح الصحيح يبدأ بحرف e سمول
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let isAdminLoggedIn = false;
+        let isLawyerMode = localStorage.getItem('lawyer_mode') === 'true';
         const myPhoneNumber = "201026256284"; 
+
+        window.onload = function() {
+            checkLawyerModeUI();
+        };
+
+        function checkLawyerModeUI() {
+            const lawyerSec = document.getElementById('lawyer-consultations-section');
+            const btn = document.getElementById('lawyerLoginBtn');
+
+            if (isLawyerMode) {
+                if(lawyerSec) lawyerSec.style.display = 'block';
+                if(btn) btn.innerText = "🔒 إغلاق وضع المحامي";
+            } else {
+                if(lawyerSec) lawyerSec.style.display = 'none';
+                if(btn) btn.innerText = "🔓 تفعيل وضع المحامي (لعرض ورد الاستشارات)";
+            }
+        }
+
+        function toggleLawyerAccess() {
+            if (!isLawyerMode) {
+                const pass = prompt("الرجاء إدخال كود تفعيل المحامي (أو اضغطي موافق للمتابعة):", "lawyer123");
+                if (pass !== null) {
+                    isLawyerMode = true;
+                    localStorage.setItem('lawyer_mode', 'true');
+                    alert("تم تفعيل وضع المحامي بنجاح! يمكنكِ الآن الاطلاع على استشارات العملاء والرد عليها.");
+                }
+            } else {
+                isLawyerMode = false;
+                localStorage.setItem('lawyer_mode', 'false');
+                alert("تم الخروج من وضع المحامي.");
+            }
+            checkLawyerModeUI();
+            loadLawyerQuestions();
+        }
 
         function switchPortal(type) {
             document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
@@ -377,18 +435,58 @@
                 window.open(`https://wa.me/${myPhoneNumber}?text=${message}`, '_blank');
                 document.getElementById('unifiedConsultationForm').reset();
             } else {
+                const trackingCode = 'LAW-' + Math.floor(1000 + Math.random() * 9000);
                 const fullContent = `📌 **نوع الاستشارة:** ${type}\n\n📝 **التفاصيل:** ${details}`;
                 
                 const { error } = await supabaseClient.from('posts').insert([
-                    { author: name, content: fullContent, type: 'lawyer_only_question' }
+                    { author: name, content: fullContent, type: 'lawyer_only_question', tracking_code: trackingCode }
                 ]);
                 
                 if(error) {
                     console.error("Supabase Error:", error);
                     alert("حدث خطأ أثناء إرسال الاستشارة: " + error.message);
                 } else {
-                    alert("تم نشر استشارتك بنجاح! سيطلع عليها السادة المحامون في بوابتهم للرد عليك.");
+                    alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]\nاحتفظي بهذا الكود لمتابعة رد المحامي من المربع أسفل الصفحة.`);
                     document.getElementById('unifiedConsultationForm').reset();
+                    loadLawyerQuestions();
+                }
+            }
+        }
+
+        // إمكانية متابعة رد العميل باستخدامه الكود الخاص به
+        async function trackConsultation() {
+            const code = document.getElementById('trackCodeInput').value.trim();
+            const resultDiv = document.getElementById('trackResult');
+
+            if(!code) return alert("يرجى إدخال كود المتابعة أولاً!");
+
+            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code).single();
+
+            if (error || !data) {
+                resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود. يرجى التأكد من الكود وإعادة المحاولة.</p>';
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="post-card" style="border-right: 4px solid var(--gold-light);">
+                        <p><strong>الاسم:</strong> ${data.author}</p>
+                        <p><strong>تفاصيل الاستشارة:</strong><br>${data.content}</p>
+                        <div class="reply-box">
+                            <div class="reply-title">⚖️ رد المحامي:</div>
+                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد على هذه الاستشارة بعد. يرجى مراجعتها لاحقاً.'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // إضافة رد من المحامي
+        async function submitReply(postId) {
+            const replyText = prompt("اكتب الرد القانوني على هذه الاستشارة:");
+            if (replyText) {
+                const { error } = await supabaseClient.from('posts').update({ reply: replyText }).eq('id', postId);
+                if (error) {
+                    alert("حدث خطأ أثناء إضافة الرد: " + error.message);
+                } else {
+                    alert("تم حفظ الرد القانوني بنجاح!");
                     loadLawyerQuestions();
                 }
             }
@@ -417,6 +515,8 @@
         // جلب استشارات العملاء الخاصة بالمحامين
         async function loadLawyerQuestions() {
             const container = document.getElementById('lawyer-questions-container');
+            if(!container) return;
+
             const { data: questions, error } = await supabaseClient.from('posts').select('*').eq('type', 'lawyer_only_question').order('created_at', { ascending: false });
             
             if(error) {
@@ -431,11 +531,17 @@
                     container.innerHTML += `
                         <div class="post-card question-card">
                             <div class="post-header">
-                                <span class="post-author">👤 استشارة من العميل: ${q.author}</span>
+                                <span class="post-author">👤 استشارة من العميل: ${q.author} (كود: ${q.tracking_code || 'بدون'})</span>
                                 <span class="post-date">${new Date(q.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
                             </div>
                             <div class="post-content">${q.content}</div>
-                            ${isAdminLoggedIn ? `<button onclick="deletePost(${q.id})" class="btn-delete">🗑️ مسح هذه الاستشارة (للأدمن)</button>` : ''}
+                            
+                            ${q.reply ? `<div class="reply-box"><div class="reply-title">⚖️ الرد الحالي:</div>${q.reply}</div>` : ''}
+
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد محامي'}</button>
+                                ${isAdminLoggedIn ? `<button onclick="deletePost(${q.id})" class="btn-delete">🗑️ مسح الاستشارة</button>` : ''}
+                            </div>
                         </div>
                     `;
                 });
