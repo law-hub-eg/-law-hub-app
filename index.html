@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="aBaQQd-3MtdnhyPm_IYegX1l8qnLRbz22tOASAwB06o" />
     <title>منصة العدالة للمحاماة والخدمات القانونية ⚖️</title>
     
     <!-- Supabase JS Library -->
@@ -23,7 +24,7 @@
         * { box-sizing: border-box; scroll-behavior: smooth; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0f19; margin: 0; padding: 0; color: var(--text-light); line-height: 1.6; }
         
-        /* 1️⃣ شاشة الترحيب والتسجيل الأولي */
+        /* 1️⃣ شاشة الترحب والتسجيل المبدئية Overlay */
         #welcome-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -57,49 +58,72 @@
         .role-btn.active { background: var(--gold-primary); border-color: var(--gold-light); }
 
         /* Navbar */
-        nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        nav .logo { color: var(--gold-light); font-size: 20px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        nav ul li a { color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; padding: 6px 10px; border-radius: 6px; }
+        nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        nav .logo { color: var(--gold-light); font-size: 20px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        nav ul li a { color: var(--text-light); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; padding: 6px 12px; border-radius: 6px; }
         nav ul li a:hover, nav ul li a.active { color: var(--gold-light); background: rgba(217, 119, 6, 0.15); }
 
-        .user-badge { background: rgba(217, 119, 6, 0.2); color: var(--gold-light); border: 1px solid var(--gold-primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .user-badge { background: rgba(217, 119, 6, 0.2); color: var(--gold-light); border: 1px solid var(--gold-primary); padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; }
 
         /* Header */
         header { 
-            position: relative; padding: 35px 20px; text-align: center;
+            position: relative; padding: 40px 20px; text-align: center;
             border-bottom: 1px solid var(--border-color);
             background: radial-gradient(circle at center, #1e293b 0%, #0b0f19 100%);
+            overflow: hidden;
         }
-        header h1 { margin: 0 0 8px 0; font-size: 26px; color: var(--gold-light); }
-        header p { font-size: 14px; color: var(--text-muted); max-width: 750px; margin: 0 auto; }
 
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
+        .animated-scale-wrapper {
+            width: 80px; height: 80px; margin: 0 auto 15px; position: relative;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
+        }
+
+        .animated-scale { width: 100%; height: 100%; animation: floatScale 4s ease-in-out infinite alternate; }
+
+        @keyframes floatScale {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(-1deg); }
+        }
+
+        header h1 { margin: 0 0 10px 0; font-size: 26px; color: var(--gold-light); }
+        header p { font-size: 14px; color: var(--text-muted); max-width: 750px; margin: 0 auto 20px; }
+
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
         .portal-section { display: none; }
         .portal-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-title { text-align: center; margin: 30px 0 20px; color: var(--gold-light); font-size: 22px; }
+        .section-title { text-align: center; margin: 35px 0 20px; color: var(--gold-light); font-size: 24px; }
         
         .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .card { background: var(--bg-card); padding: 20px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: 320px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); transition: 0.3s; }
+        .card { background: var(--bg-card); padding: 22px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: 320px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); transition: 0.3s; }
         .card:hover { transform: translateY(-5px); border-color: var(--gold-light); }
-        .card h3 { color: var(--gold-light); margin-top: 0; font-size: 17px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 6px 0; }
-        .tag { display: inline-block; background-color: rgba(217, 119, 6, 0.15); color: var(--gold-light); padding: 3px 8px; border-radius: 15px; font-size: 11px; font-weight: bold; margin-bottom: 8px; border: 1px solid var(--border-color); }
+        .card h3 { color: var(--gold-light); margin-top: 0; font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .card p { color: var(--text-muted); font-size: 13.5px; line-height: 1.6; margin: 8px 0; }
+        .tag { display: inline-block; background-color: rgba(217, 119, 6, 0.15); color: var(--gold-light); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; border: 1px solid var(--border-color); }
 
-        .btn { display: inline-block; text-align: center; padding: 10px 16px; background-color: var(--gold-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 10px; border: none; cursor: pointer; width: 100%; font-size: 13px; }
+        .btn { display: inline-block; text-align: center; padding: 10px 18px; background-color: var(--gold-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 10px; border: none; cursor: pointer; width: 100%; font-size: 13px; }
         .btn:hover { background-color: var(--gold-hover); }
+        .btn-whatsapp { background-color: #25d366; color: white; }
+        .btn-whatsapp:hover { background-color: #1eb954; }
         
+        .btn-delete { background-color: #ef4444; color: white; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 12px; font-weight: bold; transition: 0.3s; font-size: 12px; }
+        .btn-delete:hover { background-color: #dc2626; }
+
         .btn-reply { background-color: #3b82f6; color: white; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 12px; }
         .btn-reply:hover { background-color: #2563eb; }
 
-        .form-group { margin-bottom: 12px; text-align: right; }
-        .form-group label { display: block; margin-bottom: 5px; color: var(--gold-light); font-size: 12px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; font-size: 13px; }
+        .consultation-form, .post-form, .admin-box, .track-box { background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 750px; margin: 0 auto 30px; }
+        .form-group { margin-bottom: 16px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--gold-light); font-weight: bold; font-size: 13px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; font-size: 13px; }
 
-        .consultation-form, .post-form { background: var(--bg-card); padding: 22px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 25px; }
+        .radio-group { display: flex; gap: 15px; margin-top: 5px; }
+        .radio-option { display: flex; align-items: center; gap: 8px; cursor: pointer; background: #0f172a; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); flex: 1; font-size: 13px; }
+        .radio-option input { width: auto; }
 
         .posts-container { display: flex; flex-direction: column; gap: 18px; max-width: 850px; margin: 20px auto 0; }
         .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; text-align: right; }
@@ -107,21 +131,34 @@
         .post-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; }
         .post-author { color: var(--gold-light); font-weight: bold; font-size: 14px; }
         .post-date { color: var(--text-muted); font-size: 11px; }
-        .post-content { color: var(--text-light); font-size: 13.5px; line-height: 1.6; white-space: pre-line; }
+        .post-content { color: var(--text-light); font-size: 14px; line-height: 1.6; white-space: pre-line; }
 
         .reply-box { margin-top: 12px; padding: 10px; background: #0f172a; border-radius: 8px; border-right: 3px solid #3b82f6; }
         .reply-title { color: #60a5fa; font-weight: bold; font-size: 12px; margin-bottom: 4px; }
 
-        footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 20px; margin-top: 50px; font-size: 13px; border-top: 1px solid var(--border-color); }
+        footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 25px; margin-top: 60px; font-size: 13px; border-top: 1px solid var(--border-color); }
+
+        /* Chat Bot */
+        #chat-toggle-btn { position: fixed; bottom: 25px; left: 25px; background: linear-gradient(135deg, var(--gold-primary), var(--gold-hover)); color: white; border: none; border-radius: 50px; padding: 12px 20px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.4); z-index: 10000; display: flex; align-items: center; gap: 8px; border: 1px solid var(--gold-light); }
+        #chat-window { position: fixed; bottom: 85px; left: 25px; width: 340px; height: 450px; background: var(--bg-card); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; flex-direction: column; z-index: 10000; overflow: hidden; border: 1px solid var(--gold-primary); }
+        .chat-header { background-color: var(--bg-dark); color: var(--gold-light); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; border-bottom: 1px solid var(--border-color); }
+        .chat-header button { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0b0f19; font-size: 13px; }
+        .message { max-width: 85%; padding: 10px 12px; border-radius: 10px; line-height: 1.5; }
+        .message.user { background-color: var(--gold-primary); color: white; align-self: flex-start; border-bottom-right-radius: 0; }
+        .message.bot { background-color: #1e293b; color: #e2e8f0; align-self: flex-end; border-bottom-left-radius: 0; border: 1px solid var(--border-color); }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid var(--border-color); background: var(--bg-dark); }
+        .chat-input-area input { flex: 1; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; background: #0f172a; color: white; font-size: 13px; }
+        .chat-input-area button { background-color: var(--gold-primary); color: white; border: none; padding: 8px 14px; margin-right: 6px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <!-- 1️⃣ شاشة الترحيب والدخول الأساسية -->
+    <!-- 1️⃣ شاشة الدخول والتسجيل المبدئية Overlay -->
     <div id="welcome-overlay">
         <div class="welcome-card">
             <h2>مرحباً بك في منصة العدالة ⚖️</h2>
-            <p>سجل دخولك أو أنشئ حساباً جديداً للوصول لكافة الخدمات القانونية</p>
+            <p>اختر نوع الحساب ثم قم بتسجيل الدخول للوصول إلى الخدمات</p>
 
             <div class="role-selector">
                 <button class="role-btn active" id="btn-role-client" onclick="selectRole('client')">👤 عميل</button>
@@ -160,16 +197,16 @@
                 
                 <div id="lawyerInputs" style="display: none;">
                     <div class="form-group">
+                        <label>درجة القيد / التخصص:</label>
+                        <input type="text" id="regDegree" placeholder="مثال: محامي بالاستئناف / قضايا مدنية">
+                    </div>
+                    <div class="form-group">
                         <label>المحافظة:</label>
                         <input type="text" id="regCity" placeholder="مثال: القاهرة">
                     </div>
                     <div class="form-group">
-                        <label>العنوان / المكتب:</label>
-                        <input type="text" id="regAddress" placeholder="عنوان المكتب">
-                    </div>
-                    <div class="form-group">
-                        <label>التخصص القانوني:</label>
-                        <input type="text" id="regSpec" placeholder="مثال: جنائي / مدني / أسرة">
+                        <label>عنوان المكتب:</label>
+                        <input type="text" id="regAddress" placeholder="عنوان المكتب التفصيلي">
                     </div>
                 </div>
 
@@ -177,156 +214,228 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="regPassword" required>
                 </div>
-                <button type="submit" class="btn">تسجيل الحساب ودخول المنصة ✨</button>
+                <button type="submit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
             </form>
         </div>
     </div>
 
-    <!-- 2️⃣ واجهة المنصة كاملة الأجزاء والخصائص -->
+    <!-- 2️⃣ الواجهة الأساسية للمنصة -->
     <nav>
         <a href="#" class="logo">⚖️ منصة العدالة القانونية</a>
         <ul>
-            <li><a href="#" onclick="switchPortal('consultations')" class="active">💬 الاستشارات</a></li>
-            <li><a href="#" onclick="switchPortal('lawyers_list')">🏛️ دليل المحامين</a></li>
-            <li><a href="#" onclick="switchPortal('community')">🌐 المناقشات العامة</a></li>
+            <li><a href="#" onclick="switchPortal('client')" class="active" id="nav-client-link">👤 طلب استشارة (عملاء)</a></li>
+            <li><a href="#" onclick="switchPortal('lawyer')" id="nav-lawyer-link">⚖️ بوابة المحامين والأسئلة</a></li>
             <li><a href="#" onclick="switchPortal('resources')">📚 المكتبة والمراجع</a></li>
-            <li><a href="#" onclick="switchPortal('templates')">📄 الصيغ والعقود</a></li>
-            <li id="user-info-nav"></li>
+            <li id="user-nav-badge"></li>
         </ul>
     </nav>
 
     <header>
+        <div class="animated-scale-wrapper">
+            <svg class="animated-scale" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 15V85M35 85H65M45 15H55" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="50" cy="15" r="4" fill="#d97706" stroke="#fbbf24" stroke-width="2"/>
+                <path d="M15 28L50 20L85 28" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
         <h1>منصة العدالة للمحاماة والاستشارات القانونية</h1>
         <p>الملتقى الشامل والتفاعلي بين العملاء والمحامين</p>
     </header>
 
     <div class="container">
         
-        <!-- قسم الاستشارات والردود -->
-        <div id="portal-consultations" class="portal-section active">
+        <!-- بوابة العميل -->
+        <div id="portal-client" class="portal-section active">
+            <h2 class="section-title">⚖️ طلب استشارة قانونية</h2>
             
-            <div id="client-add-consultation" class="consultation-form">
-                <h3 style="color: var(--gold-light); margin-top:0; text-align:center;">⚖️ تقديم استشارة قانونية جديدة</h3>
-                <form onsubmit="handleConsultationSubmit(event)">
+            <div class="consultation-form">
+                <form id="unifiedConsultationForm" onsubmit="handleConsultationSubmit(event)">
+                    <div class="form-group">
+                        <label>الاسم بالكامل:</label>
+                        <input type="text" id="cName" placeholder="أدخل اسمك الكريم" required>
+                    </div>
+
                     <div class="form-group">
                         <label>نوع الاستشارة / التخصص:</label>
                         <select id="cType" required>
+                            <option value="">اختر التخصص المطلوب...</option>
                             <option value="قضايا مدنية وتعاقدات">قضايا مدنية وتعاقدات</option>
                             <option value="أحوال شخصية وشؤون أسرة">أحوال شخصية وشؤون أسرة</option>
                             <option value="قضايا جنائية ومحاكمات">قضايا جنائية ومحاكمات</option>
+                            <option value="قضايا تجارية وتأسيس شركات">قضايا تجارية وتأسيس شركات</option>
                             <option value="استشارة عامة">استشارة قانونية عامة</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label>طريقة إرسال / عرض الاستشارة:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="consultType" value="private" checked onchange="toggleFormMode('private')">
+                                🔒 خاصة (إرسال مباشر عبر الواتساب)
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="consultType" value="lawyers_only" onchange="toggleFormMode('public')">
+                                ⚖️ نشر على المنصة (يطلع عليها المحامون المسجلون فقط)
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>تفاصيل الاستشارة:</label>
-                        <textarea id="cDetails" rows="3" placeholder="اكتب موضوعك بوضوح ليقوم المحامون بالرد عليك..." required></textarea>
+                        <textarea id="cDetails" rows="4" placeholder="اشرح تفاصيل موضوعك هنا بوضوح..." required></textarea>
                     </div>
-                    <button type="submit" class="btn">نشر الاستشارة ⚖️</button>
+
+                    <button type="submit" id="submitBtn" class="btn btn-whatsapp">إرسال الاستشارة خاصة عبر الواتساب 💬</button>
                 </form>
             </div>
 
-            <h2 class="section-title">💬 جدول الاستشارات وإجابات المحامين</h2>
-            <div class="posts-container" id="consultations-list-container">
-                <p style="text-align:center; color: var(--text-muted);">جاري تحميل الاستشارات...</p>
+            <!-- متابعة الاستشارة برقم الهاتف أو كود المتابعة -->
+            <div class="track-box">
+                <h3 style="color: var(--gold-light); margin-top:0;">🔍 متابعة رد المحامي على استشارتك</h3>
+                <div class="form-group">
+                    <label>أدخل كود المتابعة الخاص بك (مثال: LAW-1234):</label>
+                    <input type="text" id="trackCodeInput" placeholder="أدخل الكود هنا">
+                </div>
+                <button onclick="trackConsultation()" class="btn">عرض رد المحامي 🔎</button>
+                <div id="trackResult" style="margin-top: 15px;"></div>
+            </div>
+
+            <h2 class="section-title">🏛️ دليل المحامين المعتمدين</h2>
+            <div class="grid" id="lawyers-container">
+                <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل قائمة المحامين...</p>
             </div>
         </div>
 
-        <!-- دليل المحامين المكتمل (بيانات الشيت + المحامين المسجلين الجدد) -->
-        <div id="portal-lawyers_list" class="portal-section">
-            <h2 class="section-title">🏛️ دليل المحامين المعتمدين بالمنصة</h2>
-            <div class="grid" id="lawyers-cards-container">
-                <!-- بيانات المحامين من الشيت التراثي + تسجيلات المحامين الجدد ستظهر هنا تلقائياً -->
+        <!-- بوابة المحامي والمكاتب -->
+        <div id="portal-lawyer" class="portal-section">
+            
+            <!-- قسم الاستشارات الواردة للمحامين -->
+            <div id="lawyer-consultations-section">
+                <h2 class="section-title">📩 استشارات العملاء الواردة على المنصة</h2>
+                <div class="posts-container" id="lawyer-questions-container">
+                    <p style="text-align:center; color: var(--text-muted);">جاري تحميل استشارات العملاء...</p>
+                </div>
+            </div>
+
+            <!-- نموذج نشر مقال: يظهر فقط إذا كان المستخدم (محامي) أو (أدمن) -->
+            <div id="lawyer-post-publish-box" style="display: none;">
+                <h2 class="section-title" style="margin-top: 50px;">✍️ نشر مقال / نصيحة قانونية جديدة</h2>
+                <div class="post-form">
+                    <form id="newPostForm" onsubmit="handleAddPost(event)">
+                        <div class="form-group">
+                            <label>اسم المحامي / المكتب:</label>
+                            <input type="text" id="postAuthor" placeholder="مثال: أ. أحمد محمود - محامي بالنقض" required>
+                        </div>
+                        <div class="form-group">
+                            <label>محتوى المنشور / المقال القانوني:</label>
+                            <textarea id="postContent" rows="4" placeholder="اكتب الشرح القانوني أو النصيحة هنا..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn">نشر المقال على المنصة 📣</button>
+                    </form>
+                </div>
+            </div>
+
+            <h2 class="section-title">📖 مقالات ونشرات المحامين</h2>
+            <div class="posts-container" id="posts-container">
+                <p style="text-align:center; color: var(--text-muted);">جاري تحميل المقالات...</p>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 50px;">فرص التدريب والعمل القانوني المتاحة</h2>
+            <div class="grid" id="training-container">
+                <p style="text-align:center; color: var(--text-muted); width: 100%;">جاري تحميل فرص التدريب...</p>
             </div>
         </div>
 
-        <!-- المناقشات القانونية (العميل والمحامي والأدمن يستطيعون النشر هنا) -->
-        <div id="portal-community" class="portal-section">
-            <h2 class="section-title">🌐 مجتمع المناقشات والمقالات القانونية</h2>
-            <div class="post-form">
-                <form onsubmit="handlePostSubmit(event)">
-                    <div class="form-group">
-                        <label>كتابة منشور أو استفسار قانوني عام (متاح للعميل والمحامي والأدمن):</label>
-                        <textarea id="postContent" rows="3" placeholder="شارِك الجميع برأيك، تحليل قانوني، أو سؤال عام..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn">مشاركة المنشور 🔥</button>
-                </form>
-            </div>
-            <div class="posts-container" id="community-posts-container">
-                <p style="text-align:center; color: var(--text-muted);">جاري تحميل المنشورات والمناقشات...</p>
-            </div>
-        </div>
-
-        <!-- المكتبة والمراجع القانونية -->
+        <!-- المكتبة والمراجع -->
         <div id="portal-resources" class="portal-section">
-            <h2 class="section-title">📚 المكتبة والمراجع القانونية الرسمية</h2>
+            <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
             <div class="grid">
+                <div class="card">
+                    <div>
+                        <span class="tag">صيغ ونماذج</span>
+                        <h3>صيغ الدعاوى والعقود</h3>
+                        <p>مجموعة شاملة من أهم صيغ الدعاوى المدنية والجنائية والأحوال الشخصية والعقود التجارية.</p>
+                    </div>
+                    <a href="https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%AA" target="_blank" class="btn">تصفح الصيغ القانونية 📄</a>
+                </div>
                 <div class="card">
                     <div>
                         <span class="tag">تشريعات وقوانين</span>
-                        <h3>المحكمة الدستورية العليا</h3>
-                        <p>اطّلع على أحدث الأحكام والتعديلات التشريعية.</p>
+                        <h3>بوابة التشريعات المصرية والعربية</h3>
+                        <p>الاطلاع على أحدث القوانين واللوائح والتعديلات التشريعية الصادرة في الجريدة الرسمية.</p>
                     </div>
-                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">زيارة الموقع ⚖️</a>
-                </div>
-                <div class="card">
-                    <div>
-                        <span class="tag">محكمة النقض</span>
-                        <h3>بوابة محكمة النقض المصرية</h3>
-                        <p>البحث في الأحكام والمبادئ القانونية للمحكمة.</p>
-                    </div>
-                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">دخول البوابة 🏛️</a>
-                </div>
-                <div class="card">
-                    <div>
-                        <span class="tag">وزارة العدل</span>
-                        <h3>خدمات وزارة العدل الرقمية</h3>
-                        <p>الاستعلام عن القضايا وتجديد الكارنيهات والخدمات.</p>
-                    </div>
-                    <a href="https://jp.gov.eg" target="_blank" class="btn">الدخول للموقع 📜</a>
+                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">المحكمة الدستورية العليا ⚖️</a>
                 </div>
             </div>
         </div>
 
-        <!-- صيغ العقود -->
-        <div id="portal-templates" class="portal-section">
-            <h2 class="section-title">📄 صيغ العقود والإنذارات القانونية</h2>
-            <div class="grid">
-                <div class="card">
-                    <div>
-                        <span class="tag">عقود إيجار</span>
-                        <h3>عقد إيجار محدد المدة</h3>
-                        <p>صيغة عقد إيجار شقة/محل وفقاً للقانون رقم 4 لسنة 1996.</p>
-                    </div>
-                    <button class="btn" onclick="alert('صيغة عقد الإيجار متوفرة للاقتباس مباشرة.')">عرض الصيغة 📝</button>
+        <!-- لوحة التحكم الإدارية (الأدمن) -->
+        <div id="portal-admin" class="portal-section">
+            <h2 class="section-title">👑 لوحة التحكم الإدارية بالمنصة</h2>
+            <div class="admin-box">
+                <h3 style="color: var(--gold-light);">إضافة محامي / فرصة تدريب مباشرة</h3>
+                <div class="form-group">
+                    <label>الاسم الكامل / اسم المكتب:</label>
+                    <input type="text" id="admin-lawyer-name" placeholder="مثال: أ. أحمد علي">
                 </div>
-                <div class="card">
-                    <div>
-                        <span class="tag">عقود بيع</span>
-                        <h3>عقد بيع ابتدائي لعقار</h3>
-                        <p>صيغة عقد بيع عقار/شقة مع بند شرط جزائي وحفظ الحقوق.</p>
-                    </div>
-                    <button class="btn" onclick="alert('صيغة عقد البيع متوفرة للاقتباس.')">عرض الصيغة 📝</button>
+                <div class="form-group">
+                    <label>النوع:</label>
+                    <select id="admin-lawyer-type">
+                        <option value="lawyer">محامي في الدليل</option>
+                        <option value="training">فرصة تدريب</option>
+                    </select>
                 </div>
+                <div class="form-group">
+                    <label>التخصص / درجة القيد:</label>
+                    <input type="text" id="admin-lawyer-degree" placeholder="مثال: محامي بالاستئناف">
+                </div>
+                <div class="form-group">
+                    <label>المدينة / المحافظة:</label>
+                    <input type="text" id="admin-lawyer-city" placeholder="مثال: القاهرة">
+                </div>
+                <div class="form-group">
+                    <label>العنوان التفصيلي:</label>
+                    <input type="text" id="admin-lawyer-address" placeholder="العنوان بالتفصيل">
+                </div>
+                <div class="form-group">
+                    <label>رقم الواتساب / الهاتف:</label>
+                    <input type="text" id="admin-lawyer-phone" placeholder="مثال: 010xxxxxxxx">
+                </div>
+                <button onclick="adminAddLawyer()" class="btn">إضافة فورية لقاعدة البيانات 💾</button>
             </div>
         </div>
 
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والاستشارات القانونية ⚖️</p>
+        <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والتدريب القانوني ⚖️</p>
     </footer>
+
+    <!-- شات المستشار الذكي المباشر -->
+    <button id="chat-toggle-btn" onclick="toggleChat()">🤖 المستشار القانوني</button>
+
+    <div id="chat-window">
+        <div class="chat-header">
+            <span>⚖️ المستشار الذكي المباشر</span>
+            <button onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">مرحباً بك في منصة العدالة! كيف يمكنني مساعدتك اليوم؟</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
 
     <script>
         const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // بيانات دليل المحامين المحفوظة (من الإكسيل الأصلي)
-        const staticExcelLawyers = [
-            { name: "أحمد محمود الفولي", city: "القاهرة", spec: "قضايا مدنية وعقود", phone: "01000000001" },
-            { name: "محمد علي السيد", city: "الجيزة", spec: "قضايا جنائية ومحاكمات", phone: "01000000002" },
-            { name: "محمود حسن إبراهيم", city: "الإسكندرية", spec: "أحوال شخصية وشؤون أسرة", phone: "01000000003" }
-        ];
+        const myPhoneNumber = "201026256284"; 
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
 
         let selectedRole = 'client';
         let currentUser = JSON.parse(localStorage.getItem('user_session')) || null;
@@ -334,13 +443,13 @@
         window.onload = function() {
             if (currentUser) {
                 document.getElementById('welcome-overlay').style.display = 'none';
-                updateNavUI();
-                loadConsultations();
-                loadLawyersList();
-                loadCommunityPosts();
+                applyUserRolePermissions();
             } else {
                 document.getElementById('welcome-overlay').style.display = 'flex';
             }
+            loadSheetData();
+            loadPosts();
+            loadLawyerQuestions();
         };
 
         function selectRole(role) {
@@ -374,22 +483,30 @@
             const name = document.getElementById('regName').value;
             const phone = document.getElementById('regPhone').value.trim();
             const password = document.getElementById('regPassword').value;
-            const city = document.getElementById('regCity').value || '';
-            const address = document.getElementById('regAddress').value || '';
+            const degree = document.getElementById('regDegree')?.value || '';
+            const city = document.getElementById('regCity')?.value || '';
+            const address = document.getElementById('regAddress')?.value || '';
 
             const { data, error } = await supabaseClient.from('site_users').insert([
                 { name, phone, password, role: selectedRole, city, address }
             ]).select();
 
             if (error) {
-                alert("تعذر التسجيل (قد يكون رقم الهاتف مستخدماً): " + error.message);
+                alert("تعذر التسجيل (قد يكون رقم الهاتف مستخدماً مسبقاً): " + error.message);
             } else {
                 currentUser = data[0];
+
+                // لو المحامي سجل جديد يتم رفعه تلقائياً بدليل المحامين
+                if (selectedRole === 'lawyer') {
+                    await supabaseClient.from('lawyers').insert([
+                        { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
+                    ]);
+                }
+
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
-                updateNavUI();
-                loadConsultations();
-                loadLawyersList();
+                applyUserRolePermissions();
+                loadSheetData();
             }
         }
 
@@ -398,14 +515,12 @@
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // حساب الأدمن الرئيسي الخاص بكِ
-            if ((phone === 'admin' || phone === '01000000000') && password === 'admin123') {
+            // حساب الأدمن الرئيسي
+            if ((phone === 'admin' || phone === '231123') && (password === 'admin123' || password === '231123')) {
                 currentUser = { name: "المدير العام (Admin)", phone: "01000000000", role: "admin" };
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
-                updateNavUI();
-                loadConsultations();
-                loadLawyersList();
+                applyUserRolePermissions();
                 return;
             }
 
@@ -421,30 +536,41 @@
                 currentUser = data;
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
-                updateNavUI();
-                loadConsultations();
-                loadLawyersList();
+                applyUserRolePermissions();
             }
         }
 
-        function updateNavUI() {
-            const navInfo = document.getElementById('user-info-nav');
-            if (currentUser) {
-                let badgeText = '👤 ';
-                if (currentUser.role === 'lawyer') badgeText = '⚖️ أ. ';
-                if (currentUser.role === 'admin') badgeText = '👑 أدمن: ';
+        function applyUserRolePermissions() {
+            const userBadge = document.getElementById('user-nav-badge');
+            const lawyerPostBox = document.getElementById('lawyer-post-publish-box');
+            
+            if (!currentUser) return;
 
-                navInfo.innerHTML = `
-                    <span class="user-badge">${badgeText}${currentUser.name}</span>
-                    <a href="#" onclick="handleLogout()" style="color: #ef4444; font-size:12px; margin-right:6px;">(خروج)</a>
-                `;
+            let badgePrefix = '👤 عميل: ';
+            if (currentUser.role === 'lawyer') badgePrefix = '⚖️ أ. ';
+            if (currentUser.role === 'admin') badgePrefix = '👑 أدمن: ';
 
-                // إخفاء صندوق الاستشارة فقط إذا كان المستخدم أدمن أو محامي
-                if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
-                    document.getElementById('client-add-consultation').style.display = 'none';
-                } else {
-                    document.getElementById('client-add-consultation').style.display = 'block';
+            userBadge.innerHTML = `
+                <span class="user-badge">${badgePrefix}${currentUser.name}</span>
+                <a href="#" onclick="handleLogout()" style="color: #ef4444; font-size:12px; margin-right:6px;">(خروج)</a>
+            `;
+
+            // العميل ميعرفش ينزل حاجة ف مقالات المحامين
+            if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
+                lawyerPostBox.style.display = 'block';
+                if (document.getElementById('postAuthor')) {
+                    document.getElementById('postAuthor').value = `أ. ${currentUser.name}`;
                 }
+            } else {
+                lawyerPostBox.style.display = 'none'; // إخفاء صندوق النشر تماماً عن العميل
+            }
+
+            if (currentUser.role === 'admin') {
+                switchPortal('admin');
+            } else if (currentUser.role === 'lawyer') {
+                switchPortal('lawyer');
+            } else {
+                switchPortal('client');
             }
         }
 
@@ -456,35 +582,133 @@
 
         function switchPortal(type) {
             document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('portal-' + type).classList.add('active');
-            
-            document.querySelectorAll('nav ul li a').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-        }
 
-        // تقديم استشارة للعميل
-        async function handleConsultationSubmit(e) {
-            e.preventDefault();
-            const type = document.getElementById('cType').value;
-            const details = document.getElementById('cDetails').value;
-            const fullContent = `📌 **نوع الاستشارة:** ${type}\n\n📝 **التفاصيل:** ${details}`;
-
-            const { error } = await supabaseClient.from('posts').insert([
-                { author: currentUser.name, content: fullContent, type: 'lawyer_only_question', tracking_code: currentUser.phone }
-            ]);
-
-            if (error) {
-                alert("حدث خطأ أثناء الإرسال: " + error.message);
-            } else {
-                alert("تم نشر استشارتك بنجاح! سيتم الرد عليها من المحامين.");
-                document.getElementById('cDetails').value = '';
-                loadConsultations();
+            if (type === 'client') {
+                document.getElementById('portal-client').classList.add('active');
+            } else if (type === 'lawyer') {
+                document.getElementById('portal-lawyer').classList.add('active');
+            } else if (type === 'resources') {
+                document.getElementById('portal-resources').classList.add('active');
+            } else if (type === 'admin') {
+                document.getElementById('portal-admin').classList.add('active');
             }
         }
 
-        // تحميل جدول الاستشارات
-        async function loadConsultations() {
-            const container = document.getElementById('consultations-list-container');
+        function toggleFormMode(mode) {
+            const btn = document.getElementById('submitBtn');
+            if (mode === 'private') {
+                btn.className = "btn btn-whatsapp";
+                btn.innerText = "إرسال الاستشارة خاصة عبر الواتساب 💬";
+            } else {
+                btn.className = "btn";
+                btn.innerText = "نشر الاستشارة للمحامين على المنصة ⚖️";
+            }
+        }
+
+        // إرسال استشارة عميل
+        async function handleConsultationSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('cName').value;
+            const type = document.getElementById('cType').value;
+            const details = document.getElementById('cDetails').value;
+            const option = document.querySelector('input[name="consultType"]:checked').value;
+
+            if (option === 'private') {
+                const message = `السلام عليكم، طلب استشارة خاصة من منصة العدالة:%0A%0A👤 *الاسم:* ${name}%0A⚖️ *النوع:* ${type}%0A📝 *التفاصيل:* ${details}`;
+                window.open(`https://wa.me/${myPhoneNumber}?text=${message}`, '_blank');
+                document.getElementById('unifiedConsultationForm').reset();
+            } else {
+                const trackingCode = 'LAW-' + Math.floor(1000 + Math.random() * 9000);
+                const fullContent = `📌 **نوع الاستشارة:** ${type}\n\n📝 **التفاصيل:** ${details}`;
+                
+                const userPhone = currentUser ? currentUser.phone : trackingCode;
+
+                const { error } = await supabaseClient.from('posts').insert([
+                    { author: name, content: fullContent, type: 'lawyer_only_question', tracking_code: trackingCode }
+                ]);
+                
+                if (error) {
+                    alert("حدث خطأ أثناء إرسال الاستشارة: " + error.message);
+                } else {
+                    alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]\nاحتفظ بهذا الكود لمتابعة رد المحامي من المربع أسفل الصفحة.`);
+                    document.getElementById('unifiedConsultationForm').reset();
+                    loadLawyerQuestions();
+                }
+            }
+        }
+
+        // متابعة رد العميل باستخدامه الكود الخاص به
+        async function trackConsultation() {
+            const code = document.getElementById('trackCodeInput').value.trim();
+            const resultDiv = document.getElementById('trackResult');
+
+            if (!code) return alert("يرجى إدخال كود المتابعة أو رقم الهاتف أولاً!");
+
+            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code).single();
+
+            if (error || !data) {
+                resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود. يرجى التأكد وإعادة المحاولة.</p>';
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="post-card" style="border-right: 4px solid var(--gold-light);">
+                        <p><strong>الاسم:</strong> ${data.author}</p>
+                        <p><strong>تفاصيل الاستشارة:</strong><br>${data.content}</p>
+                        <div class="reply-box">
+                            <div class="reply-title">⚖️ رد المحامي:</div>
+                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد على هذه الاستشارة بعد. يرجى مراجعتها لاحقاً.'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // إضافة رد من المحامي أو الأدمن
+        async function submitReply(postId) {
+            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
+                return alert("الرد متاح فقط للمحامين وإدارة المنصة!");
+            }
+
+            const replyText = prompt("اكتب الرد القانوني على هذه الاستشارة:");
+            if (replyText) {
+                const fullReply = `أ. ${currentUser.name} (${currentUser.role === 'admin' ? 'الإدارة' : 'محامي'}):\n${replyText}`;
+                const { error } = await supabaseClient.from('posts').update({ reply: fullReply }).eq('id', postId);
+                if (error) {
+                    alert("حدث خطأ أثناء إضافة الرد: " + error.message);
+                } else {
+                    alert("تم حفظ الرد القانوني بنجاح!");
+                    loadLawyerQuestions();
+                }
+            }
+        }
+
+        // نشر مقال من المحامي / الأدمن فقط
+        async function handleAddPost(e) {
+            e.preventDefault();
+            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
+                return alert("عذراً، نشر المقالات مخصص للمحامين المسجلين فقط!");
+            }
+
+            const author = document.getElementById('postAuthor').value;
+            const content = document.getElementById('postContent').value;
+            
+            const { error } = await supabaseClient.from('posts').insert([
+                { author: author, content: content, type: 'article' }
+            ]);
+
+            if (error) {
+                alert("حدث خطأ أثناء الحفظ: " + error.message);
+            } else {
+                alert("تم نشر المقال بنجاح!");
+                document.getElementById('postContent').value = '';
+                loadPosts();
+            }
+        }
+
+        // جلب استشارات العملاء
+        async function loadLawyerQuestions() {
+            const container = document.getElementById('lawyer-questions-container');
+            if (!container) return;
 
             const { data: questions, error } = await supabaseClient.from('posts')
                 .select('*')
@@ -494,140 +718,241 @@
             if (error) return;
 
             container.innerHTML = '';
+
             if (questions && questions.length > 0) {
                 questions.forEach(q => {
-                    const isMyQuestion = currentUser && q.tracking_code === currentUser.phone;
-                    // زر الرد متاح للمحامي والأدمن فقط!
                     const canReply = currentUser && (currentUser.role === 'lawyer' || currentUser.role === 'admin');
+                    const isAdmin = currentUser && currentUser.role === 'admin';
 
                     container.innerHTML += `
                         <div class="post-card question-card">
                             <div class="post-header">
-                                <span class="post-author">👤 ${q.author} ${isMyQuestion ? '(استشارتك)' : ''}</span>
+                                <span class="post-author">👤 استشارة من العميل: ${q.author} (كود: ${q.tracking_code || 'خاص'})</span>
                                 <span class="post-date">${new Date(q.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
                             </div>
                             <div class="post-content">${q.content}</div>
                             
-                            <div class="reply-box">
-                                <div class="reply-title">⚖️ رد المحامي:</div>
-                                <div>${q.reply ? q.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
-                            </div>
+                            ${q.reply ? `<div class="reply-box"><div class="reply-title">⚖️ الرد الحالي:</div>${q.reply}</div>` : ''}
 
-                            ${canReply ? `<button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد قانوني'}</button>` : ''}
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                ${canReply ? `<button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد محامي'}</button>` : ''}
+                                ${isAdmin ? `<button onclick="deletePost(${q.id})" class="btn-delete">🗑️ مسح الاستشارة</button>` : ''}
+                            </div>
                         </div>
                     `;
                 });
             } else {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد استشارات معروضة حالياً.</p>';
+                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد استشارات عملاء منشورة حالياً.</p>';
             }
         }
 
-        // رد المحامي أو الأدمن
-        async function submitReply(postId) {
-            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) return;
+        // جلب مقالات المحامين
+        async function loadPosts() {
+            const postsContainer = document.getElementById('posts-container');
+            const { data: posts, error } = await supabaseClient.from('posts')
+                .select('*')
+                .eq('type', 'article')
+                .order('created_at', { ascending: false });
 
-            const replyText = prompt("اكتب الرد القانوني على هذه الاستشارة:");
-            if (replyText) {
-                const fullReply = `أ. ${currentUser.name} (${currentUser.role === 'admin' ? 'إدارة المنصة' : currentUser.city || 'محامي'}):\n${replyText}`;
-                const { error } = await supabaseClient.from('posts').update({ reply: fullReply }).eq('id', postId);
+            if (error) return;
+
+            postsContainer.innerHTML = '';
+
+            if (posts && posts.length > 0) {
+                posts.forEach(post => {
+                    const isAdmin = currentUser && currentUser.role === 'admin';
+                    postsContainer.innerHTML += `
+                        <div class="post-card">
+                            <div class="post-header">
+                                <span class="post-author">⚖️ ${post.author}</span>
+                                <span class="post-date">${new Date(post.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
+                            </div>
+                            <div class="post-content">${post.content}</div>
+                            ${isAdmin ? `<button onclick="deletePost(${post.id})" class="btn-delete">🗑️ حذف المقال (للأدمن)</button>` : ''}
+                        </div>
+                    `;
+                });
+            } else {
+                postsContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد مقالات منشورة حالياً.</p>';
+            }
+        }
+
+        async function deletePost(id) {
+            if (confirm("هل أنت متأكد من المسح النهائي؟")) {
+                const { error } = await supabaseClient.from('posts').delete().eq('id', id);
                 if (error) {
-                    alert("حدث خطأ: " + error.message);
+                    alert("حدث خطأ أثناء الحذف: " + error.message);
                 } else {
-                    alert("تم إرسال وحفظ الرد بنجاح!");
-                    loadConsultations();
+                    alert("تم المسح بنجاح!");
+                    loadPosts();
+                    loadLawyerQuestions();
                 }
             }
         }
 
-        // تحميل دليل المحامين (شيت الإكسيل + الحسابات الجديدة)
-        async function loadLawyersList() {
-            const container = document.getElementById('lawyers-cards-container');
-            
-            // جلب المحامين الجدد المسجلين بـ Supabase
-            const { data: dbLawyers } = await supabaseClient.from('site_users')
-                .select('*')
-                .eq('role', 'lawyer');
+        // جلب بيانات شيت الإكسيل والتسجيلات
+        async function loadSheetData() {
+            try {
+                const response = await fetch(sheetUrl);
+                const data = await response.text();
+                const rows = data.split('\n').slice(1);
 
-            container.innerHTML = '';
+                const lawyersContainer = document.getElementById('lawyers-container');
+                const trainingContainer = document.getElementById('training-container');
+                
+                lawyersContainer.innerHTML = ''; 
+                trainingContainer.innerHTML = ''; 
 
-            // 1. عرض محامي شيت الإكسيل المحفوظين مسبقاً
-            staticExcelLawyers.forEach(l => {
-                container.innerHTML += `
-                    <div class="card">
-                        <div>
-                            <span class="tag">محامي معتمد ⚖️</span>
-                            <h3>أ. ${l.name}</h3>
-                            <p>📍 <strong>المحافظة:</strong> ${l.city}</p>
-                            <p>⚖️ <strong>التخصص:</strong> ${l.spec}</p>
-                        </div>
-                        <a href="https://wa.me/2${l.phone}" target="_blank" class="btn" style="background-color:#25d366;">تواصل واتساب 💬</a>
-                    </div>
-                `;
-            });
+                let hasLawyers = false;
+                let hasTraining = false;
 
-            // 2. عرض المحامين الجدد الذين سجلوا بالمنصة حديثاً
-            if (dbLawyers && dbLawyers.length > 0) {
-                dbLawyers.forEach(l => {
-                    container.innerHTML += `
-                        <div class="card">
-                            <div>
-                                <span class="tag" style="background:rgba(59,130,246,0.2); color:#60a5fa;">محامي مسجل حديثاً ✨</span>
-                                <h3>أ. ${l.name}</h3>
-                                <p>📍 <strong>المحافظة:</strong> ${l.city || 'غير محددة'}</p>
-                                <p>🏢 <strong>المكتب:</strong> ${l.address || 'مكتب خاص'}</p>
-                            </div>
-                            <a href="https://wa.me/2${l.phone}" target="_blank" class="btn" style="background-color:#25d366;">تواصل واتساب 💬</a>
-                        </div>
-                    `;
+                rows.forEach(row => {
+                    const columns = row.split('\t'); 
+                    if (columns.length >= 5) {
+                        const name = columns[1] ? columns[1].trim() : '';
+                        const degree = columns[2] ? columns[2].trim() : 'جدول عام';
+                        const city = columns[3] ? columns[3].trim() : 'غير محدد';
+                        const address = columns[4] ? columns[4].trim() : '';
+                        const phone = columns[5] ? columns[5].trim() : '';
+                        const type = columns[6] ? columns[6].trim() : 'مكتب';
+
+                        if (name !== "") {
+                            const cleanPhone = phone.replace(/[^0-9]/g, '');
+
+                            if (type.includes("تدريب") || type.includes("فرصة")) {
+                                hasTraining = true;
+                                trainingContainer.innerHTML += `
+                                    <div class="card">
+                                        <div>
+                                            <span class="tag">فرصة تدريب متاحة</span>
+                                            <h3>أ. ${name}</h3>
+                                            <p><strong>المكان:</strong> ${city} - ${address}</p>
+                                            <p><strong>درجة القيد:</strong> ${degree}</p>
+                                        </div>
+                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
+                                    </div>
+                                `;
+                            } else {
+                                hasLawyers = true;
+                                lawyersContainer.innerHTML += `
+                                    <div class="card">
+                                        <div>
+                                            <span class="tag">${degree}</span>
+                                            <h3>أ. ${name}</h3>
+                                            <p><strong>المحافظة:</strong> ${city}</p>
+                                            <p><strong>العنوان:</strong> ${address}</p>
+                                        </div>
+                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }
                 });
+
+                const { data: dbLawyers } = await supabaseClient.from('lawyers').select('*');
+                if (dbLawyers) {
+                    dbLawyers.forEach(item => {
+                        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+                        const isAdmin = currentUser && currentUser.role === 'admin';
+
+                        if (item.type === 'training') {
+                            hasTraining = true;
+                            trainingContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">فرصة تدريب متاحة</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المكان:</strong> ${item.city || '-'} - ${item.address || '-'}</p>
+                                        <p><strong>درجة القيد:</strong> ${item.degree || '-'}</p>
+                                    </div>
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
+                                    ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف</button>` : ''}
+                                </div>
+                            `;
+                        } else {
+                            hasLawyers = true;
+                            lawyersContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">${item.degree || 'ممارس'}</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المحافظة:</strong> ${item.city || '-'}</p>
+                                        <p><strong>العنوان:</strong> ${item.address || '-'}</p>
+                                    </div>
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
+                                    ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف</button>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                if (!hasLawyers) lawyersContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد بيانات محامين مسجلة حالياً.</p>';
+                if (!hasTraining) trainingContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد فرص تدريب معلنة حالياً.</p>';
+
+            } catch (error) {
+                console.error('خطأ في تحميل البيانات:', error);
             }
         }
 
-        // المناقشات القانونية (مفتوحة للعميل والمحامي والأدمن)
-        async function handlePostSubmit(e) {
-            e.preventDefault();
-            const content = document.getElementById('postContent').value;
-            
-            let authorTitle = currentUser.name;
-            if (currentUser.role === 'lawyer') authorTitle = `أ. ${currentUser.name} (محامي)`;
-            if (currentUser.role === 'admin') authorTitle = `👑 ${currentUser.name}`;
+        async function deleteLawyer(id) {
+            if (confirm("هل أنت متأكد من مسح هذا العنصر؟")) {
+                await supabaseClient.from('lawyers').delete().eq('id', id);
+                loadSheetData();
+            }
+        }
 
-            const { error } = await supabaseClient.from('posts').insert([
-                { author: authorTitle, content: content, type: 'general' }
-            ]);
+        async function adminAddLawyer() {
+            const name = document.getElementById('admin-lawyer-name').value;
+            const type = document.getElementById('admin-lawyer-type').value;
+            const degree = document.getElementById('admin-lawyer-degree').value;
+            const city = document.getElementById('admin-lawyer-city').value;
+            const address = document.getElementById('admin-lawyer-address').value;
+            const phone = document.getElementById('admin-lawyer-phone').value;
 
+            if (!name) return alert("يرجى كتابة الاسم!");
+
+            const { error } = await supabaseClient.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
             if (error) {
-                alert("خطأ: " + error.message);
+                alert("حدث خطأ أثناء الحفظ: " + error.message);
             } else {
-                alert("تم نشر مشاركتك بصفحة المناقشات بنجاح!");
-                document.getElementById('postContent').value = '';
-                loadCommunityPosts();
+                alert("تمت الإضافة بنجاح!");
+                loadSheetData();
             }
         }
 
-        async function loadCommunityPosts() {
-            const container = document.getElementById('community-posts-container');
-            const { data: posts } = await supabaseClient.from('posts')
-                .select('*')
-                .eq('type', 'general')
-                .order('created_at', { ascending: false });
+        // شات المستشار الذكي
+        function toggleChat() {
+            const chatWin = document.getElementById('chat-window');
+            chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
+        }
 
-            container.innerHTML = '';
-            if (posts && posts.length > 0) {
-                posts.forEach(p => {
-                    container.innerHTML += `
-                        <div class="post-card">
-                            <div class="post-header">
-                                <span class="post-author">✍️ ${p.author}</span>
-                                <span class="post-date">${new Date(p.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
-                            </div>
-                            <div class="post-content">${p.content}</div>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد منشورات حالياً، كن أول من يشارك!</p>';
-            }
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const inputField = document.getElementById('chat-input');
+            const userMsg = inputField.value.trim();
+            if (!userMsg) return;
+
+            appendMessage(userMsg, 'user');
+            inputField.value = '';
+
+            setTimeout(() => {
+                let botReply = "أهلاً بك! يمكنك تقديم الاستشارة وتحديد طريقة التواصل مباشرة عبر نموذج تقديم الاستشارات ببوابة العملاء.";
+                appendMessage(botReply, 'bot');
+            }, 400);
+        }
+
+        function appendMessage(text, side) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', side);
+            msgDiv.innerText = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
         }
     </script>
 </body>
