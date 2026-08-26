@@ -23,7 +23,7 @@
         * { box-sizing: border-box; scroll-behavior: smooth; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0f19; margin: 0; padding: 0; color: var(--text-light); line-height: 1.6; }
         
-        /* شاشة الترحيب والتسجيل الأولي */
+        /* 1️⃣ شاشة الترحيب والتسجيل الأولي */
         #welcome-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -39,108 +39,106 @@
             background: var(--bg-card);
             border: 1px solid var(--gold-primary);
             border-radius: 16px;
-            padding: 35px 25px;
-            max-width: 450px;
+            padding: 30px 25px;
+            max-width: 460px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .welcome-card h2 { color: var(--gold-light); margin-top: 0; font-size: 24px; }
-        .welcome-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
+        .welcome-card h2 { color: var(--gold-light); margin-top: 0; font-size: 22px; }
+        .welcome-card p { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
 
-        .role-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .role-selector { display: flex; gap: 8px; margin-bottom: 15px; }
         .role-btn {
-            flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);
-            background: var(--bg-dark); color: white; font-weight: bold; cursor: pointer; transition: 0.3s;
+            flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--bg-dark); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 13px;
         }
         .role-btn.active { background: var(--gold-primary); border-color: var(--gold-light); }
 
         /* Navbar */
-        nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        nav .logo { color: var(--gold-light); font-size: 22px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-        nav ul li a { color: var(--text-light); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; padding: 6px 12px; border-radius: 6px; }
+        nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        nav .logo { color: var(--gold-light); font-size: 20px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        nav ul li a { color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; padding: 6px 10px; border-radius: 6px; }
         nav ul li a:hover, nav ul li a.active { color: var(--gold-light); background: rgba(217, 119, 6, 0.15); }
 
-        .user-badge { background: rgba(217, 119, 6, 0.2); color: var(--gold-light); border: 1px solid var(--gold-primary); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+        .user-badge { background: rgba(217, 119, 6, 0.2); color: var(--gold-light); border: 1px solid var(--gold-primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
 
         /* Header */
         header { 
-            position: relative;
-            padding: 40px 20px;
-            text-align: center;
+            position: relative; padding: 35px 20px; text-align: center;
             border-bottom: 1px solid var(--border-color);
             background: radial-gradient(circle at center, #1e293b 0%, #0b0f19 100%);
         }
+        header h1 { margin: 0 0 8px 0; font-size: 26px; color: var(--gold-light); }
+        header p { font-size: 14px; color: var(--text-muted); max-width: 750px; margin: 0 auto; }
 
-        header h1 { margin: 0 0 10px 0; font-size: 28px; color: var(--gold-light); }
-        header p { font-size: 15px; color: var(--text-muted); max-width: 750px; margin: 0 auto 20px; }
-
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
         .portal-section { display: none; }
         .portal-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-title { text-align: center; margin: 35px 0 20px; color: var(--gold-light); font-size: 24px; }
+        .section-title { text-align: center; margin: 30px 0 20px; color: var(--gold-light); font-size: 22px; }
         
         .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .card { background: var(--bg-card); padding: 22px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: 330px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); transition: 0.3s; }
+        .card { background: var(--bg-card); padding: 20px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: 320px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); transition: 0.3s; }
         .card:hover { transform: translateY(-5px); border-color: var(--gold-light); }
-        .card h3 { color: var(--gold-light); margin-top: 0; font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 8px 0; }
-        .tag { display: inline-block; background-color: rgba(217, 119, 6, 0.15); color: var(--gold-light); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; border: 1px solid var(--border-color); }
+        .card h3 { color: var(--gold-light); margin-top: 0; font-size: 17px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 6px 0; }
+        .tag { display: inline-block; background-color: rgba(217, 119, 6, 0.15); color: var(--gold-light); padding: 3px 8px; border-radius: 15px; font-size: 11px; font-weight: bold; margin-bottom: 8px; border: 1px solid var(--border-color); }
 
-        .btn { display: inline-block; text-align: center; padding: 10px 18px; background-color: var(--gold-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 10px; border: none; cursor: pointer; width: 100%; }
+        .btn { display: inline-block; text-align: center; padding: 10px 16px; background-color: var(--gold-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; margin-top: 10px; border: none; cursor: pointer; width: 100%; font-size: 13px; }
         .btn:hover { background-color: var(--gold-hover); }
         
-        .btn-reply { background-color: #3b82f6; color: white; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 10px; font-weight: bold; width: auto; }
+        .btn-reply { background-color: #3b82f6; color: white; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 12px; }
         .btn-reply:hover { background-color: #2563eb; }
 
-        .form-group { margin-bottom: 15px; text-align: right; }
-        .form-group label { display: block; margin-bottom: 6px; color: var(--gold-light); font-size: 13px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; }
+        .form-group { margin-bottom: 12px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--gold-light); font-size: 12px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #0f172a; color: white; outline: none; font-size: 13px; }
 
-        .consultation-form, .post-form { background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 30px; }
+        .consultation-form, .post-form { background: var(--bg-card); padding: 22px; border-radius: 12px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 25px; }
 
-        .posts-container { display: flex; flex-direction: column; gap: 20px; max-width: 850px; margin: 20px auto 0; }
-        .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: right; }
+        .posts-container { display: flex; flex-direction: column; gap: 18px; max-width: 850px; margin: 20px auto 0; }
+        .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; text-align: right; }
         .post-card.question-card { border-right: 4px solid var(--gold-light); }
-        .post-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 12px; }
-        .post-author { color: var(--gold-light); font-weight: bold; font-size: 15px; }
-        .post-date { color: var(--text-muted); font-size: 12px; }
-        .post-content { color: var(--text-light); font-size: 14px; line-height: 1.7; white-space: pre-line; }
+        .post-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; }
+        .post-author { color: var(--gold-light); font-weight: bold; font-size: 14px; }
+        .post-date { color: var(--text-muted); font-size: 11px; }
+        .post-content { color: var(--text-light); font-size: 13.5px; line-height: 1.6; white-space: pre-line; }
 
-        .reply-box { margin-top: 15px; padding: 12px; background: #0f172a; border-radius: 8px; border-right: 3px solid #3b82f6; }
-        .reply-title { color: #60a5fa; font-weight: bold; font-size: 13px; margin-bottom: 5px; }
+        .reply-box { margin-top: 12px; padding: 10px; background: #0f172a; border-radius: 8px; border-right: 3px solid #3b82f6; }
+        .reply-title { color: #60a5fa; font-weight: bold; font-size: 12px; margin-bottom: 4px; }
 
-        footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 25px; margin-top: 60px; font-size: 14px; border-top: 1px solid var(--border-color); }
+        footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 20px; margin-top: 50px; font-size: 13px; border-top: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
 
-    <!-- 1️⃣ شاشة الترحب والتسجيل الأولية (تظهر أول ما يتم فتح المنصة) -->
+    <!-- 1️⃣ شاشة الترحيب والدخول الأساسية -->
     <div id="welcome-overlay">
         <div class="welcome-card">
             <h2>مرحباً بك في منصة العدالة ⚖️</h2>
-            <p>يرجى التسجيل أو الدخول للبدء واستخدام كافة خدمات المنصة</p>
+            <p>سجل دخولك أو أنشئ حساباً جديداً للوصول لكافة الخدمات القانونية</p>
 
             <div class="role-selector">
                 <button class="role-btn active" id="btn-role-client" onclick="selectRole('client')">👤 عميل</button>
                 <button class="role-btn" id="btn-role-lawyer" onclick="selectRole('lawyer')">⚖️ محامي</button>
+                <button class="role-btn" id="btn-role-admin" onclick="selectRole('admin')">👑 أدمن</button>
             </div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button style="flex:1; padding: 8px; background: none; border: none; color: var(--gold-light); cursor: pointer; border-bottom: 2px solid var(--gold-light);" id="tab-login-btn" onclick="toggleAuthTab('login')">تسجيل دخول</button>
-                <button style="flex:1; padding: 8px; background: none; border: none; color: var(--text-muted); cursor: pointer;" id="tab-reg-btn" onclick="toggleAuthTab('reg')">إنشاء حساب</button>
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <button style="flex:1; padding: 6px; background: none; border: none; color: var(--gold-light); cursor: pointer; border-bottom: 2px solid var(--gold-light); font-weight:bold;" id="tab-login-btn" onclick="toggleAuthTab('login')">تسجيل دخول</button>
+                <button style="flex:1; padding: 6px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight:bold;" id="tab-reg-btn" onclick="toggleAuthTab('reg')">إنشاء حساب جديد</button>
             </div>
 
             <!-- نموذج الدخول -->
             <form id="welcomeLoginForm" onsubmit="handleAuthLogin(event)">
                 <div class="form-group">
-                    <label>رقم الهاتف:</label>
-                    <input type="text" id="loginPhone" placeholder="010XXXXXXXX" required>
+                    <label>رقم الهاتف أو اسم المستخدم:</label>
+                    <input type="text" id="loginPhone" placeholder="010XXXXXXXX أو admin" required>
                 </div>
                 <div class="form-group">
                     <label>كلمة السر:</label>
@@ -153,7 +151,7 @@
             <form id="welcomeRegForm" onsubmit="handleAuthRegister(event)" style="display: none;">
                 <div class="form-group">
                     <label>الاسم بالكامل:</label>
-                    <input type="text" id="regName" placeholder="أدخل اسمك الكريم" required>
+                    <input type="text" id="regName" placeholder="اسمك الكريم" required>
                 </div>
                 <div class="form-group">
                     <label>رقم الهاتف / الواتساب:</label>
@@ -179,18 +177,18 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="regPassword" required>
                 </div>
-                <button type="submit" class="btn">تسجيل ودخول المنصة ✨</button>
+                <button type="submit" class="btn">تسجيل الحساب ودخول المنصة ✨</button>
             </form>
         </div>
     </div>
 
-    <!-- 2️⃣ باقي المنصة بالكامل كما هي -->
+    <!-- 2️⃣ واجهة المنصة كاملة الأجزاء والخصائص -->
     <nav>
         <a href="#" class="logo">⚖️ منصة العدالة القانونية</a>
         <ul>
-            <li><a href="#" onclick="switchPortal('client')" class="active">👤 الاستشارات والردود</a></li>
+            <li><a href="#" onclick="switchPortal('consultations')" class="active">💬 الاستشارات</a></li>
             <li><a href="#" onclick="switchPortal('lawyers_list')">🏛️ دليل المحامين</a></li>
-            <li><a href="#" onclick="switchPortal('community')">🌐 مجتمع العدالة</a></li>
+            <li><a href="#" onclick="switchPortal('community')">🌐 المناقشات العامة</a></li>
             <li><a href="#" onclick="switchPortal('resources')">📚 المكتبة والمراجع</a></li>
             <li><a href="#" onclick="switchPortal('templates')">📄 الصيغ والعقود</a></li>
             <li id="user-info-nav"></li>
@@ -204,12 +202,11 @@
 
     <div class="container">
         
-        <!-- قسم الاستشارات والردود (للعميل والمحامي) -->
-        <div id="portal-client" class="portal-section active">
+        <!-- قسم الاستشارات والردود -->
+        <div id="portal-consultations" class="portal-section active">
             
-            <!-- نموذج إضافة استشارة (يظهر للعميل) -->
             <div id="client-add-consultation" class="consultation-form">
-                <h3 style="color: var(--gold-light); margin-top:0; text-align:center;">⚖️ إضافة استشارة قانونية جديدة</h3>
+                <h3 style="color: var(--gold-light); margin-top:0; text-align:center;">⚖️ تقديم استشارة قانونية جديدة</h3>
                 <form onsubmit="handleConsultationSubmit(event)">
                     <div class="form-group">
                         <label>نوع الاستشارة / التخصص:</label>
@@ -221,45 +218,45 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>تفاصيل الموضوع:</label>
-                        <textarea id="cDetails" rows="4" placeholder="اكتب سؤالك بوضوح ليصل للمحامين..." required></textarea>
+                        <label>تفاصيل الاستشارة:</label>
+                        <textarea id="cDetails" rows="3" placeholder="اكتب موضوعك بوضوح ليقوم المحامون بالرد عليك..." required></textarea>
                     </div>
-                    <button type="submit" class="btn">نشر الاستشارة للمحامين ⚖️</button>
+                    <button type="submit" class="btn">نشر الاستشارة ⚖️</button>
                 </form>
             </div>
 
-            <h2 class="section-title">💬 الاستشارات القانونية وإجابات المحامين</h2>
+            <h2 class="section-title">💬 جدول الاستشارات وإجابات المحامين</h2>
             <div class="posts-container" id="consultations-list-container">
                 <p style="text-align:center; color: var(--text-muted);">جاري تحميل الاستشارات...</p>
             </div>
         </div>
 
-        <!-- قسم دليل المحامين -->
+        <!-- دليل المحامين المكتمل (بيانات الشيت + المحامين المسجلين الجدد) -->
         <div id="portal-lawyers_list" class="portal-section">
-            <h2 class="section-title">🏛️ دليل المحامين المسجلين في المنصة</h2>
+            <h2 class="section-title">🏛️ دليل المحامين المعتمدين بالمنصة</h2>
             <div class="grid" id="lawyers-cards-container">
-                <p style="text-align:center; color: var(--text-muted);">جاري تحميل قائمة المحامين...</p>
+                <!-- بيانات المحامين من الشيت التراثي + تسجيلات المحامين الجدد ستظهر هنا تلقائياً -->
             </div>
         </div>
 
-        <!-- مجتمع العدالة -->
+        <!-- المناقشات القانونية (العميل والمحامي والأدمن يستطيعون النشر هنا) -->
         <div id="portal-community" class="portal-section">
-            <h2 class="section-title">🌐 مجتمع العدالة والمناقشات القانونية</h2>
+            <h2 class="section-title">🌐 مجتمع المناقشات والمقالات القانونية</h2>
             <div class="post-form">
                 <form onsubmit="handlePostSubmit(event)">
                     <div class="form-group">
-                        <label>كتابة منشور أو مقال قانوني جديد:</label>
-                        <textarea id="postContent" rows="3" placeholder="شارِك المحامين والعملاء برأيك، تحليل قانوني، أو استفسار عام..." required></textarea>
+                        <label>كتابة منشور أو استفسار قانوني عام (متاح للعميل والمحامي والأدمن):</label>
+                        <textarea id="postContent" rows="3" placeholder="شارِك الجميع برأيك، تحليل قانوني، أو سؤال عام..." required></textarea>
                     </div>
                     <button type="submit" class="btn">مشاركة المنشور 🔥</button>
                 </form>
             </div>
             <div class="posts-container" id="community-posts-container">
-                <p style="text-align:center; color: var(--text-muted);">جاري تحميل المنشورات...</p>
+                <p style="text-align:center; color: var(--text-muted);">جاري تحميل المنشورات والمناقشات...</p>
             </div>
         </div>
 
-        <!-- المكتبة والمراجع -->
+        <!-- المكتبة والمراجع القانونية -->
         <div id="portal-resources" class="portal-section">
             <h2 class="section-title">📚 المكتبة والمراجع القانونية الرسمية</h2>
             <div class="grid">
@@ -324,6 +321,13 @@
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // بيانات دليل المحامين المحفوظة (من الإكسيل الأصلي)
+        const staticExcelLawyers = [
+            { name: "أحمد محمود الفولي", city: "القاهرة", spec: "قضايا مدنية وعقود", phone: "01000000001" },
+            { name: "محمد علي السيد", city: "الجيزة", spec: "قضايا جنائية ومحاكمات", phone: "01000000002" },
+            { name: "محمود حسن إبراهيم", city: "الإسكندرية", spec: "أحوال شخصية وشؤون أسرة", phone: "01000000003" }
+        ];
+
         let selectedRole = 'client';
         let currentUser = JSON.parse(localStorage.getItem('user_session')) || null;
 
@@ -343,6 +347,7 @@
             selectedRole = role;
             document.getElementById('btn-role-client').classList.toggle('active', role === 'client');
             document.getElementById('btn-role-lawyer').classList.toggle('active', role === 'lawyer');
+            document.getElementById('btn-role-admin').classList.toggle('active', role === 'admin');
             document.getElementById('lawyerInputs').style.display = (role === 'lawyer') ? 'block' : 'none';
         }
 
@@ -377,7 +382,7 @@
             ]).select();
 
             if (error) {
-                alert("خطأ: " + error.message);
+                alert("تعذر التسجيل (قد يكون رقم الهاتف مستخدماً): " + error.message);
             } else {
                 currentUser = data[0];
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
@@ -392,6 +397,17 @@
             e.preventDefault();
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
+
+            // حساب الأدمن الرئيسي الخاص بكِ
+            if ((phone === 'admin' || phone === '01000000000') && password === 'admin123') {
+                currentUser = { name: "المدير العام (Admin)", phone: "01000000000", role: "admin" };
+                localStorage.setItem('user_session', JSON.stringify(currentUser));
+                document.getElementById('welcome-overlay').style.display = 'none';
+                updateNavUI();
+                loadConsultations();
+                loadLawyersList();
+                return;
+            }
 
             const { data, error } = await supabaseClient.from('site_users')
                 .select('*')
@@ -414,14 +430,17 @@
         function updateNavUI() {
             const navInfo = document.getElementById('user-info-nav');
             if (currentUser) {
-                const badgeText = currentUser.role === 'lawyer' ? '⚖️ أ. ' : '👤 ';
+                let badgeText = '👤 ';
+                if (currentUser.role === 'lawyer') badgeText = '⚖️ أ. ';
+                if (currentUser.role === 'admin') badgeText = '👑 أدمن: ';
+
                 navInfo.innerHTML = `
                     <span class="user-badge">${badgeText}${currentUser.name}</span>
-                    <a href="#" onclick="handleLogout()" style="color: #ef4444; font-size:12px; margin-right:5px;">(خروج)</a>
+                    <a href="#" onclick="handleLogout()" style="color: #ef4444; font-size:12px; margin-right:6px;">(خروج)</a>
                 `;
 
-                // إخفاء نموذج كتابة الاستشارة إذا كان المستخدم محامياً
-                if (currentUser.role === 'lawyer') {
+                // إخفاء صندوق الاستشارة فقط إذا كان المستخدم أدمن أو محامي
+                if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
                     document.getElementById('client-add-consultation').style.display = 'none';
                 } else {
                     document.getElementById('client-add-consultation').style.display = 'block';
@@ -439,12 +458,11 @@
             document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
             document.getElementById('portal-' + type).classList.add('active');
             
-            // تحديث التبويب النشط في القائمة
             document.querySelectorAll('nav ul li a').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // إرسال استشارة جديدة
+        // تقديم استشارة للعميل
         async function handleConsultationSubmit(e) {
             e.preventDefault();
             const type = document.getElementById('cType').value;
@@ -458,13 +476,13 @@
             if (error) {
                 alert("حدث خطأ أثناء الإرسال: " + error.message);
             } else {
-                alert("تم نشر استشارتك بنجاح!");
+                alert("تم نشر استشارتك بنجاح! سيتم الرد عليها من المحامين.");
                 document.getElementById('cDetails').value = '';
                 loadConsultations();
             }
         }
 
-        // تحميل الاستشارات
+        // تحميل جدول الاستشارات
         async function loadConsultations() {
             const container = document.getElementById('consultations-list-container');
 
@@ -479,7 +497,8 @@
             if (questions && questions.length > 0) {
                 questions.forEach(q => {
                     const isMyQuestion = currentUser && q.tracking_code === currentUser.phone;
-                    const canReply = currentUser && currentUser.role === 'lawyer';
+                    // زر الرد متاح للمحامي والأدمن فقط!
+                    const canReply = currentUser && (currentUser.role === 'lawyer' || currentUser.role === 'admin');
 
                     container.innerHTML += `
                         <div class="post-card question-card">
@@ -494,46 +513,65 @@
                                 <div>${q.reply ? q.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
                             </div>
 
-                            ${canReply ? `<button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد محامي'}</button>` : ''}
+                            ${canReply ? `<button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد قانوني'}</button>` : ''}
                         </div>
                     `;
                 });
             } else {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد استشارات حالياً.</p>';
+                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد استشارات معروضة حالياً.</p>';
             }
         }
 
-        // إضافة رد المحامي
+        // رد المحامي أو الأدمن
         async function submitReply(postId) {
-            if (!currentUser || currentUser.role !== 'lawyer') return;
+            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) return;
 
-            const replyText = prompt("اكتب الرد القانوني:");
+            const replyText = prompt("اكتب الرد القانوني على هذه الاستشارة:");
             if (replyText) {
-                const fullReply = `أ. ${currentUser.name} (${currentUser.city || 'محامي'}):\n${replyText}`;
+                const fullReply = `أ. ${currentUser.name} (${currentUser.role === 'admin' ? 'إدارة المنصة' : currentUser.city || 'محامي'}):\n${replyText}`;
                 const { error } = await supabaseClient.from('posts').update({ reply: fullReply }).eq('id', postId);
                 if (error) {
                     alert("حدث خطأ: " + error.message);
                 } else {
-                    alert("تم حفظ الرد بنجاح!");
+                    alert("تم إرسال وحفظ الرد بنجاح!");
                     loadConsultations();
                 }
             }
         }
 
-        // تحميل دليل المحامين
+        // تحميل دليل المحامين (شيت الإكسيل + الحسابات الجديدة)
         async function loadLawyersList() {
             const container = document.getElementById('lawyers-cards-container');
-            const { data: lawyers } = await supabaseClient.from('site_users')
+            
+            // جلب المحامين الجدد المسجلين بـ Supabase
+            const { data: dbLawyers } = await supabaseClient.from('site_users')
                 .select('*')
                 .eq('role', 'lawyer');
 
             container.innerHTML = '';
-            if (lawyers && lawyers.length > 0) {
-                lawyers.forEach(l => {
+
+            // 1. عرض محامي شيت الإكسيل المحفوظين مسبقاً
+            staticExcelLawyers.forEach(l => {
+                container.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <span class="tag">محامي معتمد ⚖️</span>
+                            <h3>أ. ${l.name}</h3>
+                            <p>📍 <strong>المحافظة:</strong> ${l.city}</p>
+                            <p>⚖️ <strong>التخصص:</strong> ${l.spec}</p>
+                        </div>
+                        <a href="https://wa.me/2${l.phone}" target="_blank" class="btn" style="background-color:#25d366;">تواصل واتساب 💬</a>
+                    </div>
+                `;
+            });
+
+            // 2. عرض المحامين الجدد الذين سجلوا بالمنصة حديثاً
+            if (dbLawyers && dbLawyers.length > 0) {
+                dbLawyers.forEach(l => {
                     container.innerHTML += `
                         <div class="card">
                             <div>
-                                <span class="tag">محامي مفعّل ⚖️</span>
+                                <span class="tag" style="background:rgba(59,130,246,0.2); color:#60a5fa;">محامي مسجل حديثاً ✨</span>
                                 <h3>أ. ${l.name}</h3>
                                 <p>📍 <strong>المحافظة:</strong> ${l.city || 'غير محددة'}</p>
                                 <p>🏢 <strong>المكتب:</strong> ${l.address || 'مكتب خاص'}</p>
@@ -542,16 +580,17 @@
                         </div>
                     `;
                 });
-            } else {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا يوجد محامين مسجلين حالياً.</p>';
             }
         }
 
-        // تحميل ومشاركة المنشورات العامة
+        // المناقشات القانونية (مفتوحة للعميل والمحامي والأدمن)
         async function handlePostSubmit(e) {
             e.preventDefault();
             const content = document.getElementById('postContent').value;
-            const authorTitle = currentUser.role === 'lawyer' ? `أ. ${currentUser.name} (محامي)` : currentUser.name;
+            
+            let authorTitle = currentUser.name;
+            if (currentUser.role === 'lawyer') authorTitle = `أ. ${currentUser.name} (محامي)`;
+            if (currentUser.role === 'admin') authorTitle = `👑 ${currentUser.name}`;
 
             const { error } = await supabaseClient.from('posts').insert([
                 { author: authorTitle, content: content, type: 'general' }
@@ -560,6 +599,7 @@
             if (error) {
                 alert("خطأ: " + error.message);
             } else {
+                alert("تم نشر مشاركتك بصفحة المناقشات بنجاح!");
                 document.getElementById('postContent').value = '';
                 loadCommunityPosts();
             }
@@ -586,7 +626,7 @@
                     `;
                 });
             } else {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد منشورات حالياً.</p>';
+                container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">لا توجد منشورات حالياً، كن أول من يشارك!</p>';
             }
         }
     </script>
