@@ -401,17 +401,47 @@
             </div>
         </div>
 
-        <!-- المكتبة والمراجع -->
+        <!-- المكتبة والمراجع المحدثة والآمنة -->
         <div id="portal-resources" class="portal-section">
             <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
-            <div class="grid">
+            
+            <!-- نموذج إضافة كتاب / مرجع جديد (يظهر للمحامي والأدمن فقط) -->
+            <div id="add-resource-box" class="post-form" style="display: none; margin-bottom: 30px;">
+                <h3 style="color: var(--gold-light); margin-top: 0; text-align: center;">📥 إضافة مرجع / كتاب جديد للمكتبة</h3>
+                <form id="newResourceForm" onsubmit="handleAddResource(event)">
+                    <div class="form-group">
+                        <label>عنوان المرجع / الملف:</label>
+                        <input type="text" id="resTitle" placeholder="مثال: صيغ دعاوى صحة ونفاذ PDF" required>
+                    </div>
+                    <div class="form-group">
+                        <label>التصنيف / القسم:</label>
+                        <select id="resCategory" required>
+                            <option value="صيغ ونماذج">صيغ ونماذج عقود ودعاوى</option>
+                            <option value="تشريعات وقوانين">تشريعات وقوانين رسمية</option>
+                            <option value="أحكام ونقض">أحكام ومبادئ النقض</option>
+                            <option value="كتب ومذكرات">كتب ومذكرات قانونية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>وصف مختصر:</label>
+                        <input type="text" id="resDesc" placeholder="شرح مختصر لما يحتويه الملف..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>رابط التحميل / الملف (PDF):</label>
+                        <input type="url" id="resLink" placeholder="https://..." required>
+                    </div>
+                    <button type="submit" class="btn">إضافة المرجع للمكتبة 💾</button>
+                </form>
+            </div>
+
+            <div class="grid" id="resources-list-container">
                 <div class="card">
                     <div>
                         <span class="tag">صيغ ونماذج</span>
                         <h3>صيغ الدعاوى والعقود</h3>
                         <p>مجموعة شاملة من أهم صيغ الدعاوى المدنية والجنائية والأحوال الشخصية والعقود التجارية.</p>
                     </div>
-                    <a href="https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%AA" target="_blank" class="btn">تصفح الصيغ القانونية 📄</a>
+                    <button onclick="downloadResource('https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%AA')" class="btn">تصفح الصيغ القانونية 📄</button>
                 </div>
                 <div class="card">
                     <div>
@@ -419,7 +449,7 @@
                         <h3>بوابة التشريعات المصرية والعربية</h3>
                         <p>الاطلاع على أحدث القوانين واللوائح والتعديلات التشريعية الصادرة في الجريدة الرسمية.</p>
                     </div>
-                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">المحكمة الدستورية العليا ⚖️</a>
+                    <button onclick="downloadResource('https://www.cc.gov.eg')" class="btn">المحكمة الدستورية العليا ⚖️</button>
                 </div>
             </div>
         </div>
@@ -523,6 +553,7 @@
             loadSheetData();
             loadPosts();
             loadLawyerQuestions();
+            loadDynamicResources();
         };
 
         function toggleFaq(element) {
@@ -624,6 +655,7 @@
             const userBadge = document.getElementById('user-nav-badge');
             const lawyerPostBox = document.getElementById('lawyer-post-publish-box');
             const lawyerJoinWrapper = document.getElementById('lawyer-join-form-wrapper');
+            const addResourceBox = document.getElementById('add-resource-box');
             const adminNav = document.getElementById('nav-admin-link');
             
             if (!currentUser) return;
@@ -646,12 +678,14 @@
             if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
                 lawyerPostBox.style.display = 'block';
                 lawyerJoinWrapper.style.display = 'block';
+                addResourceBox.style.display = 'block';
                 if (document.getElementById('postAuthor')) {
                     document.getElementById('postAuthor').value = `أ. ${currentUser.name}`;
                 }
             } else {
                 lawyerPostBox.style.display = 'none';
                 lawyerJoinWrapper.style.display = 'none';
+                addResourceBox.style.display = 'none';
             }
 
             if (currentUser.role === 'admin') {
@@ -665,6 +699,7 @@
             loadSheetData();
             loadPosts();
             loadLawyerQuestions();
+            loadDynamicResources();
         }
 
         function handleLogout() {
@@ -809,6 +844,71 @@
             }
         }
 
+        /* 💡 الميزات الجديدة للمكتبة الديناميكية والحماية */
+        function downloadResource(url) {
+            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
+                alert("🔒 تحذير: هذا المرجع/الملف مخصص للمحامين المسجلين بالمنصة فقط!\nيرجى التسجيل كـ (محامي) للتحكم والوصول الكامل.");
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        async function handleAddResource(e) {
+            e.preventDefault();
+            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
+                return alert("إضافة المراجع المتاحة فقط للمحامين!");
+            }
+
+            const title = document.getElementById('resTitle').value;
+            const category = document.getElementById('resCategory').value;
+            const desc = document.getElementById('resDesc').value;
+            const link = document.getElementById('resLink').value;
+
+            const fullContent = `📌 Category: ${category}\n📝 ${desc}\n🔗 ${link}`;
+
+            const { error } = await supabaseClient.from('posts').insert([
+                { author: title, content: fullContent, type: 'library_resource' }
+            ]);
+
+            if (error) {
+                alert("حدث خطأ أثناء الإضافة: " + error.message);
+            } else {
+                alert("تم إضافة المرجع بنجاح للمكتبة! 🎉");
+                document.getElementById('newResourceForm').reset();
+                loadDynamicResources();
+            }
+        }
+
+        async function loadDynamicResources() {
+            const container = document.getElementById('resources-list-container');
+            const { data: resources, error } = await supabaseClient.from('posts')
+                .select('*')
+                .eq('type', 'library_resource')
+                .order('created_at', { ascending: false });
+
+            if (error || !resources) return;
+
+            resources.forEach(res => {
+                const isAdmin = currentUser && currentUser.role === 'admin';
+                const lines = res.content.split('\n');
+                const cat = lines[0] ? lines[0].replace('📌 Category: ', '') : 'مراجع';
+                const desc = lines[1] ? lines[1].replace('📝 ', '') : '';
+                const link = lines[2] ? lines[2].replace('🔗 ', '') : '#';
+
+                container.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <span class="tag">${cat}</span>
+                            <h3>${res.author}</h3>
+                            <p>${desc}</p>
+                        </div>
+                        <button onclick="downloadResource('${link}')" class="btn">تحميل المرجع (حصر للمحامين) 📥</button>
+                        ${isAdmin ? `<button onclick="deletePost(${res.id})" class="btn-delete">🗑️ حذف المرجع (أدمن)</button>` : ''}
+                    </div>
+                `;
+            });
+        }
+
         async function loadLawyerQuestions() {
             const container = document.getElementById('lawyer-questions-container');
             if (!container) return;
@@ -883,7 +983,7 @@
             if (confirm("هل أنت متأكد من المسح النهائي؟")) {
                 const { error } = await supabaseClient.from('posts').delete().eq('id', id);
                 if (error) alert("حدث خطأ: " + error.message);
-                else { alert("تم الحذف بنجاح!"); loadPosts(); loadLawyerQuestions(); }
+                else { alert("تم الحذف بنجاح!"); loadPosts(); loadLawyerQuestions(); loadDynamicResources(); }
             }
         }
 
@@ -1063,57 +1163,4 @@
             if (query.includes("نفقة") || query.includes("النفقة") || query.includes("مصاريف") || query.includes("قائمة") || query.includes("قيمه") || query.includes("عفش")) {
                 return "📌 **إجراءات قضايا النفقة وقائمة المنقولات:**\n\n" +
                        "▪️ **نفقة الصغار والزوجية:** رفع دعوى أمام محكمة الأسرة، وتقوم المحكمة بالتحري عن دخل الزوج (عن طريق جهة عمله أو تحري المباحث في حالة العمل الحر).\n" +
-                       "▪️ **قائمة المنقولات:** يمكن رفعها كـ **دعوى استرداد مسكن/منقولات** أمام محكمة الأسرة، أو كـ **جنحة تبديد منقولات زوجية** (المادة 341 عقوبات) بالقسم لاستلام العفش أو حبس الزوج.";
-            }
-
-            if (query.includes("إيجار") || query.includes("ايجار") || query.includes("طرد") || query.includes("شقة") || query.includes("عقد")) {
-                return "📌 **خطوات قضايا العقود والإيجارات:**\n\n" +
-                       "1️⃣ **الإيجار الجديد:** في حالة التأخر عن السداد، يتم إنذار المستأجر على يد محضر بسداد الإيجار خلال 15 يوماً، ثم إقامة دعوى إخلاء للشقة.\n" +
-                       "2️⃣ **صحة التوقيع/ ونفاذ:** لضمان الشراء يتم إيداع عقد البيع بالمحكمة لإثبات صحة توقيع البائع.\n" +
-                       "3️⃣ **المستندات المطلوب إعدادها:** أصل العقد، إنذارات المحضرين، وإيصالات السداد/الامتناع.";
-            }
-
-            if (query.includes("محضر") || query.includes("شرطة") || query.includes("قسم") || query.includes("ضرب") || query.includes("سرقة") || query.includes("شيك") || query.includes("نصب")) {
-                return "📌 **خطوات التعامل مع المحاضر والجنايات:**\n\n" +
-                       "1️⃣ الذهاب للقسم التابع لمكان الواقعة وتحرير المحضر الرسمي.\n" +
-                       "2️⃣ إرفاق التقارير الطبية (في قضايا الضرب) أو الأوراق الثبوتية/الشيكات (في قضايا النصب والشيكات).\n" +
-                       "3️⃣ متابعة رقم المحضر في القسم حتى إحالته للنيابة العامة لاستكمال التحقيق وتحديد جلسة للمحاكمة.";
-            }
-
-            if (query.includes("شكر") || query.includes("ممنون") || query.includes("يعطيك") || query.includes("شكرا") || query.includes("ربنا يخليك")) {
-                return "العفو! أنا بخدمتك دائماً ⚖️✨ إذا كان لديك أي سؤال آخر لا تتردد في طرحه.";
-            }
-
-            return `أهلاً بك! بخصوص استفسارك عن "${text}":\n\n` +
-                   `📌 **الخطوات العامة:**\n` +
-                   `1. إعداد المستندات والأوراق القانونية المؤيدة لموقفك.\n` +
-                   `2. تحديد المحكمة والجهة المختصة (أسرة / مدني / جنايات / استثمار).\n` +
-                   `3. توثيق الإجراءات بإنذار رسمي أو محضر تحريات.\n\n` +
-                   `💡 يمكنك توضيح سؤالك أكثر، أو إرسال تفاصيل موضوعك عبر نموذج **"طلب استشارة"** بالأعلى ليتواصل معك أحد محامينا المعتمدين فوراً عبر الواتساب.`;
-        }
-
-        function sendMessage() {
-            const inputField = document.getElementById('chat-input');
-            const userMsg = inputField.value.trim();
-            if (!userMsg) return;
-
-            appendMessage(userMsg, 'user');
-            inputField.value = '';
-
-            setTimeout(() => {
-                let botReply = generateAIResponse(userMsg);
-                appendMessage(botReply, 'bot');
-            }, 400);
-        }
-
-        function appendMessage(text, side) {
-            const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', side);
-            msgDiv.innerText = text;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+                       "▪️ **قائمة المنقولات:** يمكن رفعها كـ **دعوى استرداد مسكن/منقولات** أمام محكمة الأسرة، أو كـ **جنحة تب
