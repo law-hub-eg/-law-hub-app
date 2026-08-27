@@ -192,7 +192,7 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="loginPassword" required>
                 </div>
-                <button type="submit" class="btn">دخول المنصة 🔓</button>
+                <button type="submit" id="btnLoginSubmit" class="btn">دخول المنصة 🔓</button>
             </form>
 
             <form id="welcomeRegForm" onsubmit="handleAuthRegister(event)" style="display: none;">
@@ -224,7 +224,7 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="regPassword" required>
                 </div>
-                <button type="submit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
+                <button type="submit" id="btnRegSubmit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
             </form>
 
             <div style="margin-top: 25px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 15px;">
@@ -405,7 +405,6 @@
         <div id="portal-resources" class="portal-section">
             <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
             
-            <!-- نموذج إضافة كتاب / مرجع جديد (يظهر للمحامي والأدمن فقط) -->
             <div id="add-resource-box" class="post-form" style="display: none; margin-bottom: 30px;">
                 <h3 style="color: var(--gold-light); margin-top: 0; text-align: center;">📥 إضافة مرجع / كتاب جديد للمكتبة</h3>
                 <form id="newResourceForm" onsubmit="handleAddResource(event)">
@@ -534,7 +533,7 @@
 
     <script>
         const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const myPhoneNumber = "201026256284"; 
@@ -595,6 +594,10 @@
 
         async function handleAuthRegister(e) {
             e.preventDefault();
+            const btn = document.getElementById('btnRegSubmit');
+            btn.innerText = "جاري إنشاء الحساب...";
+            btn.disabled = true;
+
             const name = document.getElementById('regName').value;
             const phone = document.getElementById('regPhone').value.trim();
             const password = document.getElementById('regPassword').value;
@@ -602,28 +605,39 @@
             const city = document.getElementById('regCity')?.value || '';
             const address = document.getElementById('regAddress')?.value || '';
 
-            const { data, error } = await supabaseClient.from('site_users').insert([
-                { name, phone, password, role: selectedRole, city, address }
-            ]).select();
+            try {
+                const { data, error } = await supabaseClient.from('site_users').insert([
+                    { name, phone, password, role: selectedRole, city, address }
+                ]).select();
 
-            if (error) {
-                alert("تعذر التسجيل: " + error.message);
-            } else {
-                currentUser = data[0];
-                if (selectedRole === 'lawyer') {
-                    await supabaseClient.from('lawyers').insert([
-                        { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
-                    ]);
+                if (error) {
+                    alert("تعذر التسجيل: " + error.message);
+                } else {
+                    currentUser = data[0];
+                    if (selectedRole === 'lawyer') {
+                        await supabaseClient.from('lawyers').insert([
+                            { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
+                        ]);
+                    }
+                    localStorage.setItem('user_session', JSON.stringify(currentUser));
+                    document.getElementById('welcome-overlay').style.display = 'none';
+                    applyUserRolePermissions();
+                    loadSheetData();
                 }
-                localStorage.setItem('user_session', JSON.stringify(currentUser));
-                document.getElementById('welcome-overlay').style.display = 'none';
-                applyUserRolePermissions();
-                loadSheetData();
+            } catch (err) {
+                alert("حدث خطأ في الاتصال، يرجى المحاولة مرة أخرى.");
+            } finally {
+                btn.innerText = "إنشاء الحساب ودخول المنصة ✨";
+                btn.disabled = false;
             }
         }
 
         async function handleAuthLogin(e) {
             e.preventDefault();
+            const btn = document.getElementById('btnLoginSubmit');
+            btn.innerText = "جاري التحقق...";
+            btn.disabled = true;
+
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
 
@@ -632,22 +646,30 @@
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
                 applyUserRolePermissions();
+                btn.innerText = "دخول المنصة 🔓";
+                btn.disabled = false;
                 return;
             }
 
-            const { data, error } = await supabaseClient.from('site_users')
-                .select('*')
-                .eq('phone', phone)
-                .eq('password', password)
-                .single();
+            try {
+                const { data, error } = await supabaseClient.from('site_users')
+                    .select('*')
+                    .eq('phone', phone)
+                    .eq('password', password);
 
-            if (error || !data) {
-                alert("رقم الهاتف أو كلمة السر غير صحيحة!");
-            } else {
-                currentUser = data;
-                localStorage.setItem('user_session', JSON.stringify(currentUser));
-                document.getElementById('welcome-overlay').style.display = 'none';
-                applyUserRolePermissions();
+                if (error || !data || data.length === 0) {
+                    alert("عذراً! رقم الهاتف أو كلمة السر غير صحيحة، أو لم يتم إنشاء حساب بهذا الرقم بعد.");
+                } else {
+                    currentUser = data[0];
+                    localStorage.setItem('user_session', JSON.stringify(currentUser));
+                    document.getElementById('welcome-overlay').style.display = 'none';
+                    applyUserRolePermissions();
+                }
+            } catch (err) {
+                alert("حدث خطأ أثناء الاتصال بقاعدة البيانات.");
+            } finally {
+                btn.innerText = "دخول المنصة 🔓";
+                btn.disabled = false;
             }
         }
 
@@ -786,18 +808,19 @@
 
             if (!code) return alert("يرجى إدخال كود المتابعة أولاً!");
 
-            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code).single();
+            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code);
 
-            if (error || !data) {
+            if (error || !data || data.length === 0) {
                 resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود.</p>';
             } else {
+                const item = data[0];
                 resultDiv.innerHTML = `
                     <div class="post-card" style="border-right: 4px solid var(--gold-light);">
-                        <p><strong>الاسم:</strong> ${data.author}</p>
-                        <p><strong>تفاصيل الاستشارة:</strong><br>${data.content}</p>
+                        <p><strong>الاسم:</strong> ${item.author}</p>
+                        <p><strong>تفاصيل الاستشارة:</strong><br>${item.content}</p>
                         <div class="reply-box">
                             <div class="reply-title">⚖️ رد المحامي:</div>
-                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
+                            <div>${item.reply ? item.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
                         </div>
                     </div>
                 `;
@@ -844,7 +867,6 @@
             }
         }
 
-        /* 💡 الميزات الجديدة للمكتبة الديناميكية والحماية */
         function downloadResource(url) {
             if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
                 alert("🔒 تحذير: هذا المرجع/الملف مخصص للمحامين المسجلين بالمنصة فقط!\nيرجى التسجيل كـ (محامي) للتحكم والوصول الكامل.");
@@ -1115,7 +1137,6 @@
             else { alert("تمت الإضافة بنجاح!"); loadSheetData(); }
         }
 
-        /* 🤖 دالة الذكاء الاصطناعي المطورة كلياً للإجابات والخطوات */
         function toggleChat() {
             const chatWin = document.getElementById('chat-window');
             chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
@@ -1154,13 +1175,4 @@
                 return "📌 **المستشار الذكي يوجهك للخطوات الصحيحة:**\n\n" +
                        "لإفادتك بالخطوات القانونية الدقيقة، يرجى تحديد نوع الموضوع:\n" +
                        "🔹 **قضايا الأسرة:** (طلاق، خلع، نفقة، حضانة، قائمة منقولات)\n" +
-                       "🔹 **عقود وعقارات:** (بيع، إيجار جديد/قديم، صحة توقيع، طرد)\n" +
-                       "🔹 **قضايا جنائية:** (محضر شرطة، النيابة، جنحة، شيك بدون رصيد)\n" +
-                       "🔹 **شركات وتجارية:** (تأسيس شركة، سجل تجاري، عقود عمل)\n\n" +
-                       "اكتب اسم موضوعك وسأشرح لك الخطوات بالتفصيل والمستندات المطلوبة!";
-            }
-
-            if (query.includes("نفقة") || query.includes("النفقة") || query.includes("مصاريف") || query.includes("قائمة") || query.includes("قيمه") || query.includes("عفش")) {
-                return "📌 **إجراءات قضايا النفقة وقائمة المنقولات:**\n\n" +
-                       "▪️ **نفقة الصغار والزوجية:** رفع دعوى أمام محكمة الأسرة، وتقوم المحكمة بالتحري عن دخل الزوج (عن طريق جهة عمله أو تحري المباحث في حالة العمل الحر).\n" +
-                       "▪️ **قائمة المنقولات:** يمكن رفعها كـ **دعوى استرداد مسكن/منقولات** أمام محكمة الأسرة، أو كـ **جنحة تب
+          
