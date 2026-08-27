@@ -1150,6 +1150,28 @@
             if (e.key === 'Enter') sendMessage();
         }
 
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesDiv = document.getElementById('chat-messages');
+            
+            // إضافة رسالة المستخدم
+            messagesDiv.innerHTML += `<div class="message user">${message}</div>`;
+            input.value = '';
+
+            // التمرير لأسفل
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // إجابة البوت
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                messagesDiv.innerHTML += `<div class="message bot">${response}</div>`;
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 400);
+        }
+
         function generateAIResponse(text) {
             const query = text.toLowerCase().trim();
 
@@ -1166,13 +1188,4 @@
                 return "📌 **خطوات وإجراءات دعوى الخلع:**\n\n" +
                        "1️⃣ **طلب مكتب التسوية:** تقديم طلب بمحكمة الأسرة لتسوية النزاع.\n" +
                        "2️⃣ **إقامة الدعوى:** إيداع صحيفة الدعوى وتحديد جلسة.\n" +
-                       "3️⃣ **رد مقدم الصداق:** إيداع مبلغ المهر (مقدم الصداق المذكور في قسيمة الزواج) خزانة المحكمة لصالح الزوج.\n" +
-                       "4️⃣ **الإقرار والنزول:** الإقرار أمام القاضي بتنازل الزوجة عن كافة حقوقها المالية والشرعية (المؤخر ونفقة المتعة والعدة).\n\n" +
-                       "⚠️ *تنبيه:* الخلع لا يسقط حقوق الأطفال من نفقة وحضانة وأجر مسكن.";
-            }
-
-            if (query.includes("اعمل") || query.includes("إجراءات") || query.includes("اجراءات") || query.includes("خطوات") || query.includes("ازاي") || query.includes("إزاي")) {
-                return "📌 **المستشار الذكي يوجهك للخطوات الصحيحة:**\n\n" +
-                       "لإفادتك بالخطوات القانونية الدقيقة، يرجى تحديد نوع الموضوع:\n" +
-                       "🔹 **قضايا الأسرة:** (طلاق، خلع، نفقة، حضانة، قائمة منقولات)\n" +
-          
+                    
