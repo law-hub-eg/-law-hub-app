@@ -6,8 +6,8 @@
     <meta name="google-site-verification" content="aBaQQd-3MtdnhyPm_IYegX1l8qnLRbz22tOASAwB06o" />
     <title>منصة العدالة للمحاماة والخدمات القانونية ⚖️</title>
     
-    <!-- تحميل مكتبة Supabase مع رابط احتياطي لضمان التحميل -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -174,13 +174,13 @@
             <p>المنصة القانونية التفاعلية الأولى للاستشارات والخدمات القانونية</p>
 
             <div class="role-selector">
-                <button type="button" class="role-btn active" id="btn-role-client" onclick="selectRole('client')">👤 عميل</button>
-                <button type="button" class="role-btn" id="btn-role-lawyer" onclick="selectRole('lawyer')">⚖️ محامي</button>
+                <button class="role-btn active" id="btn-role-client" onclick="selectRole('client')">👤 عميل</button>
+                <button class="role-btn" id="btn-role-lawyer" onclick="selectRole('lawyer')">⚖️ محامي</button>
             </div>
 
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-                <button type="button" style="flex:1; padding: 6px; background: none; border: none; color: var(--gold-light); cursor: pointer; border-bottom: 2px solid var(--gold-light); font-weight:bold;" id="tab-login-btn" onclick="toggleAuthTab('login')">تسجيل دخول</button>
-                <button type="button" style="flex:1; padding: 6px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight:bold;" id="tab-reg-btn" onclick="toggleAuthTab('reg')">إنشاء حساب جديد</button>
+                <button style="flex:1; padding: 6px; background: none; border: none; color: var(--gold-light); cursor: pointer; border-bottom: 2px solid var(--gold-light); font-weight:bold;" id="tab-login-btn" onclick="toggleAuthTab('login')">تسجيل دخول</button>
+                <button style="flex:1; padding: 6px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight:bold;" id="tab-reg-btn" onclick="toggleAuthTab('reg')">إنشاء حساب جديد</button>
             </div>
 
             <form id="welcomeLoginForm" onsubmit="handleAuthLogin(event)">
@@ -192,7 +192,7 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="loginPassword" required>
                 </div>
-                <button type="submit" id="btnLoginSubmit" class="btn">دخول المنصة 🔓</button>
+                <button type="submit" class="btn">دخول المنصة 🔓</button>
             </form>
 
             <form id="welcomeRegForm" onsubmit="handleAuthRegister(event)" style="display: none;">
@@ -224,7 +224,7 @@
                     <label>كلمة السر:</label>
                     <input type="password" id="regPassword" required>
                 </div>
-                <button type="submit" id="btnRegSubmit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
+                <button type="submit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
             </form>
 
             <div style="margin-top: 25px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 15px;">
@@ -327,7 +327,7 @@
                     <label>أدخل كود المتابعة الخاص بك (مثال: LAW-1234):</label>
                     <input type="text" id="trackCodeInput" placeholder="أدخل الكود هنا">
                 </div>
-                <button type="button" onclick="trackConsultation()" class="btn">عرض رد المحامي 🔎</button>
+                <button onclick="trackConsultation()" class="btn">عرض رد المحامي 🔎</button>
                 <div id="trackResult" style="margin-top: 15px;"></div>
             </div>
 
@@ -401,46 +401,17 @@
             </div>
         </div>
 
-        <!-- المكتبة والمراجع المحدثة والآمنة -->
+        <!-- المكتبة والمراجع -->
         <div id="portal-resources" class="portal-section">
             <h2 class="section-title">📚 المكتبة والمراجع القانونية الشاملة</h2>
-            
-            <div id="add-resource-box" class="post-form" style="display: none; margin-bottom: 30px;">
-                <h3 style="color: var(--gold-light); margin-top: 0; text-align: center;">📥 إضافة مرجع / كتاب جديد للمكتبة</h3>
-                <form id="newResourceForm" onsubmit="handleAddResource(event)">
-                    <div class="form-group">
-                        <label>عنوان المرجع / الملف:</label>
-                        <input type="text" id="resTitle" placeholder="مثال: صيغ دعاوى صحة ونفاذ PDF" required>
-                    </div>
-                    <div class="form-group">
-                        <label>التصنيف / القسم:</label>
-                        <select id="resCategory" required>
-                            <option value="صيغ ونماذج">صيغ ونماذج عقود ودعاوى</option>
-                            <option value="تشريعات وقوانين">تشريعات وقوانين رسمية</option>
-                            <option value="أحكام ونقض">أحكام ومبادئ النقض</option>
-                            <option value="كتب ومذكرات">كتب ومذكرات قانونية</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>وصف مختصر:</label>
-                        <input type="text" id="resDesc" placeholder="شرح مختصر لما يحتويه الملف..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>رابط التحميل / الملف (PDF):</label>
-                        <input type="url" id="resLink" placeholder="https://..." required>
-                    </div>
-                    <button type="submit" class="btn">إضافة المرجع للمكتبة 💾</button>
-                </form>
-            </div>
-
-            <div class="grid" id="resources-list-container">
+            <div class="grid">
                 <div class="card">
                     <div>
                         <span class="tag">صيغ ونماذج</span>
                         <h3>صيغ الدعاوى والعقود</h3>
                         <p>مجموعة شاملة من أهم صيغ الدعاوى المدنية والجنائية والأحوال الشخصية والعقود التجارية.</p>
                     </div>
-                    <button type="button" onclick="downloadResource('https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%AA')" class="btn">تصفح الصيغ القانونية 📄</button>
+                    <a href="https://www.google.com/search?q=%DD%D9%8A%D8%BA+%D8%AF%D8%B9%D8%A7%D9%88%D9%89+%D9%88%D8%B9%D9%82%D9%88%D8%AF+%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A%D8%AA" target="_blank" class="btn">تصفح الصيغ القانونية 📄</a>
                 </div>
                 <div class="card">
                     <div>
@@ -448,7 +419,7 @@
                         <h3>بوابة التشريعات المصرية والعربية</h3>
                         <p>الاطلاع على أحدث القوانين واللوائح والتعديلات التشريعية الصادرة في الجريدة الرسمية.</p>
                     </div>
-                    <button type="button" onclick="downloadResource('https://www.cc.gov.eg')" class="btn">المحكمة الدستورية العليا ⚖️</button>
+                    <a href="https://www.cc.gov.eg" target="_blank" class="btn">المحكمة الدستورية العليا ⚖️</a>
                 </div>
             </div>
         </div>
@@ -500,7 +471,7 @@
                     <label>رقم الواتساب / الهاتف:</label>
                     <input type="text" id="admin-lawyer-phone" placeholder="مثال: 010xxxxxxxx">
                 </div>
-                <button type="button" onclick="adminAddLawyer()" class="btn">إضافة فورية لقاعدة البيانات 💾</button>
+                <button onclick="adminAddLawyer()" class="btn">إضافة فورية لقاعدة البيانات 💾</button>
             </div>
         </div>
 
@@ -511,14 +482,14 @@
     </footer>
 
     <!-- شات المستشار الذكي -->
-    <button type="button" id="chat-toggle-btn" onclick="toggleChat()">🤖 المستشار القانوني الذكي</button>
+    <button id="chat-toggle-btn" onclick="toggleChat()">🤖 المستشار القانوني الذكي</button>
 
     <div id="chat-window">
         <div class="chat-header">
             <span>⚖️ المستشار الذكي (AI Legal Assistant)</span>
             <div>
-                <button type="button" onclick="toggleFullScreenChat()" title="تكبير/تصغير الشاشة">⛶</button>
-                <button type="button" onclick="toggleChat()">✕</button>
+                <button onclick="toggleFullScreenChat()" title="تكبير/تصغير الشاشة">⛶</button>
+                <button onclick="toggleChat()">✕</button>
             </div>
         </div>
         <div class="chat-messages" id="chat-messages">
@@ -527,21 +498,14 @@
         </div>
         <div class="chat-input-area">
             <input type="text" id="chat-input" placeholder="اكتب سؤالك أو موضوعك هنا..." onkeypress="handleKeyPress(event)">
-            <button type="button" onclick="sendMessage()">إرسال</button>
+            <button onclick="sendMessage()">إرسال</button>
         </div>
     </div>
 
     <script>
-        // تهيئة Supabase مع وضع الحماية والأمان في حالة عدم التحميل
         const SUPABASE_URL = "https://xhnombonshlyvzdmmnwt.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
-        
-        let supabaseClient = null;
-        if (typeof supabase !== 'undefined') {
-            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        } else {
-            console.warn("تنبيه: تعذر تحميل مكتبة Supabase عبر CDN، جاري وضع التطبيق في وضع الاستجابة المحلية.");
-        }
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhobm9tYm9uc2hseXZ6ZG1tbnd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NjEyODMsImV4cCI6MjEwMzIzNzI4M30.Ow_DFNo7Zxnv6DpdBPZxEOUBfRdThQ1of3OEThajF8I";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const myPhoneNumber = "201026256284"; 
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdX7mNGyXPWI4yoIE_cRF0DfbTyC6hrHL2lHZ2l0ZHM_1Myhj7879aUtqpmBhm-ECPVrKAp_ECFPhG/pub?output=tsv";
@@ -559,7 +523,6 @@
             loadSheetData();
             loadPosts();
             loadLawyerQuestions();
-            loadDynamicResources();
         };
 
         function toggleFaq(element) {
@@ -601,10 +564,6 @@
 
         async function handleAuthRegister(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnRegSubmit');
-            btn.innerText = "جاري إنشاء الحساب...";
-            btn.disabled = true;
-
             const name = document.getElementById('regName').value;
             const phone = document.getElementById('regPhone').value.trim();
             const password = document.getElementById('regPassword').value;
@@ -612,46 +571,28 @@
             const city = document.getElementById('regCity')?.value || '';
             const address = document.getElementById('regAddress')?.value || '';
 
-            try {
-                if (supabaseClient) {
-                    const { data, error } = await supabaseClient.from('site_users').insert([
-                        { name, phone, password, role: selectedRole, city, address }
-                    ]).select();
+            const { data, error } = await supabaseClient.from('site_users').insert([
+                { name, phone, password, role: selectedRole, city, address }
+            ]).select();
 
-                    if (error) {
-                        alert("تعذر التسجيل: " + error.message);
-                        btn.innerText = "إنشاء الحساب ودخول المنصة ✨";
-                        btn.disabled = false;
-                        return;
-                    }
-                    currentUser = data[0];
-                    if (selectedRole === 'lawyer') {
-                        await supabaseClient.from('lawyers').insert([
-                            { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
-                        ]);
-                    }
-                } else {
-                    currentUser = { name, phone, role: selectedRole, city, address };
+            if (error) {
+                alert("تعذر التسجيل: " + error.message);
+            } else {
+                currentUser = data[0];
+                if (selectedRole === 'lawyer') {
+                    await supabaseClient.from('lawyers').insert([
+                        { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
+                    ]);
                 }
-
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
                 applyUserRolePermissions();
                 loadSheetData();
-            } catch (err) {
-                alert("حدث خطأ أثناء الاتصال.");
-            } finally {
-                btn.innerText = "إنشاء الحساب ودخول المنصة ✨";
-                btn.disabled = false;
             }
         }
 
         async function handleAuthLogin(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnLoginSubmit');
-            btn.innerText = "جاري التحقق...";
-            btn.disabled = true;
-
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
 
@@ -660,37 +601,22 @@
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
                 applyUserRolePermissions();
-                btn.innerText = "دخول المنصة 🔓";
-                btn.disabled = false;
                 return;
             }
 
-            try {
-                if (supabaseClient) {
-                    const { data, error } = await supabaseClient.from('site_users')
-                        .select('*')
-                        .eq('phone', phone)
-                        .eq('password', password);
+            const { data, error } = await supabaseClient.from('site_users')
+                .select('*')
+                .eq('phone', phone)
+                .eq('password', password)
+                .single();
 
-                    if (error || !data || data.length === 0) {
-                        alert("عذراً! رقم الهاتف أو كلمة السر غير صحيحة.");
-                        btn.innerText = "دخول المنصة 🔓";
-                        btn.disabled = false;
-                        return;
-                    }
-                    currentUser = data[0];
-                } else {
-                    currentUser = { name: phone, phone: phone, role: selectedRole };
-                }
-
+            if (error || !data) {
+                alert("رقم الهاتف أو كلمة السر غير صحيحة!");
+            } else {
+                currentUser = data;
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
                 applyUserRolePermissions();
-            } catch (err) {
-                alert("حدث خطأ أثناء التسجيل.");
-            } finally {
-                btn.innerText = "دخول المنصة 🔓";
-                btn.disabled = false;
             }
         }
 
@@ -698,7 +624,6 @@
             const userBadge = document.getElementById('user-nav-badge');
             const lawyerPostBox = document.getElementById('lawyer-post-publish-box');
             const lawyerJoinWrapper = document.getElementById('lawyer-join-form-wrapper');
-            const addResourceBox = document.getElementById('add-resource-box');
             const adminNav = document.getElementById('nav-admin-link');
             
             if (!currentUser) return;
@@ -721,14 +646,12 @@
             if (currentUser.role === 'lawyer' || currentUser.role === 'admin') {
                 lawyerPostBox.style.display = 'block';
                 lawyerJoinWrapper.style.display = 'block';
-                addResourceBox.style.display = 'block';
                 if (document.getElementById('postAuthor')) {
                     document.getElementById('postAuthor').value = `أ. ${currentUser.name}`;
                 }
             } else {
                 lawyerPostBox.style.display = 'none';
                 lawyerJoinWrapper.style.display = 'none';
-                addResourceBox.style.display = 'none';
             }
 
             if (currentUser.role === 'admin') {
@@ -742,7 +665,6 @@
             loadSheetData();
             loadPosts();
             loadLawyerQuestions();
-            loadDynamicResources();
         }
 
         function handleLogout() {
@@ -787,19 +709,16 @@
                 const trackingCode = 'LAW-' + Math.floor(1000 + Math.random() * 9000);
                 const fullContent = `📌 **نوع الاستشارة:** ${type}\n\n📝 **التفاصيل:** ${details}`;
 
-                if (supabaseClient) {
-                    const { error } = await supabaseClient.from('posts').insert([
-                        { author: name, content: fullContent, type: 'lawyer_only_question', tracking_code: trackingCode }
-                    ]);
-                    if (error) alert("حدث خطأ أثناء الإرسال: " + error.message);
-                    else {
-                        alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]`);
-                        document.getElementById('unifiedConsultationForm').reset();
-                        loadLawyerQuestions();
-                    }
+                const { error } = await supabaseClient.from('posts').insert([
+                    { author: name, content: fullContent, type: 'lawyer_only_question', tracking_code: trackingCode }
+                ]);
+                
+                if (error) {
+                    alert("حدث خطأ أثناء الإرسال: " + error.message);
                 } else {
-                    alert(`تم نشر الاستشارة محلياً! \n\n🔑 كود المتابعة: [ ${trackingCode} ]`);
+                    alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]`);
                     document.getElementById('unifiedConsultationForm').reset();
+                    loadLawyerQuestions();
                 }
             }
         }
@@ -812,19 +731,17 @@
             const address = document.getElementById('dirLawyerAddress').value;
             const phone = document.getElementById('dirLawyerPhone').value;
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient.from('lawyers').insert([
-                    { name, degree, city, address, phone, type: 'lawyer' }
-                ]);
+            const { error } = await supabaseClient.from('lawyers').insert([
+                { name, degree, city, address, phone, type: 'lawyer' }
+            ]);
 
-                if (error) {
-                    alert("حدث خطأ أثناء التسجيل: " + error.message);
-                } else {
-                    alert("تم تسجيل بياناتك بنجاح ونشرك في دليل المحامين 🎉");
-                    document.getElementById('lawyerJoinDirectoryForm').reset();
-                    loadSheetData();
-                    switchPortal('client');
-                }
+            if (error) {
+                alert("حدث خطأ أثناء التسجيل: " + error.message);
+            } else {
+                alert("تم تسجيل بياناتك بنجاح ونشرك في دليل المحامين 🎉");
+                document.getElementById('lawyerJoinDirectoryForm').reset();
+                loadSheetData();
+                switchPortal('client');
             }
         }
 
@@ -834,21 +751,18 @@
 
             if (!code) return alert("يرجى إدخال كود المتابعة أولاً!");
 
-            if (!supabaseClient) return alert("ميزة المتابعة تتطلب اتصال بالسيرفر.");
+            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code).single();
 
-            const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code);
-
-            if (error || !data || data.length === 0) {
+            if (error || !data) {
                 resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود.</p>';
             } else {
-                const item = data[0];
                 resultDiv.innerHTML = `
                     <div class="post-card" style="border-right: 4px solid var(--gold-light);">
-                        <p><strong>الاسم:</strong> ${item.author}</p>
-                        <p><strong>تفاصيل الاستشارة:</strong><br>${item.content}</p>
+                        <p><strong>الاسم:</strong> ${data.author}</p>
+                        <p><strong>تفاصيل الاستشارة:</strong><br>${data.content}</p>
                         <div class="reply-box">
                             <div class="reply-title">⚖️ رد المحامي:</div>
-                            <div>${item.reply ? item.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
+                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
                         </div>
                     </div>
                 `;
@@ -861,7 +775,7 @@
             }
 
             const replyText = prompt("اكتب الرد القانوني على هذه الاستشارة:");
-            if (replyText && supabaseClient) {
+            if (replyText) {
                 const fullReply = `أ. ${currentUser.name} (${currentUser.role === 'admin' ? 'الإدارة' : 'محامي'}):\n${replyText}`;
                 const { error } = await supabaseClient.from('posts').update({ reply: fullReply }).eq('id', postId);
                 if (error) {
@@ -882,90 +796,20 @@
             const author = document.getElementById('postAuthor').value;
             const content = document.getElementById('postContent').value;
             
-            if (supabaseClient) {
-                const { error } = await supabaseClient.from('posts').insert([
-                    { author: author, content: content, type: 'article' }
-                ]);
+            const { error } = await supabaseClient.from('posts').insert([
+                { author: author, content: content, type: 'article' }
+            ]);
 
-                if (error) {
-                    alert("حدث خطأ أثناء الحفظ: " + error.message);
-                } else {
-                    alert("تم نشر المقال بنجاح!");
-                    document.getElementById('postContent').value = '';
-                    loadPosts();
-                }
-            }
-        }
-
-        function downloadResource(url) {
-            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
-                alert("🔒 تحذير: هذا المرجع/الملف مخصص للمحامين المسجلين بالمنصة فقط!\nيرجى التسجيل كـ (محامي) للتحكم والوصول الكامل.");
+            if (error) {
+                alert("حدث خطأ أثناء الحفظ: " + error.message);
             } else {
-                window.open(url, '_blank');
+                alert("تم نشر المقال بنجاح!");
+                document.getElementById('postContent').value = '';
+                loadPosts();
             }
-        }
-
-        async function handleAddResource(e) {
-            e.preventDefault();
-            if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
-                return alert("إضافة المراجع المتاحة فقط للمحامين!");
-            }
-
-            const title = document.getElementById('resTitle').value;
-            const category = document.getElementById('resCategory').value;
-            const desc = document.getElementById('resDesc').value;
-            const link = document.getElementById('resLink').value;
-
-            const fullContent = `📌 Category: ${category}\n📝 ${desc}\n🔗 ${link}`;
-
-            if (supabaseClient) {
-                const { error } = await supabaseClient.from('posts').insert([
-                    { author: title, content: fullContent, type: 'library_resource' }
-                ]);
-
-                if (error) {
-                    alert("حدث خطأ أثناء الإضافة: " + error.message);
-                } else {
-                    alert("تم إضافة المرجع بنجاح للمكتبة! 🎉");
-                    document.getElementById('newResourceForm').reset();
-                    loadDynamicResources();
-                }
-            }
-        }
-
-        async function loadDynamicResources() {
-            if (!supabaseClient) return;
-            const container = document.getElementById('resources-list-container');
-            const { data: resources, error } = await supabaseClient.from('posts')
-                .select('*')
-                .eq('type', 'library_resource')
-                .order('created_at', { ascending: false });
-
-            if (error || !resources) return;
-
-            resources.forEach(res => {
-                const isAdmin = currentUser && currentUser.role === 'admin';
-                const lines = res.content.split('\n');
-                const cat = lines[0] ? lines[0].replace('📌 Category: ', '') : 'مراجع';
-                const desc = lines[1] ? lines[1].replace('📝 ', '') : '';
-                const link = lines[2] ? lines[2].replace('🔗 ', '') : '#';
-
-                container.innerHTML += `
-                    <div class="card">
-                        <div>
-                            <span class="tag">${cat}</span>
-                            <h3>${res.author}</h3>
-                            <p>${desc}</p>
-                        </div>
-                        <button type="button" onclick="downloadResource('${link}')" class="btn">تحميل المرجع (حصر للمحامين) 📥</button>
-                        ${isAdmin ? `<button type="button" onclick="deletePost(${res.id})" class="btn-delete">🗑️ حذف المرجع (أدمن)</button>` : ''}
-                    </div>
-                `;
-            });
         }
 
         async function loadLawyerQuestions() {
-            if (!supabaseClient) return;
             const container = document.getElementById('lawyer-questions-container');
             if (!container) return;
 
@@ -994,8 +838,8 @@
                             ${q.reply ? `<div class="reply-box"><div class="reply-title">⚖️ الرد الحالي:</div>${q.reply}</div>` : ''}
 
                             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                                ${canReply ? `<button type="button" onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد محامي'}</button>` : ''}
-                                ${isAdmin ? `<button type="button" onclick="deletePost(${q.id})" class="btn-delete" style="width: auto;">🗑️ مسح الاستشارة (أدمن)</button>` : ''}
+                                ${canReply ? `<button onclick="submitReply(${q.id})" class="btn-reply">💬 ${q.reply ? 'تعديل الرد' : 'إضافة رد محامي'}</button>` : ''}
+                                ${isAdmin ? `<button onclick="deletePost(${q.id})" class="btn-delete" style="width: auto;">🗑️ مسح الاستشارة (أدمن)</button>` : ''}
                             </div>
                         </div>
                     `;
@@ -1006,7 +850,6 @@
         }
 
         async function loadPosts() {
-            if (!supabaseClient) return;
             const postsContainer = document.getElementById('posts-container');
             const { data: posts, error } = await supabaseClient.from('posts')
                 .select('*')
@@ -1027,7 +870,7 @@
                                 <span class="post-date">${new Date(post.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
                             </div>
                             <div class="post-content">${post.content}</div>
-                            ${isAdmin ? `<button type="button" onclick="deletePost(${post.id})" class="btn-delete">🗑️ حذف المقال (للأدمن)</button>` : ''}
+                            ${isAdmin ? `<button onclick="deletePost(${post.id})" class="btn-delete">🗑️ حذف المقال (للأدمن)</button>` : ''}
                         </div>
                     `;
                 });
@@ -1038,11 +881,9 @@
 
         async function deletePost(id) {
             if (confirm("هل أنت متأكد من المسح النهائي؟")) {
-                if (supabaseClient) {
-                    const { error } = await supabaseClient.from('posts').delete().eq('id', id);
-                    if (error) alert("حدث خطأ: " + error.message);
-                    else { alert("تم الحذف بنجاح!"); loadPosts(); loadLawyerQuestions(); loadDynamicResources(); }
-                }
+                const { error } = await supabaseClient.from('posts').delete().eq('id', id);
+                if (error) alert("حدث خطأ: " + error.message);
+                else { alert("تم الحذف بنجاح!"); loadPosts(); loadLawyerQuestions(); }
             }
         }
 
@@ -1105,44 +946,42 @@
                     }
                 });
 
-                if (supabaseClient) {
-                    const { data: dbLawyers } = await supabaseClient.from('lawyers').select('*');
-                    if (dbLawyers) {
-                        dbLawyers.forEach(item => {
-                            const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
-                            const isAdmin = currentUser && currentUser.role === 'admin';
+                const { data: dbLawyers } = await supabaseClient.from('lawyers').select('*');
+                if (dbLawyers) {
+                    dbLawyers.forEach(item => {
+                        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+                        const isAdmin = currentUser && currentUser.role === 'admin';
 
-                            if (item.type === 'training') {
-                                hasTraining = true;
-                                trainingContainer.innerHTML += `
-                                    <div class="card">
-                                        <div>
-                                            <span class="tag">فرصة تدريب متاحة</span>
-                                            <h3>أ. ${item.name}</h3>
-                                            <p><strong>المكان:</strong> ${item.city || '-'} - ${item.address || '-'}</p>
-                                            <p><strong>درجة القيد:</strong> ${item.degree || '-'}</p>
-                                        </div>
-                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
-                                        ${isAdmin ? `<button type="button" onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف الفرصة (أدمن)</button>` : ''}
+                        if (item.type === 'training') {
+                            hasTraining = true;
+                            trainingContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">فرصة تدريب متاحة</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المكان:</strong> ${item.city || '-'} - ${item.address || '-'}</p>
+                                        <p><strong>درجة القيد:</strong> ${item.degree || '-'}</p>
                                     </div>
-                                `;
-                            } else {
-                                hasLawyers = true;
-                                lawyersContainer.innerHTML += `
-                                    <div class="card">
-                                        <div>
-                                            <span class="tag">${item.degree || 'ممارس'}</span>
-                                            <h3>أ. ${item.name}</h3>
-                                            <p><strong>المحافظة:</strong> ${item.city || '-'}</p>
-                                            <p><strong>العنوان:</strong> ${item.address || '-'}</p>
-                                        </div>
-                                        <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
-                                        ${isAdmin ? `<button type="button" onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف المكتب (أدمن)</button>` : ''}
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">التقديم وتواصل واتساب</a>
+                                    ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف الفرصة (أدمن)</button>` : ''}
+                                </div>
+                            `;
+                        } else {
+                            hasLawyers = true;
+                            lawyersContainer.innerHTML += `
+                                <div class="card">
+                                    <div>
+                                        <span class="tag">${item.degree || 'ممارس'}</span>
+                                        <h3>أ. ${item.name}</h3>
+                                        <p><strong>المحافظة:</strong> ${item.city || '-'}</p>
+                                        <p><strong>العنوان:</strong> ${item.address || '-'}</p>
                                     </div>
-                                `;
-                            }
-                        });
-                    }
+                                    <a href="https://wa.me/2${cleanPhone}" target="_blank" class="btn btn-whatsapp">تواصل عبر الواتساب</a>
+                                    ${isAdmin ? `<button onclick="deleteLawyer(${item.id})" class="btn-delete">🗑️ حذف المكتب (أدمن)</button>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
                 }
 
                 if (!hasLawyers) lawyersContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد بيانات محامين مسجلة حالياً.</p>';
@@ -1155,11 +994,9 @@
 
         async function deleteLawyer(id) {
             if (confirm("هل أنت متأكد من الحذف؟")) {
-                if (supabaseClient) {
-                    const { error } = await supabaseClient.from('lawyers').delete().eq('id', id);
-                    if (error) alert("حدث خطأ: " + error.message);
-                    else { alert("تم الحذف بنجاح!"); loadSheetData(); }
-                }
+                const { error } = await supabaseClient.from('lawyers').delete().eq('id', id);
+                if (error) alert("حدث خطأ: " + error.message);
+                else { alert("تم الحذف بنجاح!"); loadSheetData(); }
             }
         }
 
@@ -1173,13 +1010,12 @@
 
             if (!name) return alert("يرجى كتابة الاسم!");
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
-                if (error) alert("حدث خطأ: " + error.message);
-                else { alert("تمت الإضافة بنجاح!"); loadSheetData(); }
-            }
+            const { error } = await supabaseClient.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
+            if (error) alert("حدث خطأ: " + error.message);
+            else { alert("تمت الإضافة بنجاح!"); loadSheetData(); }
         }
 
+        /* 🤖 دالة الذكاء الاصطناعي المطورة كلياً للإجابات والخطوات */
         function toggleChat() {
             const chatWin = document.getElementById('chat-window');
             chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
@@ -1191,25 +1027,6 @@
 
         function handleKeyPress(e) {
             if (e.key === 'Enter') sendMessage();
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            if (!message) return;
-
-            const messagesDiv = document.getElementById('chat-messages');
-            
-            messagesDiv.innerHTML += `<div class="message user">${message}</div>`;
-            input.value = '';
-
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            setTimeout(() => {
-                const response = generateAIResponse(message);
-                messagesDiv.innerHTML += `<div class="message bot">${response}</div>`;
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 400);
         }
 
         function generateAIResponse(text) {
@@ -1237,11 +1054,65 @@
                 return "📌 **المستشار الذكي يوجهك للخطوات الصحيحة:**\n\n" +
                        "لإفادتك بالخطوات القانونية الدقيقة، يرجى تحديد نوع الموضوع:\n" +
                        "🔹 **قضايا الأسرة:** (طلاق، خلع، نفقة، حضانة، قائمة منقولات)\n" +
-                       "🔹 **القضايا المدنية والتجارية:** (عقود بيع، صحة ونفاذ، شيكات، إيجارات)\n" +
-                       "🔹 **المحاضر والجنايات:** (محاضر شرطة، جنح، استئناف)";
+                       "🔹 **عقود وعقارات:** (بيع، إيجار جديد/قديم، صحة توقيع، طرد)\n" +
+                       "🔹 **قضايا جنائية:** (محضر شرطة، النيابة، جنحة، شيك بدون رصيد)\n" +
+                       "🔹 **شركات وتجارية:** (تأسيس شركة، سجل تجاري، عقود عمل)\n\n" +
+                       "اكتب اسم موضوعك وسأشرح لك الخطوات بالتفصيل والمستندات المطلوبة!";
             }
 
-            return "أهلاً بك! يمكنك الاستفسار عن موضوعات قانونية مثل (إجراءات الطلاق، الخلع، النفقات، العقود، أو المحاضر) وسأقوم بتوضيح كافة الخطوات والمستندات المطلوبة لك.";
+            if (query.includes("نفقة") || query.includes("النفقة") || query.includes("مصاريف") || query.includes("قائمة") || query.includes("قيمه") || query.includes("عفش")) {
+                return "📌 **إجراءات قضايا النفقة وقائمة المنقولات:**\n\n" +
+                       "▪️ **نفقة الصغار والزوجية:** رفع دعوى أمام محكمة الأسرة، وتقوم المحكمة بالتحري عن دخل الزوج (عن طريق جهة عمله أو تحري المباحث في حالة العمل الحر).\n" +
+                       "▪️ **قائمة المنقولات:** يمكن رفعها كـ **دعوى استرداد مسكن/منقولات** أمام محكمة الأسرة، أو كـ **جنحة تبديد منقولات زوجية** (المادة 341 عقوبات) بالقسم لاستلام العفش أو حبس الزوج.";
+            }
+
+            if (query.includes("إيجار") || query.includes("ايجار") || query.includes("طرد") || query.includes("شقة") || query.includes("عقد")) {
+                return "📌 **خطوات قضايا العقود والإيجارات:**\n\n" +
+                       "1️⃣ **الإيجار الجديد:** في حالة التأخر عن السداد، يتم إنذار المستأجر على يد محضر بسداد الإيجار خلال 15 يوماً، ثم إقامة دعوى إخلاء للشقة.\n" +
+                       "2️⃣ **صحة التوقيع/ ونفاذ:** لضمان الشراء يتم إيداع عقد البيع بالمحكمة لإثبات صحة توقيع البائع.\n" +
+                       "3️⃣ **المستندات المطلوب إعدادها:** أصل العقد، إنذارات المحضرين، وإيصالات السداد/الامتناع.";
+            }
+
+            if (query.includes("محضر") || query.includes("شرطة") || query.includes("قسم") || query.includes("ضرب") || query.includes("سرقة") || query.includes("شيك") || query.includes("نصب")) {
+                return "📌 **خطوات التعامل مع المحاضر والجنايات:**\n\n" +
+                       "1️⃣ الذهاب للقسم التابع لمكان الواقعة وتحرير المحضر الرسمي.\n" +
+                       "2️⃣ إرفاق التقارير الطبية (في قضايا الضرب) أو الأوراق الثبوتية/الشيكات (في قضايا النصب والشيكات).\n" +
+                       "3️⃣ متابعة رقم المحضر في القسم حتى إحالته للنيابة العامة لاستكمال التحقيق وتحديد جلسة للمحاكمة.";
+            }
+
+            if (query.includes("شكر") || query.includes("ممنون") || query.includes("يعطيك") || query.includes("شكرا") || query.includes("ربنا يخليك")) {
+                return "العفو! أنا بخدمتك دائماً ⚖️✨ إذا كان لديك أي سؤال آخر لا تتردد في طرحه.";
+            }
+
+            return `أهلاً بك! بخصوص استفسارك عن "${text}":\n\n` +
+                   `📌 **الخطوات العامة:**\n` +
+                   `1. إعداد المستندات والأوراق القانونية المؤيدة لموقفك.\n` +
+                   `2. تحديد المحكمة والجهة المختصة (أسرة / مدني / جنايات / استثمار).\n` +
+                   `3. توثيق الإجراءات بإنذار رسمي أو محضر تحريات.\n\n` +
+                   `💡 يمكنك توضيح سؤالك أكثر، أو إرسال تفاصيل موضوعك عبر نموذج **"طلب استشارة"** بالأعلى ليتواصل معك أحد محامينا المعتمدين فوراً عبر الواتساب.`;
+        }
+
+        function sendMessage() {
+            const inputField = document.getElementById('chat-input');
+            const userMsg = inputField.value.trim();
+            if (!userMsg) return;
+
+            appendMessage(userMsg, 'user');
+            inputField.value = '';
+
+            setTimeout(() => {
+                let botReply = generateAIResponse(userMsg);
+                appendMessage(botReply, 'bot');
+            }, 400);
+        }
+
+        function appendMessage(text, side) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', side);
+            msgDiv.innerText = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
         }
     </script>
 </body>
