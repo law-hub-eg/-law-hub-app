@@ -26,7 +26,6 @@
         * { box-sizing: border-box; scroll-behavior: smooth; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0f19; margin: 0; padding: 0; color: var(--text-light); line-height: 1.6; }
         
-        /* 1️⃣ شاشة الترحيب والتسجيل المبدئية Overlay */
         #welcome-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -62,7 +61,6 @@
         }
         .role-btn.active { background: var(--gold-primary); border-color: var(--gold-light); box-shadow: 0 0 12px rgba(217, 119, 6, 0.4); }
 
-        /* Navbar */
         nav { background-color: var(--bg-dark); border-bottom: 2px solid var(--gold-primary); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         nav .logo { color: var(--gold-light); font-size: 20px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
@@ -71,7 +69,6 @@
 
         .user-badge { background: rgba(217, 119, 6, 0.2); color: var(--gold-light); border: 1px solid var(--gold-primary); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
 
-        /* Header */
         header { 
             position: relative; padding: 45px 20px; text-align: center;
             border-bottom: 1px solid var(--border-color);
@@ -95,13 +92,8 @@
         header h1 { margin: 0 0 10px 0; font-size: 28px; color: var(--gold-light); }
         header p { font-size: 14.5px; color: var(--text-muted); max-width: 750px; margin: 0 auto 20px; }
 
-        /* Stats Bar */
-        .stats-bar {
-            display: flex; justify-content: center; gap: 30px; margin-top: 25px; flex-wrap: wrap;
-        }
-        .stat-item {
-            background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 12px; text-align: center;
-        }
+        .stats-bar { display: flex; justify-content: center; gap: 30px; margin-top: 25px; flex-wrap: wrap; }
+        .stat-item { background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 12px; text-align: center; }
         .stat-item .num { font-size: 20px; font-weight: bold; color: var(--gold-light); }
         .stat-item .label { font-size: 12px; color: var(--text-muted); }
 
@@ -151,14 +143,13 @@
         .reply-box { margin-top: 12px; padding: 12px; background: #0f172a; border-radius: 8px; border-right: 3px solid #3b82f6; }
         .reply-title { color: #60a5fa; font-weight: bold; font-size: 12.5px; margin-bottom: 4px; }
 
-        /* Accordion FAQ */
         .faq-item { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
         .faq-question { background: var(--bg-dark); padding: 12px 16px; cursor: pointer; font-weight: bold; color: var(--gold-light); display: flex; justify-content: space-between; font-size: 13.5px; }
         .faq-answer { padding: 14px 16px; background: var(--bg-card); display: none; font-size: 13px; color: var(--text-light); border-top: 1px solid var(--border-color); line-height: 1.6; }
 
         footer { background-color: var(--bg-dark); color: var(--text-muted); text-align: center; padding: 25px; margin-top: 60px; font-size: 13px; border-top: 1px solid var(--border-color); }
 
-        /* Chat Bot Improved */
+        /* Chat Bot UI */
         #chat-toggle-btn { position: fixed; bottom: 25px; left: 25px; background: linear-gradient(135deg, var(--gold-primary), var(--gold-hover)); color: white; border: none; border-radius: 50px; padding: 12px 22px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; gap: 8px; border: 1px solid var(--gold-light); }
         #chat-window { position: fixed; bottom: 85px; left: 25px; width: 360px; height: 500px; background: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 35px rgba(0,0,0,0.7); display: none; flex-direction: column; z-index: 10000; overflow: hidden; border: 1px solid var(--gold-primary); }
         #chat-window.fullscreen { width: 90%; height: 85%; top: 5%; left: 5%; }
@@ -176,7 +167,7 @@
 </head>
 <body>
 
-    <!-- 1️⃣ شاشة الدخول والتسجيل المبدئية Overlay -->
+    <!-- Overlay الدخول والتسجيل -->
     <div id="welcome-overlay">
         <div class="welcome-card">
             <h2>مرحباً بك في منصة العدالة ⚖️</h2>
@@ -192,7 +183,6 @@
                 <button style="flex:1; padding: 6px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight:bold;" id="tab-reg-btn" onclick="toggleAuthTab('reg')">إنشاء حساب جديد</button>
             </div>
 
-            <!-- نموذج الدخول -->
             <form id="welcomeLoginForm" onsubmit="handleAuthLogin(event)">
                 <div class="form-group">
                     <label>رقم الهاتف أو اسم المستخدم:</label>
@@ -205,7 +195,6 @@
                 <button type="submit" class="btn">دخول المنصة 🔓</button>
             </form>
 
-            <!-- نموذج إنشاء الحساب -->
             <form id="welcomeRegForm" onsubmit="handleAuthRegister(event)" style="display: none;">
                 <div class="form-group">
                     <label>الاسم بالكامل:</label>
@@ -238,7 +227,6 @@
                 <button type="submit" class="btn">إنشاء الحساب ودخول المنصة ✨</button>
             </form>
 
-            <!-- أسئلة شائعة في شاشة التسجيل -->
             <div style="margin-top: 25px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 15px;">
                 <h4 style="color: var(--gold-light); margin: 0 0 10px 0; font-size: 14px;">💡 أسئلة شائعة:</h4>
                 <div class="faq-item">
@@ -253,7 +241,7 @@
         </div>
     </div>
 
-    <!-- 2️⃣ الواجهة الأساسية للمنصة -->
+    <!-- الواجهة الرئيسية -->
     <nav>
         <a href="#" class="logo">⚖️ منصة العدالة القانونية</a>
         <ul>
@@ -351,12 +339,8 @@
 
         <!-- بوابة المحامي والمكاتب -->
         <div id="portal-lawyer" class="portal-section">
-            
-            <!-- نموذج تسجيل المحامين (يظهر للمحامين والأدمن فقط) -->
             <div id="lawyer-join-form-wrapper" class="post-form" style="margin-bottom: 40px; border-color: var(--gold-light); display: none;">
                 <h2 class="section-title" style="margin-top:0;">📝 انضمام والتسجيل في دليل المحامين المعتمدين</h2>
-                <p style="text-align:center; color: var(--text-muted); font-size: 13px;">اكتب بياناتك ليتم إدراج اسمك ومكتبك في دليل المحامين بالصفحة الرئيسية للتواصل معك من العملاء.</p>
-                
                 <form id="lawyerJoinDirectoryForm" onsubmit="handleLawyerJoinDirectory(event)">
                     <div class="form-group">
                         <label>اسم المحامي / المكتب الكامل:</label>
@@ -382,7 +366,6 @@
                 </form>
             </div>
 
-            <!-- قسم الاستشارات الواردة للمحامين -->
             <div id="lawyer-consultations-section">
                 <h2 class="section-title">📩 استشارات العملاء الواردة على المنصة</h2>
                 <div class="posts-container" id="lawyer-questions-container">
@@ -390,7 +373,6 @@
                 </div>
             </div>
 
-            <!-- نموذج نشر مقال: يظهر للمحامين والأدمن فقط -->
             <div id="lawyer-post-publish-box" style="display: none;">
                 <h2 class="section-title" style="margin-top: 50px;">✍️ نشر مقال / نصيحة قانونية جديدة</h2>
                 <div class="post-form">
@@ -454,14 +436,10 @@
                     <div class="faq-question" onclick="toggleFaq(this)">ما هي أركان صحة عقد البيع العقاري؟ <span>+</span></div>
                     <div class="faq-answer">يتطلب التراضي الصريح بين الطرفين، المبيع المحدد بدقة، الثمن المسمى، وأهليّة الطرفين المتعاقدين قانوناً.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this)">كيف يمكنني متابعة حالة استشارتي؟ <span>+</span></div>
-                    <div class="faq-answer">عند إرسال استشارة علنية يتم تزوديك بـ "كود المتابعة"، قم بوضعه في خانة (متابعة رد المحامي) بصفحة طلب الاستشارة لتظهر لك الإجابة فور رد المحامي.</div>
-                </div>
             </div>
         </div>
 
-        <!-- لوحة التحكم الإدارية للأدمن -->
+        <!-- لوحة التحكم للإدارة -->
         <div id="portal-admin" class="portal-section">
             <h2 class="section-title">👑 لوحة التحكم الإدارية بالمنصة</h2>
             <div class="admin-box">
@@ -503,7 +481,7 @@
         <p>جميع الحقوق محفوظة © 2026 - منصة العدالة للمحاماة والتدريب القانوني ⚖️</p>
     </footer>
 
-    <!-- شات المستشار الذكي المطور -->
+    <!-- شات المستشار الذكي -->
     <button id="chat-toggle-btn" onclick="toggleChat()">🤖 المستشار القانوني الذكي</button>
 
     <div id="chat-window">
@@ -516,10 +494,10 @@
         </div>
         <div class="chat-messages" id="chat-messages">
             <div class="message bot">مرحباً بك في منصة العدالة! أنا مستشارك القانوني الذكي 🤖
-يمكنك سؤالي عن أية قضايا (خلع، نفقة، إيجارات، عقود، قضايا جنائية، شركات...) وسأجيبك فوراً!</div>
+أسألني عن خطوات أي موضوع (طلاق، خلع، نفقة، عقود، محاضر) وسأوضح لك الإجراءات والمستندات فوراً!</div>
         </div>
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="اكتب سؤالك القانوني هنا..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="chat-input" placeholder="اكتب سؤالك أو موضوعك هنا..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">إرسال</button>
         </div>
     </div>
@@ -598,16 +576,14 @@
             ]).select();
 
             if (error) {
-                alert("تعذر التسجيل (قد يكون رقم الهاتف مستخدماً مسبقاً): " + error.message);
+                alert("تعذر التسجيل: " + error.message);
             } else {
                 currentUser = data[0];
-
                 if (selectedRole === 'lawyer') {
                     await supabaseClient.from('lawyers').insert([
                         { name, phone, degree: degree || 'محامي مسجل بالمنصة', city, address, type: 'lawyer' }
                     ]);
                 }
-
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
                 document.getElementById('welcome-overlay').style.display = 'none';
                 applyUserRolePermissions();
@@ -620,7 +596,6 @@
             const phone = document.getElementById('loginPhone').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // دخول الأدمن
             if ((phone === 'admin' || phone === '231123') && (password === 'admin123' || password === '231123')) {
                 currentUser = { name: "المدير العام (Admin)", phone: "01000000000", role: "admin" };
                 localStorage.setItem('user_session', JSON.stringify(currentUser));
@@ -701,17 +676,11 @@
         function switchPortal(type) {
             document.querySelectorAll('.portal-section').forEach(el => el.classList.remove('active'));
 
-            if (type === 'client') {
-                document.getElementById('portal-client').classList.add('active');
-            } else if (type === 'lawyer') {
-                document.getElementById('portal-lawyer').classList.add('active');
-            } else if (type === 'resources') {
-                document.getElementById('portal-resources').classList.add('active');
-            } else if (type === 'faq') {
-                document.getElementById('portal-faq').classList.add('active');
-            } else if (type === 'admin') {
-                document.getElementById('portal-admin').classList.add('active');
-            }
+            if (type === 'client') document.getElementById('portal-client').classList.add('active');
+            else if (type === 'lawyer') document.getElementById('portal-lawyer').classList.add('active');
+            else if (type === 'resources') document.getElementById('portal-resources').classList.add('active');
+            else if (type === 'faq') document.getElementById('portal-faq').classList.add('active');
+            else if (type === 'admin') document.getElementById('portal-admin').classList.add('active');
         }
 
         function toggleFormMode(mode) {
@@ -727,7 +696,6 @@
 
         async function handleConsultationSubmit(e) {
             e.preventDefault();
-            
             const name = document.getElementById('cName').value;
             const type = document.getElementById('cType').value;
             const details = document.getElementById('cDetails').value;
@@ -746,9 +714,9 @@
                 ]);
                 
                 if (error) {
-                    alert("حدث خطأ أثناء إرسال الاستشارة: " + error.message);
+                    alert("حدث خطأ أثناء الإرسال: " + error.message);
                 } else {
-                    alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]\nاحتفظ بهذا الكود لمتابعة رد المحامي من المربع أسفل الصفحة.`);
+                    alert(`تم نشر استشارتك بنجاح! \n\n🔑 كود المتابعة الخاص بك هو: [ ${trackingCode} ]`);
                     document.getElementById('unifiedConsultationForm').reset();
                     loadLawyerQuestions();
                 }
@@ -770,7 +738,7 @@
             if (error) {
                 alert("حدث خطأ أثناء التسجيل: " + error.message);
             } else {
-                alert("تم تسجيل بياناتك بنجاح وتنزيل اسمك في دليل المحامين المعتمدين بالمنصة 🎉");
+                alert("تم تسجيل بياناتك بنجاح ونشرك في دليل المحامين 🎉");
                 document.getElementById('lawyerJoinDirectoryForm').reset();
                 loadSheetData();
                 switchPortal('client');
@@ -786,7 +754,7 @@
             const { data, error } = await supabaseClient.from('posts').select('*').eq('tracking_code', code).single();
 
             if (error || !data) {
-                resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود. يرجى التأكد وإعادة المحاولة.</p>';
+                resultDiv.innerHTML = '<p style="color: #ef4444;">لم يتم العثور على استشارة بهذا الكود.</p>';
             } else {
                 resultDiv.innerHTML = `
                     <div class="post-card" style="border-right: 4px solid var(--gold-light);">
@@ -794,7 +762,7 @@
                         <p><strong>تفاصيل الاستشارة:</strong><br>${data.content}</p>
                         <div class="reply-box">
                             <div class="reply-title">⚖️ رد المحامي:</div>
-                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد على هذه الاستشارة بعد. يرجى مراجعتها لاحقاً.'}</div>
+                            <div>${data.reply ? data.reply : 'لم يقم أي محامي بالرد بعد.'}</div>
                         </div>
                     </div>
                 `;
@@ -811,9 +779,9 @@
                 const fullReply = `أ. ${currentUser.name} (${currentUser.role === 'admin' ? 'الإدارة' : 'محامي'}):\n${replyText}`;
                 const { error } = await supabaseClient.from('posts').update({ reply: fullReply }).eq('id', postId);
                 if (error) {
-                    alert("حدث خطأ أثناء إضافة الرد: " + error.message);
+                    alert("حدث خطأ أثناء الإضافة: " + error.message);
                 } else {
-                    alert("تم حفظ الرد القانوني بنجاح!");
+                    alert("تم حفظ الرد بنجاح!");
                     loadLawyerQuestions();
                 }
             }
@@ -822,7 +790,7 @@
         async function handleAddPost(e) {
             e.preventDefault();
             if (!currentUser || (currentUser.role !== 'lawyer' && currentUser.role !== 'admin')) {
-                return alert("عذراً، نشر المقالات مخصص للمحامين المسجلين فقط!");
+                return alert("نشر المقالات مخصص للمحامين فقط!");
             }
 
             const author = document.getElementById('postAuthor').value;
@@ -912,15 +880,10 @@
         }
 
         async function deletePost(id) {
-            if (confirm("هل أنت متأكد من مسح هذا العناصر بشكل نهائي؟")) {
+            if (confirm("هل أنت متأكد من المسح النهائي؟")) {
                 const { error } = await supabaseClient.from('posts').delete().eq('id', id);
-                if (error) {
-                    alert("حدث خطأ أثناء الحذف: " + error.message);
-                } else {
-                    alert("تم الحذف بنجاح!");
-                    loadPosts();
-                    loadLawyerQuestions();
-                }
+                if (error) alert("حدث خطأ: " + error.message);
+                else { alert("تم الحذف بنجاح!"); loadPosts(); loadLawyerQuestions(); }
             }
         }
 
@@ -1025,19 +988,15 @@
                 if (!hasTraining) trainingContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); width: 100%;">لا توجد فرص تدريب معلنة حالياً.</p>';
 
             } catch (error) {
-                console.error('خطأ في تحميل البيانات:', error);
+                console.error('خطأ في التحميل:', error);
             }
         }
 
         async function deleteLawyer(id) {
-            if (confirm("هل أنت متأكد من حذف هذا المحامي/المكتب بشكل نهائي؟")) {
+            if (confirm("هل أنت متأكد من الحذف؟")) {
                 const { error } = await supabaseClient.from('lawyers').delete().eq('id', id);
-                if (error) {
-                    alert("حدث خطأ في الحذف: " + error.message);
-                } else {
-                    alert("تم الحذف بنجاح!");
-                    loadSheetData();
-                }
+                if (error) alert("حدث خطأ: " + error.message);
+                else { alert("تم الحذف بنجاح!"); loadSheetData(); }
             }
         }
 
@@ -1052,15 +1011,11 @@
             if (!name) return alert("يرجى كتابة الاسم!");
 
             const { error } = await supabaseClient.from('lawyers').insert([{ name, type, degree, city, address, phone }]);
-            if (error) {
-                alert("حدث خطأ أثناء الحفظ: " + error.message);
-            } else {
-                alert("تمت الإضافة بنجاح!");
-                loadSheetData();
-            }
+            if (error) alert("حدث خطأ: " + error.message);
+            else { alert("تمت الإضافة بنجاح!"); loadSheetData(); }
         }
 
-        /* 🤖 ذكاء اصطناعي محلي متطور للإجابة الشاملة */
+        /* 🤖 دالة الذكاء الاصطناعي المطورة كلياً للإجابات والخطوات */
         function toggleChat() {
             const chatWin = document.getElementById('chat-window');
             chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
@@ -1075,31 +1030,66 @@
         }
 
         function generateAIResponse(text) {
-            const query = text.toLowerCase();
-            
-            if (query.includes("خلع") || query.includes("الخلع")) {
-                return "📌 **الخلع أحكام وإجراءات:**\nالخلع يتم بتنازل الزوجة عن كافة حقوقها المالية والشرعية (المؤخر والنفقة) ورد الصداق المسمى، وتلزم المحكمة بدعوة الزوجين للصلح. الحكم بالخلع نهائي ولا يجوز الاستئناف عليه.";
-            }
-            if (query.includes("نفقة") || query.includes("النفقة")) {
-                return "📌 **أنواع النفقة والتنفيذ:**\nتشمل (نفقة زوجية، نفقة صغار، أجر مسكن، أجر حضانة، ومصاريف علاج ومدارس). تُقدر حسب يسار أو عسر الزوج، ويتم تحصيلها مباشرة عبر بنك ناصر أو إحالة الأمر للنيابة العامة.";
-            }
-            if (query.includes("إيجار") || query.includes("ايجار")) {
-                return "📌 **قوانين الإيجارات:**\n- **الإيجار الجديد (قانون 4 لسنة 1996):** يخضع للتقاعد بين الطرفين من حيث المدة والقيمة وتنتهي بانتهاء مدتها.\n- **الإيجار القديم:** يخضع لأحكام الامتداد للورثة من الدرجة الأولى بشروط الاستقامة والإقامة المستمرة قبل الفاة.";
-            }
-            if (query.includes("بيع") || query.includes("عقد") || query.includes("شراء")) {
-                return "📌 **صحة عقود البيع:**\nلضمان سلامة عقد البيع يجب التأكد من: صحة سند ملكية البائع، عدم وجود رهن، عمل صحة ونفاذ أو دعوى صحة توقيع بالبند المذكور، واستلام المبيع فعلياً.";
-            }
-            if (query.includes("شركة") || query.includes("تأسيس") || query.includes("سجل تجاري")) {
-                return "📌 **تأسيس الشركات:**\nتختلف الخيارات بين (شركات الفرد الواحد، المساهمة، ذات المسؤولية المحدودة). يلزم تقديم البطاقة الضريبية والسجل التجاري والتسجيل بـ الهيئة العامة للاستثمار.";
-            }
-            if (query.includes("جنائي") || query.includes("سرقة") || query.includes("ضرب") || query.includes("جنحة") || query.includes("جناية")) {
-                return "📌 **الإجراءات الجنائية:**\nتيدأ بالمحضر الرسمي في مركز الشرطة ثم العرض على النيابة العامة للتفتيش والتحقيق. يوصى دائماً بحضور المحامي في أي استجواب أو جلسة تجنباً لأي بطلان شكلي.";
-            }
-            if (query.includes("شكر") || query.includes("ممنون") || query.includes("يعطيك العافيه") || query.includes("شكرا")) {
-                return "العفو! أنا هنا دائماً لخدمتك في أي استفسار قانوني ⚖️✨";
+            const query = text.toLowerCase().trim();
+
+            if (query.includes("اطلق") || query.includes("أطلق") || query.includes("طلاق") || query.includes("تطليق")) {
+                return "📌 **خطوات وإجراءات دعوى الطلاق للضرر:**\n\n" +
+                       "1️⃣ **تقديم طلب لمكتب التسوية:** التوجه لمحكمة الأسرة التابع لها مسكن الزوجية وتقديم طلب تسوية منازعات أسرية.\n" +
+                       "2️⃣ **رفع الدعوى:** بعد مرور 15 يوماً من طلب التسوية، يتم تسجيل صحيفة الدعوى بإعادة تقديمها للمحكمة.\n" +
+                       "3️⃣ **إثبات الضرر:** تقديم ما يثبت الضرر (مثل: شهادة الشهود، محاضر شرطة بالضرب أو عدم الإنفاق، أو ما يثبت الهجر أو الزواج بأخرى).\n" +
+                       "4️⃣ **المستندات المطلوبة:** (وثيقة الزواج الأصلية، صور بطاقة الرقم القومي، شهادات ميلاد الأطفال، والمستندات المؤيدة للضرر).\n\n" +
+                       "💡 *ملاحظة:* يفضل التواصل مع محامي متخصص لمتابعة الجلسات وإحضار الشهود في المواعيد المحددة.";
             }
 
-            return `أهلاً بك! بالنسبة لسؤالك حول "${text}":\nيمكنني تقديم التحليل القانوني المبدئي، ويمكنك أيضاً إرسال التفاصيل عبر نموذج "طلب الاستشارة القانونية" ليتولاها أحد محامينا المعتمدين فوراً عبر الواتساب أو المنصة.`;
+            if (query.includes("خلع") || query.includes("الخلع") || query.includes("اخليعه") || query.includes("أخلعه")) {
+                return "📌 **خطوات وإجراءات دعوى الخلع:**\n\n" +
+                       "1️⃣ **طلب مكتب التسوية:** تقديم طلب بمحكمة الأسرة لتسوية النزاع.\n" +
+                       "2️⃣ **إقامة الدعوى:** إيداع صحيفة الدعوى وتحديد جلسة.\n" +
+                       "3️⃣ **رد مقدم الصداق:** إيداع مبلغ المهر (مقدم الصداق المذكور في قسيمة الزواج) خزانة المحكمة لصالح الزوج.\n" +
+                       "4️⃣ **الإقرار والنزول:** الإقرار أمام القاضي بتنازل الزوجة عن كافة حقوقها المالية والشرعية (المؤخر ونفقة المتعة والعدة).\n\n" +
+                       "⚠️ *تنبيه:* الخلع لا يسقط حقوق الأطفال من نفقة وحضانة وأجر مسكن.";
+            }
+
+            if (query.includes("اعمل") || query.includes("إجراءات") || query.includes("اجراءات") || query.includes("خطوات") || query.includes("ازاي") || query.includes("إزاي")) {
+                return "📌 **المستشار الذكي يوجهك للخطوات الصحيحة:**\n\n" +
+                       "لإفادتك بالخطوات القانونية الدقيقة، يرجى تحديد نوع الموضوع:\n" +
+                       "🔹 **قضايا الأسرة:** (طلاق، خلع، نفقة، حضانة، قائمة منقولات)\n" +
+                       "🔹 **عقود وعقارات:** (بيع، إيجار جديد/قديم، صحة توقيع، طرد)\n" +
+                       "🔹 **قضايا جنائية:** (محضر شرطة، النيابة، جنحة، شيك بدون رصيد)\n" +
+                       "🔹 **شركات وتجارية:** (تأسيس شركة، سجل تجاري، عقود عمل)\n\n" +
+                       "اكتب اسم موضوعك وسأشرح لك الخطوات بالتفصيل والمستندات المطلوبة!";
+            }
+
+            if (query.includes("نفقة") || query.includes("النفقة") || query.includes("مصاريف") || query.includes("قائمة") || query.includes("قيمه") || query.includes("عفش")) {
+                return "📌 **إجراءات قضايا النفقة وقائمة المنقولات:**\n\n" +
+                       "▪️ **نفقة الصغار والزوجية:** رفع دعوى أمام محكمة الأسرة، وتقوم المحكمة بالتحري عن دخل الزوج (عن طريق جهة عمله أو تحري المباحث في حالة العمل الحر).\n" +
+                       "▪️ **قائمة المنقولات:** يمكن رفعها كـ **دعوى استرداد مسكن/منقولات** أمام محكمة الأسرة، أو كـ **جنحة تبديد منقولات زوجية** (المادة 341 عقوبات) بالقسم لاستلام العفش أو حبس الزوج.";
+            }
+
+            if (query.includes("إيجار") || query.includes("ايجار") || query.includes("طرد") || query.includes("شقة") || query.includes("عقد")) {
+                return "📌 **خطوات قضايا العقود والإيجارات:**\n\n" +
+                       "1️⃣ **الإيجار الجديد:** في حالة التأخر عن السداد، يتم إنذار المستأجر على يد محضر بسداد الإيجار خلال 15 يوماً، ثم إقامة دعوى إخلاء للشقة.\n" +
+                       "2️⃣ **صحة التوقيع/ ونفاذ:** لضمان الشراء يتم إيداع عقد البيع بالمحكمة لإثبات صحة توقيع البائع.\n" +
+                       "3️⃣ **المستندات المطلوب إعدادها:** أصل العقد، إنذارات المحضرين، وإيصالات السداد/الامتناع.";
+            }
+
+            if (query.includes("محضر") || query.includes("شرطة") || query.includes("قسم") || query.includes("ضرب") || query.includes("سرقة") || query.includes("شيك") || query.includes("نصب")) {
+                return "📌 **خطوات التعامل مع المحاضر والجنايات:**\n\n" +
+                       "1️⃣ الذهاب للقسم التابع لمكان الواقعة وتحرير المحضر الرسمي.\n" +
+                       "2️⃣ إرفاق التقارير الطبية (في قضايا الضرب) أو الأوراق الثبوتية/الشيكات (في قضايا النصب والشيكات).\n" +
+                       "3️⃣ متابعة رقم المحضر في القسم حتى إحالته للنيابة العامة لاستكمال التحقيق وتحديد جلسة للمحاكمة.";
+            }
+
+            if (query.includes("شكر") || query.includes("ممنون") || query.includes("يعطيك") || query.includes("شكرا") || query.includes("ربنا يخليك")) {
+                return "العفو! أنا بخدمتك دائماً ⚖️✨ إذا كان لديك أي سؤال آخر لا تتردد في طرحه.";
+            }
+
+            return `أهلاً بك! بخصوص استفسارك عن "${text}":\n\n` +
+                   `📌 **الخطوات العامة:**\n` +
+                   `1. إعداد المستندات والأوراق القانونية المؤيدة لموقفك.\n` +
+                   `2. تحديد المحكمة والجهة المختصة (أسرة / مدني / جنايات / استثمار).\n` +
+                   `3. توثيق الإجراءات بإنذار رسمي أو محضر تحريات.\n\n` +
+                   `💡 يمكنك توضيح سؤالك أكثر، أو إرسال تفاصيل موضوعك عبر نموذج **"طلب استشارة"** بالأعلى ليتواصل معك أحد محامينا المعتمدين فوراً عبر الواتساب.`;
         }
 
         function sendMessage() {
@@ -1113,7 +1103,7 @@
             setTimeout(() => {
                 let botReply = generateAIResponse(userMsg);
                 appendMessage(botReply, 'bot');
-            }, 500);
+            }, 400);
         }
 
         function appendMessage(text, side) {
